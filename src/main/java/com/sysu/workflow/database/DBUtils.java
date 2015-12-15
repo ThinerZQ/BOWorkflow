@@ -28,7 +28,6 @@ public class DBUtils {
 
         String driver = "com.mysql.jdbc.Driver";
 
-
         String url = "jdbc:mysql://127.0.0.1:3306/DBWorkFlow";
 
         String user = "root";

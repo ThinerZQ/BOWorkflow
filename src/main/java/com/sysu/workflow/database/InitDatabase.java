@@ -7,8 +7,15 @@ import java.sql.ResultSet;
 /**
  * Created by zhengshouzi on 2015/12/11.
  */
-public class H2 {
+public class InitDatabase {
 
+    public static void main(String[] args) {
+        try {
+            initDatabase();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void createTables(){
         try {
@@ -20,7 +27,7 @@ public class H2 {
             preparedStatement.executeUpdate();
             DBUtils.closeAll(null, preparedStatement, null);
 
-            sql ="CREATE TABLE user(ID INT PRIMARY KEY,NAME VARCHAR(255),password VARCHAR(20),email VARCHAR (50))";
+            sql ="CREATE TABLE user(id INT PRIMARY KEY auto_increment ,username VARCHAR(255),realname VARCHAR(255) ,password VARCHAR(20),age INT ,gender VARCHAR(10),email VARCHAR (50))";
              preparedStatement = connection.prepareStatement(sql);
             preparedStatement.executeUpdate(sql);
 
@@ -34,13 +41,17 @@ public class H2 {
         try {
 
             Connection connection = DBUtils.getMysqlConnection();
-            String sql = "INSERT INTO user VALUES(?,?,?,?)";
+            String sql = "INSERT INTO user VALUE(?,?,?,?,?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.setInt(1, 1);
+            //preparedStatement.setInt(1, 1);
+            preparedStatement.setString(1, "zhengshouzi");
             preparedStatement.setString(2, "zhengqiang");
-            preparedStatement.setString(3, "zhengshouzi");
-            preparedStatement.setString(4, "601097836@qq.com");
+            preparedStatement.setString(3, "zhengqiang");
+            preparedStatement.setInt(4, 23);
+            preparedStatement.setString(5, "man");
+            preparedStatement.setString(6, "601097836@qq.com");
+
 
             preparedStatement.executeUpdate();
             DBUtils.closeAll(connection, preparedStatement, null);
@@ -69,7 +80,7 @@ public class H2 {
 
     public static void initDatabase() throws Exception{
 
-        createTables();
+        //createTables();
         addUsers();
     }
 }

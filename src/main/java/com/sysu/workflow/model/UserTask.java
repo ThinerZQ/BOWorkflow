@@ -1,7 +1,10 @@
 package com.sysu.workflow.model;
 
 import com.sysu.workflow.ActionExecutionContext;
+import com.sysu.workflow.Context;
+import com.sysu.workflow.Evaluator;
 import com.sysu.workflow.SCXMLExpressionException;
+import com.sysu.workflow.identityservice.User;
 
 /**
  * Created by zhengshouzi on 2015/12/11.
@@ -88,6 +91,17 @@ public class UserTask extends Action {
     @Override
     public void execute(ActionExecutionContext exctx) throws ModelException, SCXMLExpressionException {
 
+        EnterableState parentState = getParentEnterableState();
+        Context ctx = exctx.getContext(parentState);
+        ctx.setLocal(getNamespacesKey(), getNamespaces());
+        Evaluator eval = exctx.getEvaluator();
+
+
+        //求出属性表达式的值表达式的值
+
+        //找到这个人
+        User user = User.createUserQuery().userRealName(getAssignee()).SingleResult();
+       // 往这个人的工作列表插入任务
 
     }
 }

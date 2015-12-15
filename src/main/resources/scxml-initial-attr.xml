@@ -21,12 +21,20 @@
        datamodel="jexl"
        initial="foo">
 
-   <state>
-       <onentry>
-           <userTask id="" name="" assignee="" cadidateUsers="" cadidateGroups="" dueDate="" instances="">
-               <param>
+    <!-- 请假单需要的数据-->
+    <datamodel>
+        <data id="applicant" expr=""></data>
+        <data id="reason" expr=""></data>
+        <data id="from" expr=""></data>
+        <data id="to" expr=""></data>
+        <data id="departmentApprove" expr="false"></data>
+        <data id="personnelApprove" expr="false"></data>
+    </datamodel>
 
-               </param>
+   <state id="filling">
+       <onentry>
+           <userTask id="fill" name="填写请假单" assignee="zhengqiang" cadidateUsers="" cadidateGroups="" dueDate="" instances="">
+               <param name="申请人" value=""></param>
            </userTask>
        </onentry>
 

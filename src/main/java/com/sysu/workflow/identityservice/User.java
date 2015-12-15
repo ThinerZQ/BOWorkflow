@@ -10,11 +10,18 @@ public class User {
     private String realName;
     private String email;
     private int age;
+    private String password;
     private String gender;
 
 
+    private UserDao  userDao =null;
+
+
     public boolean save(){
-        return false;
+        if (userDao==null){
+            userDao = new UserDao();
+        }
+        return  userDao.addUsers(this);
     }
     public boolean delete(){
         return false;
@@ -22,7 +29,7 @@ public class User {
     public boolean update(){
         return false;
     }
-    public UserQuery query(){
+    public static UserQuery createUserQuery(){
 
         return new UserQuery();
     }
@@ -69,6 +76,14 @@ public class User {
     public User setRealName(String realName) {
         this.realName = realName;
         return this;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getEmail() {
