@@ -1,6 +1,5 @@
 package com.sysu.workflow.identityservice;
 
-import com.sun.org.glassfish.external.statistics.annotations.Reset;
 import com.sysu.workflow.database.DBUtils;
 
 import java.sql.Connection;
@@ -9,19 +8,19 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 /**
- * Created by zhengshouzi on 2015/12/15.
+ * Created by zhengshouzi on 2015/12/16.
  */
-public class UserDao {
+public class GroupDao {
 
-    public boolean addUsers(User user){
-        int i=0;
+    public boolean addGroup(Group group){
+       /* int i=0;
         try {
 
             Connection connection = DBUtils.getMysqlConnection();
-            String sql = "INSERT INTO user VALUES(?,?,?,?,?,?)";
+            String sql = "INSERT INTO groupVALUES(?,?,?,?,?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-            //preparedStatement.setInt(1, 1);
+            preparedStatement.setInt(1, 1);
             preparedStatement.setString(1,user.getUsername());
             preparedStatement.setString(2,user.getRealName());
             preparedStatement.setString(3,user.getPassword());
@@ -35,11 +34,12 @@ public class UserDao {
         }catch (Exception e) {
             e.printStackTrace();
         }
-        return i==1?true:false;
+        return i==1?true:false;*/
+        return false;
     }
 
-    public ArrayList<User> findUser(User user) {
-        ArrayList<User> arrayList = new ArrayList<User>();
+    public Group findGroup(Group group) {
+       /* ArrayList<User> arrayList = new ArrayList<User>();
         try {
             Connection connection = DBUtils.getMysqlConnection();
             String sql = "SELECT * from user where realname=?";
@@ -64,6 +64,9 @@ public class UserDao {
         }catch (Exception e) {
             e.printStackTrace();
         }
-        return arrayList;
+        return arrayList;*/
+        return null;
     }
+
+
 }

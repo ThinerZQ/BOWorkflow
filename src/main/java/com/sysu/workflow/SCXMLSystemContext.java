@@ -42,6 +42,9 @@ public class SCXMLSystemContext implements Context, Serializable {
     public static final String IOPROCESSORS_KEY = "_ioprocessors";
     public static final String X_KEY = "_x";
 
+    //扩展的
+    public static final String INITIATORID_KEY ="_initiator";
+
     /** The Commons SCXML internal {@link #getPlatformVariables() platform variable key} holding the current SCXML
      * status instance **/
     public static final String STATUS_KEY = "status";
@@ -50,7 +53,7 @@ public class SCXMLSystemContext implements Context, Serializable {
      * The set of protected system variables names
      */
     private static final Set<String> PROTECTED_NAMES = new HashSet<String>(Arrays.asList(
-            new String[] {EVENT_KEY, SESSIONID_KEY, SCXML_NAME_KEY, IOPROCESSORS_KEY, X_KEY}
+            new String[] {EVENT_KEY, SESSIONID_KEY, SCXML_NAME_KEY, IOPROCESSORS_KEY, X_KEY, INITIATORID_KEY}
     ));
 
     /**

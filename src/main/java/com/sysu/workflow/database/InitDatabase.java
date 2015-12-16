@@ -18,6 +18,30 @@ public class InitDatabase {
     }
 
     public static void createTables(){
+        createUserTable();
+        createWorkItemTable();
+    }
+    public static void createWorkItemTable(){
+        try {
+            Connection connection = DBUtils.getMysqlConnection();
+            String sql = "DROP TABLE if EXISTS workitem;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+
+            preparedStatement.executeUpdate();
+            DBUtils.closeAll(null, preparedStatement, null);
+
+            sql ="CREATE TABLE workitem(id INT PRIMARY KEY auto_increment ,name VARCHAR(255),createtime VARCHAR (255) ,duetime VARCHAR(20),assigineeId INT ,assignee VARCHAR(255))";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.executeUpdate(sql);
+
+            DBUtils.closeAll(connection,preparedStatement,null);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    public static void createUserTable(){
         try {
             Connection connection = DBUtils.getMysqlConnection();
             String sql = "DROP TABLE if EXISTS user;";
@@ -38,26 +62,26 @@ public class InitDatabase {
         }
     }
     public static void addUsers(){
-        try {
+      /*  try {
 
             Connection connection = DBUtils.getMysqlConnection();
-            String sql = "INSERT INTO user VALUE(?,?,?,?,?,?)";
+            String sql = "INSERT INTO user VALUE(?,?,?,?,?,?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-            //preparedStatement.setInt(1, 1);
-            preparedStatement.setString(1, "zhengshouzi");
-            preparedStatement.setString(2, "zhengqiang");
+            preparedStatement.setInt(1, 1);
+            preparedStatement.setString(2, "zhengshouzi");
             preparedStatement.setString(3, "zhengqiang");
-            preparedStatement.setInt(4, 23);
-            preparedStatement.setString(5, "man");
-            preparedStatement.setString(6, "601097836@qq.com");
+            preparedStatement.setString(4, "zhengqiang");
+            preparedStatement.setInt(5, 23);
+            preparedStatement.setString(6, "man");
+            preparedStatement.setString(7, "601097836@qq.com");
 
 
             preparedStatement.executeUpdate();
             DBUtils.closeAll(connection, preparedStatement, null);
         }catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
     }
     public static void printlnUsers(){
         try {
@@ -81,6 +105,7 @@ public class InitDatabase {
     public static void initDatabase() throws Exception{
 
         //createTables();
-        addUsers();
+        createWorkItemTable();
+        //addUsers();
     }
 }

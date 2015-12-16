@@ -4,7 +4,12 @@ import com.sysu.workflow.ActionExecutionContext;
 import com.sysu.workflow.Context;
 import com.sysu.workflow.Evaluator;
 import com.sysu.workflow.SCXMLExpressionException;
+import com.sysu.workflow.identityservice.IdentityService;
 import com.sysu.workflow.identityservice.User;
+import com.sysu.workflow.taskservice.Task;
+import com.sysu.workflow.taskservice.TaskService;
+
+import java.util.Date;
 
 /**
  * Created by zhengshouzi on 2015/12/11.
@@ -22,7 +27,7 @@ public class UserTask extends Action {
     private String candidateUsers;
     private String candidateGroups;
     private String dueDate;
-    private int instances;
+    private int instances=1;
 
     public UserTask() {
         super();
@@ -99,9 +104,32 @@ public class UserTask extends Action {
 
         //求出属性表达式的值表达式的值
 
-        //找到这个人
-        User user = User.createUserQuery().userRealName(getAssignee()).SingleResult();
-       // 往这个人的工作列表插入任务
+
+        // 往这个人的工作列表插入任务
+        TaskService taskService = new TaskService();
+        IdentityService identityService = new IdentityService();
+        Task task = taskService.newTask(getName());
+        task.setDueDate(getDueDate())
+                .setProcessId((String)ctx.getSystemContext().getPlatformVariables().get("_sessionid"))
+                .setCreateDate(new Date().toString());
+
+        boolean flag= false;
+
+        if (getInstances()==1){
+            //找到这个人
+            User user = identityService.createUserQuery().userRealName(getAssignee()).SingleResult();
+            flag = taskService.insertInToWorkItem(user,task);
+        }else {
+
+        }
+
+
+
+
+
+
+        //如果flag不是true，表示插入工作项表失败，抛出 error.execute异常
+
 
     }
 }

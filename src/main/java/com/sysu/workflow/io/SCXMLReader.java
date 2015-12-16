@@ -2053,12 +2053,29 @@ public final class SCXMLReader {
     private static void readUserTask(final XMLStreamReader reader, final Configuration configuration,
                                      final Executable executable,
                                      final ActionsContainer parent)
-            throws XMLStreamException {
+            throws XMLStreamException, ModelException {
 
+        UserTask userTask = new UserTask();
+        userTask.setAssignee(readAV(reader, ATTR_ASSIGNEE));
+        String candidateUser = readAV(reader,ATTR_CANDIDATEUSERS);
 
+        if (userTask.getAssignee()!=null){
+            if (candidateUser!=null){
+                reportConflictingAttribute(reader,configuration,ELEM_USERTASK,ATTR_ASSIGNEE,ATTR_CANDIDATEUSERS);
+            }else{
+                userTask.setCandidateUsers(candidateUser);
+            }
+        }
+        userTask.setCandidateGroups(readAV(reader,ATTR_CANDIDATEGROUPS));
+        readNamespaces(configuration, userTask);
+        userTask.setParent(executable);
 
-
-
+        if (parent != null) {
+            parent.addAction(userTask);
+        } else {
+            executable.addAction(userTask);
+        }
+        skipToEndElement(reader);
 
     }
     private static void readServiceTask(final XMLStreamReader reader, final Configuration configuration,

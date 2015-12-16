@@ -14,25 +14,6 @@ public class User {
     private String gender;
 
 
-    private UserDao  userDao =null;
-
-
-    public boolean save(){
-        if (userDao==null){
-            userDao = new UserDao();
-        }
-        return  userDao.addUsers(this);
-    }
-    public boolean delete(){
-        return false;
-    }
-    public boolean update(){
-        return false;
-    }
-    public static UserQuery createUserQuery(){
-
-        return new UserQuery();
-    }
 
 
 
