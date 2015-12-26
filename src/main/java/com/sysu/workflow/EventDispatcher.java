@@ -19,6 +19,11 @@ package com.sysu.workflow;
 import java.util.Map;
 
 /**
+ *
+ * 给另外一个SCXML Intepreter发送消息的接口
+ * 其他外部系统私用一个Event I/O processor 或者raise事件在当前SCXML session里面
+ *
+ *
  * The event controller interface used to send messages containing
  * events or other information directly to another SCXML Interpreter,
  * other external systems using an Event I/O Processor or to raise
@@ -27,14 +32,14 @@ import java.util.Map;
 public interface EventDispatcher {
 
     /**
-     * Cancel the specified send message.
+     * 取消指定的消息
      *
-     * @param sendId The ID of the send message to cancel
+     * @param sendId 要取消的消息的ID
      */
     void cancel(String sendId);
 
     /**
-     * Send this message to the target.
+     * 发送消息到目标
      *
      * @param ioProcessors the available SCXMLIOProcessors, the same map as the SCXML system variable _ioprocessors
      * @param id           The ID of the send message
