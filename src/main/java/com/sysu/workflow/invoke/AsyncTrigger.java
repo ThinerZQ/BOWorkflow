@@ -25,16 +25,20 @@ import com.sysu.workflow.TriggerEvent;
  */
 class AsyncTrigger implements Runnable {
 
-    /** The SCXML state machine I/O Processor to deliver the event to. */
+    /**
+     * The SCXML state machine I/O Processor to deliver the event to.
+     */
     private final SCXMLIOProcessor ioProcessor;
-    /** The event to be triggered. */
+    /**
+     * The event to be triggered.
+     */
     private final TriggerEvent event;
 
     /**
      * Constructor.
      *
      * @param ioProcessor The {@link SCXMLIOProcessor} to trigger the event on.
-     * @param event The {@link TriggerEvent}.
+     * @param event       The {@link TriggerEvent}.
      */
     AsyncTrigger(final SCXMLIOProcessor ioProcessor, final TriggerEvent event) {
         this.ioProcessor = ioProcessor;

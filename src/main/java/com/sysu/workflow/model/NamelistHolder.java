@@ -59,9 +59,10 @@ public abstract class NamelistHolder extends ParamsContainer {
      * Adds data to the payload data map based on the namelist which names are location expressions
      * (typically data ids or for example XPath variables). The names and the values they 'point' at
      * are added to the payload data map.
-     * @param exctx The ActionExecutionContext
+     *
+     * @param exctx   The ActionExecutionContext
      * @param payload the payload data map to be updated
-     * @throws ModelException if this action has not an EnterableState as parent
+     * @throws ModelException           if this action has not an EnterableState as parent
      * @throws SCXMLExpressionException if a malformed or invalid expression is evaluated
      * @see PayloadProvider#addToPayload(String, Object, Map)
      */
@@ -88,8 +89,7 @@ public abstract class NamelistHolder extends ParamsContainer {
                     }
                     addToPayload(varName, varObj, payload);
                 }
-            }
-            finally {
+            } finally {
                 ctx.setLocal(getNamespacesKey(), null);
             }
         }

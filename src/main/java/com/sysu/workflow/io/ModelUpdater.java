@@ -115,6 +115,7 @@ final class ModelUpdater {
     /*
      * Post-processing methods to make the SCXML object SCXMLExecutor ready.
      */
+
     /**
      * <p>Update the SCXML object model and make it SCXMLExecutor ready.
      * This is part of post-read processing, and sets up the necessary
@@ -136,8 +137,8 @@ final class ModelUpdater {
             updateTransition(initialTransition, scxml.getTargets());
 
             if (initialTransition.getTargets().size() == 0) {
-                logAndThrowModelError(ERR_SCXML_NO_INIT, new Object[] {
-                        initial });
+                logAndThrowModelError(ERR_SCXML_NO_INIT, new Object[]{
+                        initial});
             }
         } else {
             // If 'initial' is not specified, the default initial state is
@@ -162,7 +163,8 @@ final class ModelUpdater {
     /**
      * Initialize all {@link DocumentOrder} instances (EnterableState or Transition)
      * by iterating them in document order setting their document order value.
-     * @param states The list of children states of a parent TransitionalState or the SCXML document itself
+     *
+     * @param states    The list of children states of a parent TransitionalState or the SCXML document itself
      * @param nextOrder The next to be used order value
      * @return Returns the next to be used order value
      */
@@ -170,7 +172,7 @@ final class ModelUpdater {
         for (EnterableState state : states) {
             state.setOrder(nextOrder++);
             if (state instanceof TransitionalState) {
-                TransitionalState ts = (TransitionalState)state;
+                TransitionalState ts = (TransitionalState) state;
                 for (Transition t : ts.getTransitionsList()) {
                     t.setOrder(nextOrder++);
                 }
@@ -183,17 +185,18 @@ final class ModelUpdater {
     /**
      * Initialize all {@link Observable} instances in the SCXML document
      * by iterating them in document order and seeding them with a unique obeservable id.
-     * @param states The list of children states of a parent TransitionalState or the SCXML document itself
+     *
+     * @param states           The list of children states of a parent TransitionalState or the SCXML document itself
      * @param nextObservableId The next observable id sequence value to be used
      * @return Returns the next to be used observable id sequence value
      */
-    private static int initObservables(final List<EnterableState>states, int nextObservableId) {
+    private static int initObservables(final List<EnterableState> states, int nextObservableId) {
         for (EnterableState es : states) {
             es.setObservableId(nextObservableId++);
             if (es instanceof TransitionalState) {
-                TransitionalState ts = (TransitionalState)es;
+                TransitionalState ts = (TransitionalState) es;
                 if (ts instanceof State) {
-                    State s = (State)ts;
+                    State s = (State) ts;
                     if (s.getInitial() != null && s.getInitial().getTransition() != null) {
                         s.getInitial().getTransition().setObservableId(nextObservableId++);
                     }
@@ -217,7 +220,7 @@ final class ModelUpdater {
      * Update this State object (part of post-read processing).
      * Also checks for any errors in the document.
      *
-     * @param state The State object
+     * @param state   The State object
      * @param targets The global Map of all transition targets
      * @throws ModelException If the object model is flawed
      */
@@ -238,24 +241,23 @@ final class ModelUpdater {
             //check that initialState is a descendant of s
             if (initialStates.size() == 0) {
                 logAndThrowModelError(ERR_STATE_BAD_INIT,
-                        new Object[] {getName(state)});
+                        new Object[]{getName(state)});
             } else {
                 for (TransitionTarget initialState : initialStates) {
                     if (!initialState.isDescendantOf(state)) {
                         logAndThrowModelError(ERR_STATE_BAD_INIT,
-                                new Object[] {getName(state)});
+                                new Object[]{getName(state)});
                     }
                 }
             }
-        }
-        else if (state.getInitial() != null) {
-            logAndThrowModelError(ERR_UNSUPPORTED_INIT, new Object[] {getName(state)});
+        } else if (state.getInitial() != null) {
+            logAndThrowModelError(ERR_UNSUPPORTED_INIT, new Object[]{getName(state)});
         }
 
         List<History> histories = state.getHistory();
         if (histories.size() > 0 && state.isSimple()) {
             logAndThrowModelError(ERR_HISTORY_SIMPLE_STATE,
-                    new Object[] {getName(state)});
+                    new Object[]{getName(state)});
         }
         for (History history : histories) {
             updateHistory(history, targets, state);
@@ -266,7 +268,7 @@ final class ModelUpdater {
 
         for (Invoke inv : state.getInvokes()) {
             if (inv.getSrc() != null && inv.getSrcexpr() != null) {
-                logAndThrowModelError(ERR_INVOKE_AMBIGUOUS_SRC, new Object[] {getName(state)});
+                logAndThrowModelError(ERR_INVOKE_AMBIGUOUS_SRC, new Object[]{getName(state)});
             }
         }
 
@@ -283,7 +285,7 @@ final class ModelUpdater {
      * Update this Parallel object (part of post-read processing).
      *
      * @param parallel The Parallel object
-     * @param targets The global Map of all transition targets
+     * @param targets  The global Map of all transition targets
      * @throws ModelException If the object model is flawed
      */
     private static void updateParallel(final Parallel parallel, final Map<String, TransitionTarget> targets)
@@ -310,7 +312,7 @@ final class ModelUpdater {
      *
      * @param history The History object
      * @param targets The global Map of all transition targets
-     * @param parent The parent TransitionalState for this History
+     * @param parent  The parent TransitionalState for this History
      * @throws ModelException If the object model is flawed
      */
     private static void updateHistory(final History history,
@@ -320,27 +322,26 @@ final class ModelUpdater {
         SimpleTransition transition = history.getTransition();
         if (transition == null || transition.getNext() == null) {
             logAndThrowModelError(ERR_HISTORY_NO_DEFAULT,
-                    new Object[] {history.getId(), getName(parent)});
-        }
-        else {
+                    new Object[]{history.getId(), getName(parent)});
+        } else {
             updateTransition(transition, targets);
             Set<TransitionTarget> historyStates = transition.getTargets();
             if (historyStates.size() == 0) {
                 logAndThrowModelError(ERR_STATE_NO_HIST,
-                        new Object[] {getName(parent)});
+                        new Object[]{getName(parent)});
             }
             for (TransitionTarget historyState : historyStates) {
                 if (!history.isDeep()) {
                     // Shallow history
                     if (!parent.getChildren().contains(historyState)) {
                         logAndThrowModelError(ERR_STATE_BAD_SHALLOW_HIST,
-                                new Object[] {getName(parent)});
+                                new Object[]{getName(parent)});
                     }
                 } else {
                     // Deep history
                     if (!historyState.isDescendantOf(parent)) {
                         logAndThrowModelError(ERR_STATE_BAD_DEEP_HIST,
-                                new Object[] {getName(parent)});
+                                new Object[]{getName(parent)});
                     }
                 }
             }
@@ -351,7 +352,7 @@ final class ModelUpdater {
      * Update this Transition object (part of post-read processing).
      *
      * @param transition The Transition object
-     * @param targets The global Map of all transition targets
+     * @param targets    The global Map of all transition targets
      * @throws ModelException If the object model is flawed
      */
     private static void updateTransition(final SimpleTransition transition,
@@ -368,16 +369,16 @@ final class ModelUpdater {
                 String id = ids.nextToken();
                 TransitionTarget tt = targets.get(id);
                 if (tt == null) {
-                    logAndThrowModelError(ERR_TARGET_NOT_FOUND, new Object[] {
-                            id });
+                    logAndThrowModelError(ERR_TARGET_NOT_FOUND, new Object[]{
+                            id});
                 }
                 tts.add(tt);
             }
             if (tts.size() > 1) {
                 boolean legal = verifyTransitionTargets(tts);
                 if (!legal) {
-                    logAndThrowModelError(ERR_ILLEGAL_TARGETS, new Object[] {
-                            next });
+                    logAndThrowModelError(ERR_ILLEGAL_TARGETS, new Object[]{
+                            next});
                 }
             }
         }
@@ -432,16 +433,16 @@ final class ModelUpdater {
      * If a transition has multiple targets, then they satisfy the following
      * criteria:
      * <ul>
-     *  <li>No target is an ancestor of any other target on the list</li>
-     *  <li>A full legal state configuration results when all ancestors and default initial descendants have been added.
-     *  <br/>This means that they all must share the same least common parallel ancestor.
-     *  </li>
+     * <li>No target is an ancestor of any other target on the list</li>
+     * <li>A full legal state configuration results when all ancestors and default initial descendants have been added.
+     * <br/>This means that they all must share the same least common parallel ancestor.
+     * </li>
      * </ul>
      *
      * @param tts The transition targets
      * @return Whether this is a legal configuration
      * @see <a href=http://www.w3.org/TR/scxml/#LegalStateConfigurations">
-     *     http://www.w3.org/TR/scxml/#LegalStateConfigurations</a>
+     * http://www.w3.org/TR/scxml/#LegalStateConfigurations</a>
      */
     private static boolean verifyTransitionTargets(final Set<TransitionTarget> tts) {
         if (tts.size() < 2) { // No contention
@@ -456,7 +457,8 @@ final class ModelUpdater {
                 continue;
             }
             // find least common ancestor
-            for (i = Math.min(i, tt.getNumberOfAncestors()); i > 0 && first.getAncestor(i-1) != tt.getAncestor(i-1); i--) ;
+            for (i = Math.min(i, tt.getNumberOfAncestors()); i > 0 && first.getAncestor(i - 1) != tt.getAncestor(i - 1); i--)
+                ;
             if (i == 0) {
                 // no common ancestor
                 return false;
@@ -469,6 +471,6 @@ final class ModelUpdater {
             }
         }
         // least common ancestor must be a parallel
-        return first != null && i > 0 && first.getAncestor(i-1) instanceof Parallel;
-   }
+        return first != null && i > 0 && first.getAncestor(i - 1) instanceof Parallel;
+    }
 }

@@ -26,7 +26,6 @@ import java.util.StringTokenizer;
  * &lt;transition&gt; SCXML element. Transition rules are triggered
  * by &quot;events&quot; and conditionalized via
  * &quot;guard-conditions&quot;.
- *
  */
 public class Transition extends SimpleTransition implements DocumentOrder {
 
@@ -72,13 +71,14 @@ public class Transition extends SimpleTransition implements DocumentOrder {
      * @return the document order of this transition
      * @see DocumentOrder
      */
-    @Override
+
     public final int getOrder() {
         return order;
     }
 
     /**
      * Sets the document order of this transition
+     *
      * @param order the document order
      * @see DocumentOrder
      */
@@ -132,21 +132,19 @@ public class Transition extends SimpleTransition implements DocumentOrder {
                     events.clear();
                     events.add(token);
                     break;
-                }
-                else {
+                } else {
                     if (token.endsWith("*")) {
-                        token = token.substring(0, token.length()-1);
+                        token = token.substring(0, token.length() - 1);
                     }
                     if (token.endsWith(".")) {
-                        token = token.substring(0, token.length()-1);
+                        token = token.substring(0, token.length() - 1);
                     }
                     if (token.length() > 0) {
                         events.add(token);
                     }
                 }
             }
-        }
-        else {
+        } else {
             events = Collections.emptyList();
         }
         noEvents = events.isEmpty();

@@ -102,7 +102,7 @@ public class Foreach extends Action implements ActionsContainer {
         Evaluator eval = exctx.getEvaluator();
         ctx.setLocal(getNamespacesKey(), getNamespaces());
         try {
-            Object arrayObject = eval.eval(ctx,array);
+            Object arrayObject = eval.eval(ctx, array);
             if (arrayObject != null && (arrayObject instanceof Iterable || arrayObject.getClass().isArray())) {
                 if (arrayObject.getClass().isArray()) {
                     for (int currentIndex = 0, size = Array.getLength(arrayObject); currentIndex < size; currentIndex++) {
@@ -115,14 +115,13 @@ public class Foreach extends Action implements ActionsContainer {
                             aa.execute(exctx);
                         }
                     }
-                }
-                else {
+                } else {
                     // Spec requires to iterate over a shallow copy of underlying array in a way that modifications to
                     // the collection during the execution of <foreach> must not affect the iteration behavior.
                     // For array objects (see above) this isn't needed, but for Iterables we don't have that guarantee
                     // so we make a copy first
                     ArrayList<Object> arrayList = new ArrayList<Object>();
-                    for (Object value: (Iterable)arrayObject) {
+                    for (Object value : (Iterable) arrayObject) {
                         arrayList.add(value);
                     }
                     int currentIndex = 0;
@@ -140,8 +139,7 @@ public class Foreach extends Action implements ActionsContainer {
                 }
             }
             // else {} TODO: place the error 'error.execution' in the internal event queue. (section "3.12.2 Errors")
-        }
-        finally {
+        } finally {
             ctx.setLocal(getNamespacesKey(), null);
         }
     }

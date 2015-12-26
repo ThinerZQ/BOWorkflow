@@ -83,7 +83,7 @@ public abstract class TransitionalState extends EnterableState {
      */
     @Override
     public TransitionalState getParent() {
-        return (TransitionalState)super.getParent();
+        return (TransitionalState) super.getParent();
     }
 
     /**
@@ -97,12 +97,13 @@ public abstract class TransitionalState extends EnterableState {
 
     /**
      * Get the ancestor of this TransitionalState at specified level
+     *
      * @param level the level of the ancestor to return, zero being top
      * @return the ancestor at specified level
      */
     @Override
     public TransitionalState getAncestor(int level) {
-        return (TransitionalState)super.getAncestor(level);
+        return (TransitionalState) super.getAncestor(level);
     }
 
     /**
@@ -130,8 +131,7 @@ public abstract class TransitionalState extends EnterableState {
      * Add a transition to the map of all outgoing transitions for
      * this state.
      *
-     * @param transition
-     *            The transitions to set.
+     * @param transition The transitions to set.
      */
     public final void addTransition(final Transition transition) {
         transitions.add(transition);
@@ -167,7 +167,6 @@ public abstract class TransitionalState extends EnterableState {
 
     /**
      * @param h History pseudo state
-     *
      * @since 0.7
      */
     public final void addHistory(final History h) {
@@ -179,8 +178,7 @@ public abstract class TransitionalState extends EnterableState {
      * Does this state have a history pseudo state.
      *
      * @return boolean true if a given state contains at least one
-     *                 history pseudo state
-     *
+     * history pseudo state
      * @since 0.7
      */
     public final boolean hasHistory() {
@@ -191,9 +189,8 @@ public abstract class TransitionalState extends EnterableState {
      * Get the list of history pseudo states for this state.
      *
      * @return a list of all history pseudo states contained by a given state
-     *         (can be empty)
+     * (can be empty)
      * @see #hasHistory()
-     *
      * @since 0.7
      */
     public final List<History> getHistory() {
@@ -212,8 +209,7 @@ public abstract class TransitionalState extends EnterableState {
     /**
      * Set the Invoke child.
      *
-     * @param invoke
-     *            The invoke to set.
+     * @param invoke The invoke to set.
      */
     public final void addInvoke(final Invoke invoke) {
         this.invokes.add(invoke);
@@ -224,7 +220,6 @@ public abstract class TransitionalState extends EnterableState {
      * Get the set of child transition targets (may be empty).
      *
      * @return Returns the children.
-     *
      * @since 0.7
      */
     public final List<EnterableState> getChildren() {
@@ -235,7 +230,6 @@ public abstract class TransitionalState extends EnterableState {
      * Add a child.
      *
      * @param es A child enterable state.
-     *
      * @since 0.7
      */
     protected void addChild(final EnterableState es) {

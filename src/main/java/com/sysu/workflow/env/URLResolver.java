@@ -31,13 +31,19 @@ import java.net.URL;
  */
 public class URLResolver implements PathResolver, Serializable {
 
-    /** Serial version UID. */
+    /**
+     * Serial version UID.
+     */
     private static final long serialVersionUID = 1L;
 
-    /** Implementation independent log category. */
+    /**
+     * Implementation independent log category.
+     */
     private Log log = LogFactory.getLog(PathResolver.class);
 
-    /** The base URL to resolve against. */
+    /**
+     * The base URL to resolve against.
+     */
     private URL baseURL = null;
 
     /**
@@ -51,6 +57,7 @@ public class URLResolver implements PathResolver, Serializable {
 
     /**
      * Uses URL(URL, String) constructor to combine URL's.
+     *
      * @see PathResolver#resolvePath(String)
      */
     public String resolvePath(final String ctxPath) {

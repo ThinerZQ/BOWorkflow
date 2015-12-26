@@ -25,6 +25,7 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+
 import org.apache.commons.logging.Log;
 
 /**
@@ -32,9 +33,13 @@ import org.apache.commons.logging.Log;
  */
 public class SimpleErrorReporter implements ErrorReporter, Serializable {
 
-    /** Serial version UID. */
+    /**
+     * Serial version UID.
+     */
     private static final long serialVersionUID = 1L;
-    /** Log. */
+    /**
+     * Log.
+     */
     private Log log = LogFactory.getLog(getClass());
 
     /**
@@ -49,7 +54,7 @@ public class SimpleErrorReporter implements ErrorReporter, Serializable {
      */
     @SuppressWarnings("unchecked")
     public void onError(final String errorCode, final String errDetail,
-            final Object errCtx) {
+                        final Object errCtx) {
         //Note: the if-then-else below is based on the actual usage
         // (codebase search), it has to be kept up-to-date as the code changes
         String errCode = errorCode.intern();
@@ -72,11 +77,11 @@ public class SimpleErrorReporter implements ErrorReporter, Serializable {
             //isLegalConfig
             if (errCtx instanceof Map.Entry) { //unchecked cast below
                 Map.Entry<EnterableState, Set<EnterableState>> badConfigMap =
-                    (Map.Entry<EnterableState, Set<EnterableState>>) errCtx;
+                        (Map.Entry<EnterableState, Set<EnterableState>>) errCtx;
                 EnterableState es = badConfigMap.getKey();
                 Set<EnterableState> vals = badConfigMap.getValue();
                 msg.append(LogUtils.getTTPath(es) + " : [");
-                for (Iterator<EnterableState> i = vals.iterator(); i.hasNext();) {
+                for (Iterator<EnterableState> i = vals.iterator(); i.hasNext(); ) {
                     EnterableState ex = i.next();
                     msg.append(LogUtils.getTTPath(ex));
                     if (i.hasNext()) { // reason for iterator usage
@@ -87,7 +92,7 @@ public class SimpleErrorReporter implements ErrorReporter, Serializable {
             } else if (errCtx instanceof Set) { //unchecked cast below
                 Set<EnterableState> vals = (Set<EnterableState>) errCtx;
                 msg.append("<SCXML> : [");
-                for (Iterator<EnterableState> i = vals.iterator(); i.hasNext();) {
+                for (Iterator<EnterableState> i = vals.iterator(); i.hasNext(); ) {
                     EnterableState ex = i.next();
                     msg.append(LogUtils.getTTPath(ex));
                     if (i.hasNext()) {
@@ -100,12 +105,10 @@ public class SimpleErrorReporter implements ErrorReporter, Serializable {
             if (errCtx instanceof Executable) {
                 TransitionTarget parent = ((Executable) errCtx).getParent();
                 msg.append("Expression error inside " + LogUtils.getTTPath(parent));
-            }
-            else if (errCtx instanceof Data) {
+            } else if (errCtx instanceof Data) {
                 // Data expression error
-                msg.append("Expression error for data element with id "+((Data)errCtx).getId());
-            }
-            else if (errCtx instanceof SCXML) {
+                msg.append("Expression error for data element with id " + ((Data) errCtx).getId());
+            } else if (errCtx instanceof SCXML) {
                 // Global Script
                 msg.append("Expression error inside the global script");
             }
@@ -117,18 +120,14 @@ public class SimpleErrorReporter implements ErrorReporter, Serializable {
      * Final handling of the resulting errorMessage build by {@link #onError(String, String, Object)} onError}.
      * <p>The default implementation write the errorMessage as a warning to the log.</p>
      *
-     * @param errorCode
-     *            one of the ErrorReporter's constants
-     * @param errDetail
-     *            human readable description
-     * @param errCtx
-     *            typically an SCXML element which caused an error,
-     *            may be accompanied by additional information
-     * @param errorMessage
-     *            human readable detail of the error including the state, transition and data
+     * @param errorCode    one of the ErrorReporter's constants
+     * @param errDetail    human readable description
+     * @param errCtx       typically an SCXML element which caused an error,
+     *                     may be accompanied by additional information
+     * @param errorMessage human readable detail of the error including the state, transition and data
      */
     protected void handleErrorMessage(final String errorCode, final String errDetail,
-                               final Object errCtx, final CharSequence errorMessage) {
+                                      final Object errCtx, final CharSequence errorMessage) {
 
         if (log.isWarnEnabled()) {
             log.warn(errorMessage.toString());

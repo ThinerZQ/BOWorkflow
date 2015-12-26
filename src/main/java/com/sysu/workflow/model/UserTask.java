@@ -7,6 +7,7 @@ import com.sysu.workflow.SCXMLExpressionException;
 import com.sysu.workflow.identityservice.IdentityService;
 import com.sysu.workflow.identityservice.User;
 import com.sysu.workflow.taskservice.Task;
+import com.sysu.workflow.taskservice.TaskDispatcher;
 import com.sysu.workflow.taskservice.TaskService;
 
 import java.util.Date;
@@ -27,7 +28,7 @@ public class UserTask extends Action {
     private String candidateUsers;
     private String candidateGroups;
     private String dueDate;
-    private int instances=1;
+    private int instances = 1;
 
     public UserTask() {
         super();
@@ -96,39 +97,30 @@ public class UserTask extends Action {
     @Override
     public void execute(ActionExecutionContext exctx) throws ModelException, SCXMLExpressionException {
 
+
+
         EnterableState parentState = getParentEnterableState();
+
         Context ctx = exctx.getContext(parentState);
         ctx.setLocal(getNamespacesKey(), getNamespaces());
         Evaluator eval = exctx.getEvaluator();
 
 
-        //求出属性表达式的值表达式的值
+        //求出属性表达式的值
+
+        Task task = new Task(getName());
+
+        task.setAssignee(getAssignee())
+                .setDueDate(getDueDate())
+                .setProcessId((String)ctx.getSystemContext().get("_sessionid"))
+                .setStateId(parentState.getId())
+                .setCreateDate(new Date().toLocaleString());
 
 
-        // 往这个人的工作列表插入任务
-        TaskService taskService = new TaskService();
-        IdentityService identityService = new IdentityService();
-        Task task = taskService.newTask(getName());
-        task.setDueDate(getDueDate())
-                .setProcessId((String)ctx.getSystemContext().getPlatformVariables().get("_sessionid"))
-                .setCreateDate(new Date().toString());
+        boolean flag = false;
 
-        boolean flag= false;
+        TaskDispatcher.newInstance().dispatchUserTask(task);
 
-        if (getInstances()==1){
-            //找到这个人
-            User user = identityService.createUserQuery().userRealName(getAssignee()).SingleResult();
-            flag = taskService.insertInToWorkItem(user,task);
-        }else {
-
-        }
-
-
-
-
-
-
-        //如果flag不是true，表示插入工作项表失败，抛出 error.execute异常
 
 
     }

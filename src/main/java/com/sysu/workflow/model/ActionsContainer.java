@@ -23,10 +23,14 @@ import java.util.List;
  */
 public interface ActionsContainer {
 
-    /** The &lt;if&gt; ActionsContainer element name */
+    /**
+     * The &lt;if&gt; ActionsContainer element name
+     */
     String ELEM_IF = "if";
 
-    /** The &lt;foreach&gt; ActionsContainer element name */
+    /**
+     * The &lt;foreach&gt; ActionsContainer element name
+     */
     String ELEM_FOREACH = "foreach";
 
     /**

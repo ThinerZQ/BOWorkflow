@@ -33,7 +33,6 @@ import java.util.Set;
  * The notification registry keeps track of all
  * <code>SCXMLListener</code>s attached and notifies relevant
  * listeners of the events that interest them.
- *
  */
 public final class NotificationRegistry {
 
@@ -53,7 +52,7 @@ public final class NotificationRegistry {
      * Register this SCXMLListener for this Observable.
      *
      * @param source The observable this listener wants to listen to
-     * @param lst The listener
+     * @param lst    The listener
      */
     synchronized void addListener(final Observable source, final SCXMLListener lst) {
         if (source != null && source.getObservableId() != null) {
@@ -70,7 +69,7 @@ public final class NotificationRegistry {
      * Deregister this SCXMLListener for this Observable.
      *
      * @param source The observable this listener wants to stop listening to
-     * @param lst The listener
+     * @param lst    The listener
      */
     synchronized void removeListener(final Observable source, final SCXMLListener lst) {
         if (source != null && source.getObservableId() != null) {
@@ -89,10 +88,10 @@ public final class NotificationRegistry {
      * entered.
      *
      * @param source The Observable
-     * @param state The EnterableState that was entered
+     * @param state  The EnterableState that was entered
      */
     public synchronized void fireOnEntry(final Observable source,
-            final EnterableState state) {
+                                         final EnterableState state) {
         if (source != null && source.getObservableId() != null) {
             Set<SCXMLListener> entries = regs.get(source.getObservableId());
             if (entries != null) {
@@ -108,10 +107,10 @@ public final class NotificationRegistry {
      * exited.
      *
      * @param source The Observable
-     * @param state The EnterableState that was exited
+     * @param state  The EnterableState that was exited
      */
     public synchronized void fireOnExit(final Observable source,
-            final EnterableState state) {
+                                        final EnterableState state) {
         if (source != null && source.getObservableId() != null) {
             Set<SCXMLListener> entries = regs.get(source.getObservableId());
             if (entries != null) {
@@ -125,15 +124,15 @@ public final class NotificationRegistry {
     /**
      * Inform all relevant listeners of a transition that has occured.
      *
-     * @param source The Observable
-     * @param from The source EnterableState
-     * @param to The destination EnterableState
+     * @param source     The Observable
+     * @param from       The source EnterableState
+     * @param to         The destination EnterableState
      * @param transition The Transition that was taken
-     * @param event The event name triggering the transition
+     * @param event      The event name triggering the transition
      */
     public synchronized void fireOnTransition(final Observable source,
-            final TransitionTarget from, final TransitionTarget to,
-            final Transition transition, final String event) {
+                                              final TransitionTarget from, final TransitionTarget to,
+                                              final Transition transition, final String event) {
         if (source != null && source.getObservableId() != null) {
             Set<SCXMLListener> entries = regs.get(source.getObservableId());
             if (entries != null) {

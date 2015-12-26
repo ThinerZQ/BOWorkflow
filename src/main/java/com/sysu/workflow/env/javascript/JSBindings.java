@@ -30,7 +30,6 @@ import java.util.Set;
  * Wrapper class for the JDK Javascript engine Bindings class that extends the
  * wrapped Bindings to search the SCXML context for variables and predefined
  * functions that do not exist in the wrapped Bindings.
- *
  */
 public class JSBindings implements Bindings {
 
@@ -48,20 +47,18 @@ public class JSBindings implements Bindings {
      *
      * @param context  SCXML Context to use for script variables.
      * @param bindings Javascript engine bindings for Javascript variables.
-     *
      * @throws IllegalArgumentException Thrown if either <code>context</code>
-     *         or <code>bindings</code> is <code>null</code>.
-     *
+     *                                  or <code>bindings</code> is <code>null</code>.
      */
     public JSBindings(Context context, Bindings bindings) {
         // ... validate
 
         if (context == null) {
-           throw new IllegalArgumentException("Invalid SCXML context");
+            throw new IllegalArgumentException("Invalid SCXML context");
         }
 
         if (bindings == null) {
-           throw new IllegalArgumentException("Invalid script Bindings");
+            throw new IllegalArgumentException("Invalid script Bindings");
         }
 
         // ... initialise
@@ -76,9 +73,8 @@ public class JSBindings implements Bindings {
      * Returns <code>true</code> if the wrapped Bindings delegate
      * or SCXML context  contains a variable identified by
      * <code>key</code>.
-     *
      */
-    @Override
+
     public boolean containsKey(Object key) {
         if (hasGlobalBindings() && getGlobalBindings().containsKey(key)) {
             return true;
@@ -94,11 +90,10 @@ public class JSBindings implements Bindings {
     /**
      * Returns a union of the wrapped Bindings entry set and the
      * SCXML context entry set.
-     * <p>
+     * <p/>
      * NOTE: doesn't seem to be invoked ever. Not thread-safe.
-     *
      */
-    @Override
+
     public Set<String> keySet() {
         Set<String> keys = new HashSet<String>();
 
@@ -115,12 +110,11 @@ public class JSBindings implements Bindings {
     /**
      * Returns the combined size of the wrapped Bindings entry set and the
      * SCXML context entry set.
-     * <p>
+     * <p/>
      * NOTE: doesn't seem to be invoked ever so not sure if it works in
-     *       context. Not thread-safe.
-     *
+     * context. Not thread-safe.
      */
-    @Override
+
     public int size() {
         Set<String> keys = new HashSet<String>();
 
@@ -137,11 +131,11 @@ public class JSBindings implements Bindings {
     /**
      * Returns <code>true</code> if the wrapped Bindings delegate
      * or SCXML context contains <code>value</code>.
-     * <p>
+     * <p/>
      * NOTE: doesn't seem to be invoked ever so not sure if it works in
-     *       context. Not thread-safe.
+     * context. Not thread-safe.
      */
-    @Override
+
     public boolean containsValue(Object value) {
         if (hasGlobalBindings() && getGlobalBindings().containsValue(value)) {
             return true;
@@ -157,23 +151,23 @@ public class JSBindings implements Bindings {
     /**
      * Returns a union of the wrapped Bindings entry set and the
      * SCXML context entry set.
-     * <p>
+     * <p/>
      * NOTE: doesn't seem to be invoked ever so not sure if it works in
-     *       context. Not thread-safe.
+     * context. Not thread-safe.
      */
-    @Override
-    public Set<Entry<String,Object>> entrySet() {
+
+    public Set<Entry<String, Object>> entrySet() {
         return union().entrySet();
     }
 
     /**
      * Returns a union of the wrapped Bindings value list and the
      * SCXML context value list.
-     * <p>
+     * <p/>
      * NOTE: doesn't seem to be invoked ever so not sure if it works in
-     *       context. Not thread-safe.
+     * context. Not thread-safe.
      */
-    @Override
+
     public Collection<Object> values() {
         return union().values();
     }
@@ -181,11 +175,11 @@ public class JSBindings implements Bindings {
     /**
      * Returns a <code>true</code> if both the Bindings delegate and
      * the SCXML context maps are empty.
-     * <p>
+     * <p/>
      * NOTE: doesn't seem to be invoked ever so not sure if it works in
-     *       context. Not thread-safe.
+     * context. Not thread-safe.
      */
-    @Override
+
     public boolean isEmpty() {
         if (hasGlobalBindings() && !getGlobalBindings().isEmpty()) {
             return false;
@@ -201,9 +195,8 @@ public class JSBindings implements Bindings {
     /**
      * Returns the value from the wrapped Bindings delegate
      * or SCXML context contains identified by <code>key</code>.
-     *
      */
-    @Override
+
     public Object get(Object key) {
         // nashorn.global should be retrieved from the bindings, not from context.
         if (NASHORN_GLOBAL.equals(key)) {
@@ -224,15 +217,14 @@ public class JSBindings implements Bindings {
     /**
      * The following delegation model is used to set values:
      * <ol>
-     *   <li>Delegates to {@link Context#set(String,Object)} if the
-     *       {@link Context} contains the key (name), else</li>
-     *   <li>Delegates to the wrapped {@link Bindings#put(String, Object)}
-     *       if the {@link Bindings} contains the key (name), else</li>
-     *   <li>Delegates to {@link Context#setLocal(String, Object)}</li>
+     * <li>Delegates to {@link Context#set(String, Object)} if the
+     * {@link Context} contains the key (name), else</li>
+     * <li>Delegates to the wrapped {@link Bindings#put(String, Object)}
+     * if the {@link Bindings} contains the key (name), else</li>
+     * <li>Delegates to {@link Context#setLocal(String, Object)}</li>
      * </ol>
-     *
      */
-    @Override
+
     public Object put(String name, Object value) {
         Object old = context.get(name);
 
@@ -255,11 +247,11 @@ public class JSBindings implements Bindings {
     /**
      * Delegates to the wrapped Bindings <code>putAll</code> method i.e. does
      * not store variables in the SCXML context.
-     * <p>
+     * <p/>
      * NOTE: doesn't seem to be invoked ever so not sure if it works in
-     *       context. Not thread-safe.
+     * context. Not thread-safe.
      */
-    @Override
+
     public void putAll(Map<? extends String, ? extends Object> toMerge) {
         bindings.putAll(toMerge);
     }
@@ -269,11 +261,11 @@ public class JSBindings implements Bindings {
      * SCXML context. Not entirely sure about this implementation but it
      * follows the philosophy of using the Javascript Bindings as a child context
      * of the SCXML context.
-     * <p>
+     * <p/>
      * NOTE: doesn't seem to be invoked ever so not sure if it works in
-     *       context. Not thread-safe.
+     * context. Not thread-safe.
      */
-    @Override
+
     public Object remove(Object key) {
         if (hasGlobalBindings() && getGlobalBindings().containsKey(key)) {
             getGlobalBindings().remove(key);
@@ -293,11 +285,11 @@ public class JSBindings implements Bindings {
     /**
      * Delegates to the wrapped Bindings <code>clear</code> method. Does not clear
      * the SCXML context.
-     * <p>
+     * <p/>
      * NOTE: doesn't seem to be invoked ever so not sure if it works in
-     *       context. Not thread-safe.
+     * context. Not thread-safe.
      */
-    @Override
+
     public void clear() {
         bindings.clear();
     }
@@ -329,8 +321,9 @@ public class JSBindings implements Bindings {
      * Return true if a global bindings (i.e. nashorn Global instance) was ever set by the script engine.
      * <p>
      * Note: because the global binding can be set by the script engine when evaluating a script, we should
-     *       check or retrieve the global binding whenever needed instead of initialization time.
+     * check or retrieve the global binding whenever needed instead of initialization time.
      * </p>
+     *
      * @return true if a global bindings (i.e. nashorn Global instance) was ever set by the script engine
      */
     protected boolean hasGlobalBindings() {
@@ -343,6 +336,7 @@ public class JSBindings implements Bindings {
 
     /**
      * Return the global bindings (i.e. nashorn Global instance) set by the script engine if existing.
+     *
      * @return the global bindings (i.e. nashorn Global instance) set by the script engine, or null if not existing.
      */
     protected Bindings getGlobalBindings() {

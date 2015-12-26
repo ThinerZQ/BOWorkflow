@@ -38,10 +38,10 @@ import java.util.StringTokenizer;
 /**
  * Utility methods used by command line SCXML execution, useful for
  * debugging.
- *
+ * <p/>
  * The following expression languages are supported in SCXML documents:
  * <ol>
- *  <li>JEXL - Using Commons JEXL</li>
+ * <li>JEXL - Using Commons JEXL</li>
  * </ol>
  *
  * @see com.sysu.workflow.env.jexl
@@ -53,18 +53,18 @@ public final class StandaloneUtils {
      * using the SCXML document described by the specified URI and using
      * the specified expression evaluator.
      *
-     * @param uri The URI or filename of the SCXML document
+     * @param uri       The URI or filename of the SCXML document
      * @param evaluator The expression evaluator for the expression language
      *                  used in the specified SCXML document
-     *
-     * <p>RUNNING:</p>
-     * <ul>
-     *  <li>Enter a space-separated list of "events"</li>
-     *  <li>To quit, enter "quit"</li>
-     *  <li>To populate a variable in the current context,
-     *      type "name=value"</li>
-     *  <li>To reset state machine, enter "reset"</li>
-     * </ul>
+     *                  <p/>
+     *                  <p>RUNNING:</p>
+     *                  <ul>
+     *                  <li>Enter a space-separated list of "events"</li>
+     *                  <li>To quit, enter "quit"</li>
+     *                  <li>To populate a variable in the current context,
+     *                  type "name=value"</li>
+     *                  <li>To reset state machine, enter "reset"</li>
+     *                  </ul>
      */
     public static void execute(final String uri, final Evaluator evaluator) {
         try {
@@ -85,18 +85,18 @@ public final class StandaloneUtils {
             exec.setRootContext(rootCtx);
             exec.go();
             BufferedReader br = new BufferedReader(new
-                InputStreamReader(System.in));
+                    InputStreamReader(System.in));
             String event;
             while ((event = br.readLine()) != null) {
                 event = event.trim();
                 if (event.equalsIgnoreCase("help") || event.equals("?")) {
                     System.out.println("Enter a space-separated list of "
-                        + "events");
+                            + "events");
                     System.out.println("To populate a variable in the "
-                        + "current context, type \"name=value\"");
+                            + "current context, type \"name=value\"");
                     System.out.println("To quit, enter \"quit\"");
                     System.out.println("To reset state machine, enter "
-                        + "\"reset\"");
+                            + "\"reset\"");
                 } else if (event.equalsIgnoreCase("quit")) {
                     break;
                 } else if (event.equalsIgnoreCase("reset")) {
@@ -107,11 +107,11 @@ public final class StandaloneUtils {
                     String value = event.substring(marker + 1);
                     rootCtx.setLocal(name, value);
                     System.out.println("Set variable " + name + " to "
-                        + value);
+                            + value);
                 } else if (event.trim().length() == 0
-                           || event.equalsIgnoreCase("null")) {
+                        || event.equalsIgnoreCase("null")) {
                     TriggerEvent[] evts = {new TriggerEvent(null,
-                        TriggerEvent.SIGNAL_EVENT, null)};
+                            TriggerEvent.SIGNAL_EVENT, null)};
                     exec.triggerEvents(evts);
                     if (exec.getStatus().isFinal()) {
                         System.out.println("A final configuration reached.");
@@ -135,7 +135,7 @@ public final class StandaloneUtils {
         } catch (ModelException e) {
             e.printStackTrace();
         } catch (XMLStreamException e) {
-        	e.printStackTrace();
+            e.printStackTrace();
         }
     }
 
@@ -143,13 +143,13 @@ public final class StandaloneUtils {
      * @param uri an absolute or relative URL
      * @return java.lang.String canonical URL (absolute)
      * @throws IOException if a relative URL can not be resolved
-     *         to a local file
+     *                     to a local file
      */
     private static String getCanonicalURI(final String uri)
-    throws IOException {
+            throws IOException {
         if (uri.toLowerCase().startsWith("http://")
-            || uri.toLowerCase().startsWith("file://")) {
-                return uri;
+                || uri.toLowerCase().startsWith("file://")) {
+            return uri;
         }
         File in = new File(uri);
         return "file:///" + in.getCanonicalPath();

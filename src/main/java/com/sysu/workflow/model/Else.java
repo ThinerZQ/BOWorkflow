@@ -19,7 +19,6 @@ package com.sysu.workflow.model;
 /**
  * The class in this SCXML object model that corresponds to the
  * &lt;else&gt; SCXML element.
- *
  */
 public class Else extends ElseIf {
 

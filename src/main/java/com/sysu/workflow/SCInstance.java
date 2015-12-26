@@ -30,11 +30,11 @@ import java.util.*;
 
 /**
  * 一个簿记
- *
+ * <p/>
  * The <code>SCInstance</code> performs book-keeping functions for
  * a particular execution of a state chart represented by a
  * <code>SCXML</code> object.
- *
+ * <p/>
  * 一个SCXML对象的详细执行
  */
 public class SCInstance implements Serializable {
@@ -126,9 +126,10 @@ public class SCInstance implements Serializable {
 
     /**
      * Constructor
+     *
      * @param internalIOProcessor The I/O Processor for the internal event queue
-     * @param evaluator The evaluator
-     * @param errorReporter The error reporter
+     * @param evaluator           The evaluator
+     * @param errorReporter       The error reporter
      */
     protected SCInstance(final SCXMLIOProcessor internalIOProcessor, final Evaluator evaluator,
                          final ErrorReporter errorReporter) {
@@ -142,6 +143,7 @@ public class SCInstance implements Serializable {
     /**
      * (re)Initializes the state machine instance, clearing all variable contexts, histories and current status,
      * and clones the SCXML root datamodel into the root context.
+     *
      * @throws ModelException if the state machine hasn't been setup for this instance
      */
     protected void initialize() throws ModelException {
@@ -153,8 +155,8 @@ public class SCInstance implements Serializable {
             evaluator = EvaluatorFactory.getEvaluator(stateMachine);
         }
         if (stateMachine.getDatamodelName() != null && !stateMachine.getDatamodelName().equals(evaluator.getSupportedDatamodel())) {
-            throw new ModelException("Incompatible SCXML document datamodel \""+stateMachine.getDatamodelName()+"\""
-                    + " for evaluator "+evaluator.getClass().getName()+" supported datamodel \""+evaluator.getSupportedDatamodel()+"\"");
+            throw new ModelException("Incompatible SCXML document datamodel \"" + stateMachine.getDatamodelName() + "\""
+                    + " for evaluator " + evaluator.getClass().getName() + " supported datamodel \"" + evaluator.getSupportedDatamodel() + "\"");
         }
         if (errorReporter == null) {
             throw new ModelException(ERR_NO_ERROR_REPORTER);
@@ -186,6 +188,7 @@ public class SCInstance implements Serializable {
 
     /**
      * Sets the I/O Processor for the internal event queue
+     *
      * @param internalIOProcessor the I/O Processor
      */
     protected void setInternalIOProcessor(SCXMLIOProcessor internalIOProcessor) {
@@ -199,8 +202,9 @@ public class SCInstance implements Serializable {
      * If not re-attaching and this state machine instance has been initialized before,
      * it will be initialized again, destroying all existing state!
      * </p>
+     *
      * @param evaluator The evaluator for this state machine instance
-     * @param reAttach Flag whether or not re-attaching it
+     * @param reAttach  Flag whether or not re-attaching it
      * @throws ModelException if {@code evaluator} is null
      */
     protected void setEvaluator(Evaluator evaluator, boolean reAttach) throws ModelException {
@@ -209,8 +213,7 @@ public class SCInstance implements Serializable {
             if (!reAttach) {
                 // change of evaluator after initialization: re-initialize
                 initialize();
-            }
-            else if (evaluator == null) {
+            } else if (evaluator == null) {
                 throw new ModelException("SCInstance: re-attached without Evaluator");
             }
         }
@@ -225,6 +228,7 @@ public class SCInstance implements Serializable {
 
     /**
      * Set or re-attach the error reporter
+     *
      * @param errorReporter The error reporter for this state machine instance.
      * @throws ModelException if an attempt is made to set a null value for the error reporter
      */
@@ -248,6 +252,7 @@ public class SCInstance implements Serializable {
      * If this state machine instance has been initialized before, it will be initialized again, destroying all existing
      * state!
      * </p>
+     *
      * @param stateMachine The state machine for this instance
      * @throws ModelException if an attempt is made to set a null value for the state machine
      */
@@ -273,13 +278,13 @@ public class SCInstance implements Serializable {
     /**
      * Clone data model.
      *
-     * @param ctx The context to clone to.
-     * @param datamodel The datamodel to clone.
-     * @param evaluator The expression evaluator.
+     * @param ctx           The context to clone to.
+     * @param datamodel     The datamodel to clone.
+     * @param evaluator     The expression evaluator.
      * @param errorReporter The error reporter
      */
     protected void cloneDatamodel(final Datamodel datamodel, final Context ctx, final Evaluator evaluator,
-                                      final ErrorReporter errorReporter) {
+                                  final ErrorReporter errorReporter) {
         if (datamodel == null || Evaluator.NULL_DATA_MODEL.equals(evaluator.getSupportedDatamodel())) {
             return;
         }
@@ -321,21 +326,18 @@ public class SCInstance implements Serializable {
                         dataNode.setAttribute("id", datum.getId());
                         ctx.setLocal(datum.getId(), dataNode);
                         evaluator.evalAssign(ctx, "$" + datum.getId(), value, Evaluator.AssignType.REPLACE_CHILDREN, null);
-                    }
-                    catch (ParserConfigurationException pce) {
+                    } catch (ParserConfigurationException pce) {
                         if (internalIOProcessor != null) {
                             internalIOProcessor.addEvent(new TriggerEvent(TriggerEvent.ERROR_EXECUTION, TriggerEvent.ERROR_EVENT));
                         }
                         errorReporter.onError(ErrorConstants.EXECUTION_ERROR, pce.getMessage(), datum);
-                    }
-                    catch (SCXMLExpressionException see) {
+                    } catch (SCXMLExpressionException see) {
                         if (internalIOProcessor != null) {
                             internalIOProcessor.addEvent(new TriggerEvent(TriggerEvent.ERROR_EXECUTION, TriggerEvent.ERROR_EVENT));
                         }
                         errorReporter.onError(ErrorConstants.EXPRESSION_ERROR, see.getMessage(), datum);
                     }
-                }
-                else {
+                } else {
                     ctx.setLocal(datum.getId(), value);
                 }
             } else {
@@ -367,6 +369,7 @@ public class SCInstance implements Serializable {
 
     /**
      * Sets the running status of the state machine
+     *
      * @param running flag indicating the running status of the state machine
      * @throws IllegalStateException Exception thrown if trying to set the state machine running when in a Final state
      */
@@ -392,6 +395,7 @@ public class SCInstance implements Serializable {
 
     /**
      * Set or replace the root context.
+     *
      * @param context The new root context.
      */
     protected void setRootContext(final Context context) {
@@ -451,8 +455,7 @@ public class SCInstance implements Serializable {
         if (context == null) {
             if (singleContext) {
                 context = getGlobalContext();
-            }
-            else {
+            } else {
                 EnterableState parent = state.getParent();
                 if (parent == null) {
                     // docroot
@@ -462,7 +465,7 @@ public class SCInstance implements Serializable {
                 }
             }
             if (state instanceof TransitionalState) {
-                Datamodel datamodel = ((TransitionalState)state).getDatamodel();
+                Datamodel datamodel = ((TransitionalState) state).getDatamodel();
                 cloneDatamodel(datamodel, context, evaluator, errorReporter);
             }
             contexts.put(state, context);
@@ -472,7 +475,7 @@ public class SCInstance implements Serializable {
 
     /**
      * Get the context for an EnterableState if available.
-     *
+     * <p/>
      * <p>Note: used for testing purposes only</p>
      *
      * @param state The EnterableState
@@ -484,14 +487,14 @@ public class SCInstance implements Serializable {
 
     /**
      * Set the context for an EnterableState
-     *
+     * <p/>
      * <p>Note: used for testing purposes only</p>
      *
-     * @param state The EnterableState.
+     * @param state   The EnterableState.
      * @param context The context.
      */
     void setContext(final EnterableState state,
-            final Context context) {
+                    final Context context) {
         contexts.put(state, context);
     }
 
@@ -513,16 +516,16 @@ public class SCInstance implements Serializable {
      * Set the last configuration for this history.
      *
      * @param history The history.
-     * @param lc The lastConfiguration to set.
+     * @param lc      The lastConfiguration to set.
      */
     public void setLastConfiguration(final History history,
-            final Set<EnterableState> lc) {
+                                     final Set<EnterableState> lc) {
         histories.put(history, new HashSet<EnterableState>(lc));
     }
 
     /**
      * Resets the history state.
-     *
+     * <p/>
      * <p>Note: used for testing purposes only</p>
      *
      * @param history The history.

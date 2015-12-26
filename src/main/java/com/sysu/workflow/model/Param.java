@@ -22,7 +22,6 @@ import java.util.Map;
 /**
  * The class in this SCXML object model that corresponds to the
  * &lt;param&gt; SCXML element.
- *
  */
 public class Param implements NamespacePrefixesHolder, Serializable {
 
@@ -60,6 +59,7 @@ public class Param implements NamespacePrefixesHolder, Serializable {
         name = null;
         expr = null;
     }
+
     /**
      * Get the name for this param.
      *

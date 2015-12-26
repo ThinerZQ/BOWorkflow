@@ -36,6 +36,7 @@ public class JSFunctions implements Serializable {
 
     /**
      * Creates a new instance, wraps the context.
+     *
      * @param ctx the context in use
      */
     public JSFunctions(Context ctx) {
@@ -44,6 +45,7 @@ public class JSFunctions implements Serializable {
 
     /**
      * Provides the SCXML standard In() predicate for SCXML documents.
+     *
      * @param state The State ID to compare with
      * @return true if this state is currently active
      */
@@ -53,6 +55,7 @@ public class JSFunctions implements Serializable {
 
     /**
      * Provides the Commons SCXML Data() predicate extension for SCXML documents.
+     *
      * @param expression the XPath expression
      * @return the data matching the expression
      * @throws SCXMLExpressionException A malformed expression exception
@@ -63,6 +66,7 @@ public class JSFunctions implements Serializable {
 
     /**
      * Provides the Commons SCXML Location() predicate extension for SCXML documents.
+     *
      * @param expression the XPath expression
      * @return the location matching the expression
      * @throws SCXMLExpressionException A malformed expression exception

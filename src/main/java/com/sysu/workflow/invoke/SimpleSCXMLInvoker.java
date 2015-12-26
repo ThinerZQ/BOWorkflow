@@ -37,22 +37,32 @@ import java.util.Map;
  */
 public class SimpleSCXMLInvoker implements Invoker, Serializable {
 
-    /** Serial version UID. */
+    /**
+     * Serial version UID.
+     */
     private static final long serialVersionUID = 1L;
-    /** Parent state ID. */
+    /**
+     * Parent state ID.
+     */
     private String parentStateId;
-    /** Invoking parent SCXMLExecutor */
+    /**
+     * Invoking parent SCXMLExecutor
+     */
     private SCXMLExecutor parentSCXMLExecutor;
-    /** The invoked state machine executor. */
+    /**
+     * The invoked state machine executor.
+     */
     private SCXMLExecutor executor;
-    /** Cancellation status. */
+    /**
+     * Cancellation status.
+     */
     private boolean cancelled;
 
 
     /**
      * {@inheritDoc}.
      */
-    @Override
+
     public String getInvokeId() {
         return parentStateId;
     }
@@ -60,7 +70,7 @@ public class SimpleSCXMLInvoker implements Invoker, Serializable {
     /**
      * {@inheritDoc}.
      */
-    @Override
+
     public void setInvokeId(final String invokeId) {
         this.parentStateId = invokeId;
         this.cancelled = false;
@@ -69,7 +79,7 @@ public class SimpleSCXMLInvoker implements Invoker, Serializable {
     /**
      * {@inheritDoc}.
      */
-    @Override
+
     public void setParentSCXMLExecutor(SCXMLExecutor parentSCXMLExecutor) {
         this.parentSCXMLExecutor = parentSCXMLExecutor;
     }
@@ -77,7 +87,7 @@ public class SimpleSCXMLInvoker implements Invoker, Serializable {
     /**
      * {@inheritDoc}.
      */
-    @Override
+
     public SCXMLIOProcessor getChildIOProcessor() {
         // not used
         return executor;
@@ -86,9 +96,9 @@ public class SimpleSCXMLInvoker implements Invoker, Serializable {
     /**
      * {@inheritDoc}.
      */
-    @Override
+
     public void invoke(final String source, final Map<String, Object> params)
-    throws InvokerException {
+            throws InvokerException {
         SCXML scxml;
         try {
             scxml = SCXMLReader.read(new URL(source));
@@ -102,8 +112,7 @@ public class SimpleSCXMLInvoker implements Invoker, Serializable {
         executor = new SCXMLExecutor(parentSCXMLExecutor);
         try {
             executor.setStateMachine(scxml);
-        }
-        catch (ModelException me) {
+        } catch (ModelException me) {
             throw new InvokerException(me);
         }
         Context rootCtx = executor.getRootContext();
@@ -117,7 +126,7 @@ public class SimpleSCXMLInvoker implements Invoker, Serializable {
             throw new InvokerException(me.getMessage(), me.getCause());
         }
         if (executor.getStatus().isFinal()) {
-            TriggerEvent te = new TriggerEvent("done.invoke."+parentStateId, TriggerEvent.SIGNAL_EVENT);
+            TriggerEvent te = new TriggerEvent("done.invoke." + parentStateId, TriggerEvent.SIGNAL_EVENT);
             new AsyncTrigger(parentSCXMLExecutor, te).start();
         }
     }
@@ -125,16 +134,16 @@ public class SimpleSCXMLInvoker implements Invoker, Serializable {
     /**
      * {@inheritDoc}.
      */
-    @Override
+
     public void parentEvent(final TriggerEvent evt)
-    throws InvokerException {
+            throws InvokerException {
         if (cancelled) {
             return; // no further processing should take place
         }
         boolean doneBefore = executor.getStatus().isFinal();
         executor.addEvent(evt);
         if (!doneBefore && executor.getStatus().isFinal()) {
-            TriggerEvent te = new TriggerEvent("done.invoke."+parentStateId, TriggerEvent.SIGNAL_EVENT);
+            TriggerEvent te = new TriggerEvent("done.invoke." + parentStateId, TriggerEvent.SIGNAL_EVENT);
             new AsyncTrigger(parentSCXMLExecutor, te).start();
         }
     }
@@ -142,11 +151,11 @@ public class SimpleSCXMLInvoker implements Invoker, Serializable {
     /**
      * {@inheritDoc}.
      */
-    @Override
+
     public void cancel()
-    throws InvokerException {
+            throws InvokerException {
         cancelled = true;
-        executor.addEvent(new TriggerEvent("cancel.invoke."+parentStateId, TriggerEvent.CANCEL_EVENT));
+        executor.addEvent(new TriggerEvent("cancel.invoke." + parentStateId, TriggerEvent.CANCEL_EVENT));
     }
 }
 

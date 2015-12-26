@@ -21,7 +21,6 @@ import com.sysu.workflow.PathResolver;
 /**
  * A <code>PathResolverHolder</code> is an entity that holds a
  * {@link PathResolver}.
- *
  */
 public interface PathResolverHolder {
 

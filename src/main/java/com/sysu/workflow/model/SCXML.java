@@ -26,7 +26,6 @@ import java.util.Map;
  * The class in this SCXML object model that corresponds to the
  * &lt;scxml&gt; root element, and serves as the &quot;document
  * root&quot;.
- *
  */
 public class SCXML implements Serializable, Observable,
         NamespacePrefixesHolder {
@@ -125,6 +124,7 @@ public class SCXML implements Serializable, Observable,
 
     /**
      * The next auto-generated transition target unique id value
+     *
      * @see #generateTransitionTargetId()
      */
     private long ttNextId;
@@ -146,10 +146,11 @@ public class SCXML implements Serializable, Observable,
 
     /**
      * Simple unique TransitionTarget id value generation
+     *
      * @return a unique TransitionTarget id for this SCXML instance
      */
     public final String generateTransitionTargetId() {
-        return GENERATED_TT_ID_PREFIX +ttNextId++;
+        return GENERATED_TT_ID_PREFIX + ttNextId++;
     }
 
     public final Script getGlobalScript() {
@@ -164,7 +165,6 @@ public class SCXML implements Serializable, Observable,
      * Get the initial Transition.
      *
      * @return Returns the initial transition for this state machine.
-     *
      * @since 2.0
      */
     public final SimpleTransition getInitialTransition() {
@@ -176,7 +176,6 @@ public class SCXML implements Serializable, Observable,
      * <p>Note: the initial transition can/may not have executable content!</p>
      *
      * @param initialTransition The initial transition to set.
-     *
      * @since 2.0
      */
     public final void setInitialTransition(final SimpleTransition initialTransition) {
@@ -205,7 +204,6 @@ public class SCXML implements Serializable, Observable,
      * Get the immediate child targets of the SCXML root.
      *
      * @return List Returns list of the child targets.
-     *
      * @since 0.7
      */
     public final List<EnterableState> getChildren() {
@@ -216,7 +214,6 @@ public class SCXML implements Serializable, Observable,
      * Get the first immediate child of the SCXML root. Return null if there's no child.
      *
      * @return Returns the first immediate child of the SCXML root. Return null if there's no child.
-     *
      * @since 2.0
      */
     public final EnterableState getFirstChild() {
@@ -230,7 +227,6 @@ public class SCXML implements Serializable, Observable,
      * Add an immediate child of the SCXML root.
      *
      * @param es The child to be added.
-     *
      * @since 0.7
      */
     public final void addChild(final EnterableState es) {
@@ -297,7 +293,7 @@ public class SCXML implements Serializable, Observable,
      * May be <code>null</code>.
      *
      * @return The namespace definitions specified on the SCXML element,
-     *         may be <code>null</code>.
+     * may be <code>null</code>.
      */
     public final Map<String, String> getNamespaces() {
         return namespaces;
@@ -338,57 +334,58 @@ public class SCXML implements Serializable, Observable,
      *
      * @return The name for this state machine.
      */
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	/**
-	 * Set the name for this state machine.
-	 *
-	 * @param name The name for this state machine.
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
+    /**
+     * Set the name for this state machine.
+     *
+     * @param name The name for this state machine.
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	/**
-	 * Get the profile in use for this state machine.
-	 *
-	 * @return The profile in use.
-	 */
-	public String getProfile() {
-		return profile;
-	}
+    /**
+     * Get the profile in use for this state machine.
+     *
+     * @return The profile in use.
+     */
+    public String getProfile() {
+        return profile;
+    }
 
-	/**
-	 * Set the profile in use for this state machine.
-	 *
-	 * @param profile The profile to be used.
-	 */
-	public void setProfile(String profile) {
-		this.profile = profile;
-	}
+    /**
+     * Set the profile in use for this state machine.
+     *
+     * @param profile The profile to be used.
+     */
+    public void setProfile(String profile) {
+        this.profile = profile;
+    }
 
-	/**
-	 * Get the exmode in use for this state machine.
-	 *
-	 * @return The exmode in use.
-	 */
-	public String getExmode() {
-		return exmode;
-	}
+    /**
+     * Get the exmode in use for this state machine.
+     *
+     * @return The exmode in use.
+     */
+    public String getExmode() {
+        return exmode;
+    }
 
-	/**
-	 * Set the exmode to be used for this state machine.
-	 *
-	 * @param exmode The exmode to be used.
-	 */
-	public void setExmode(String exmode) {
-		this.exmode = exmode;
-	}
+    /**
+     * Set the exmode to be used for this state machine.
+     *
+     * @param exmode The exmode to be used.
+     */
+    public void setExmode(String exmode) {
+        this.exmode = exmode;
+    }
 
     /**
      * Get the datamodel name as specified as attribute on this document
+     *
      * @return The datamodel name of this document
      */
     public String getDatamodelName() {
@@ -397,6 +394,7 @@ public class SCXML implements Serializable, Observable,
 
     /**
      * Sets the datamodel name as specified as attribute on this document
+     *
      * @param datamodelName The datamodel name
      */
     public void setDatamodelName(final String datamodelName) {

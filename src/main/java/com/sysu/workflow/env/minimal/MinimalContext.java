@@ -36,7 +36,9 @@ import java.util.Map;
  */
 public class MinimalContext extends SimpleContext {
 
-    /** Serial version UID. */
+    /**
+     * Serial version UID.
+     */
     private static final long serialVersionUID = 1L;
 
     private static Context getMinimalContextParent(final Context parent) {

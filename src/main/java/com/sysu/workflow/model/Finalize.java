@@ -19,7 +19,6 @@ package com.sysu.workflow.model;
 /**
  * The class in this SCXML object model that corresponds to the
  * &lt;finalize&gt; SCXML element.
- *
  */
 public class Finalize extends Executable {
 
@@ -40,7 +39,7 @@ public class Finalize extends Executable {
      */
     @Override
     public TransitionalState getParent() {
-        return (TransitionalState)super.getParent();
+        return (TransitionalState) super.getParent();
     }
 
     /**

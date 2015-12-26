@@ -23,7 +23,6 @@ package com.sysu.workflow.model;
  * to be useful, each of its &lt;state&gt; substates must itself be
  * complex, that is, one with either &lt;state&gt; or &lt;parallel&gt;
  * children.
- *
  */
 public class Parallel extends TransitionalState {
 
@@ -40,13 +39,16 @@ public class Parallel extends TransitionalState {
 
     /**
      * {@inheritDoc}
+     *
      * @return Returns always false (a state of type Parallel is never atomic)
      */
     public final boolean isAtomicState() {
         return false;
     }
+
     /**
      * Add a TransitionalState (State or Parallel) child
+     *
      * @param ts the child to add
      */
     public final void addChild(final TransitionalState ts) {

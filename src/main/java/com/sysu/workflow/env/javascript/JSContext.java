@@ -26,13 +26,14 @@ import java.util.Map;
  * SCXML Context for use by the JSEvaluator. It is simply a 'no functionality'
  * extension of SimpleContext that has been implemented to reduce the impact
  * if the JSEvaluator requires additional functionality at a later stage.
- * <p>
+ * <p/>
  * Could easily be dispensed with.
- *
  */
 public class JSContext extends SimpleContext {
 
-    /** Serial version UID. */
+    /**
+     * Serial version UID.
+     */
     private static final long serialVersionUID = 1L;
 
     // CONSTRUCTORS
@@ -47,7 +48,8 @@ public class JSContext extends SimpleContext {
 
     /**
      * Constructor with initial vars.
-     * @param parent The parent context
+     *
+     * @param parent      The parent context
      * @param initialVars The initial set of variables.
      */
     public JSContext(final Context parent, final Map<String, Object> initialVars) {
@@ -59,7 +61,6 @@ public class JSContext extends SimpleContext {
      * constructor.
      *
      * @param parent Parent context for this context.
-     *
      */
     public JSContext(final Context parent) {
         super(parent);

@@ -31,56 +31,67 @@ import java.util.UUID;
 /**
  * Evaluator implementation enabling use of JEXL expressions in
  * SCXML documents.
- * <P>
+ * <p/>
  * This implementation itself is thread-safe, so you can keep singleton
  * for efficiency of the internal <code>JexlEngine</code> member.
  * </P>
  */
 public class JexlEvaluator implements Evaluator, Serializable {
 
-    /** Serial version UID. */
+    /**
+     * Serial version UID.
+     */
     private static final long serialVersionUID = 1L;
 
     /**
      * Unique context variable name used for temporary reference to assign data (thus must be a valid variable name)
      */
-    private static final String ASSIGN_VARIABLE_NAME = "a"+UUID.randomUUID().toString().replace('-','x');
+    private static final String ASSIGN_VARIABLE_NAME = "a" + UUID.randomUUID().toString().replace('-', 'x');
 
     public static final String SUPPORTED_DATA_MODEL = "jexl";
 
     public static class JexlEvaluatorProvider implements EvaluatorProvider {
 
-         
+
         public String getSupportedDatamodel() {
             return SUPPORTED_DATA_MODEL;
         }
 
-         
+
         public Evaluator getEvaluator() {
             return new JexlEvaluator();
         }
 
-         
+
         public Evaluator getEvaluator(final SCXML document) {
             return new JexlEvaluator();
         }
     }
 
-    /** Error message if evaluation context is not a JexlContext. */
+    /**
+     * Error message if evaluation context is not a JexlContext.
+     */
     private static final String ERR_CTX_TYPE = "Error evaluating JEXL "
-        + "expression, Context must be a JexlContext";
+            + "expression, Context must be a JexlContext";
 
 
-
-    /** The internal JexlEngine instance to use. */
+    /**
+     * The internal JexlEngine instance to use.
+     */
     private transient volatile JexlEngine jexlEngine;
 
-    /** The current JexlEngine silent mode, stored locally to be reapplied after deserialization of the engine */
+    /**
+     * The current JexlEngine silent mode, stored locally to be reapplied after deserialization of the engine
+     */
     private boolean jexlEngineSilent;
-    /** The current JexlEngine strict mode, stored locally to be reapplied after deserialization of the engine */
+    /**
+     * The current JexlEngine strict mode, stored locally to be reapplied after deserialization of the engine
+     */
     private boolean jexlEngineStrict;
 
-    /** Constructor. */
+    /**
+     * Constructor.
+     */
     public JexlEvaluator() {
         super();
         // create the internal JexlEngine initially
@@ -91,6 +102,7 @@ public class JexlEvaluator implements Evaluator, Serializable {
 
     /**
      * Checks whether the internal Jexl engine throws JexlException during evaluation.
+     *
      * @return true if silent, false (default) otherwise
      */
     public boolean isJexlEngineSilent() {
@@ -102,6 +114,7 @@ public class JexlEvaluator implements Evaluator, Serializable {
      * evaluation when an error is triggered.
      * <p>This method should be called as an optional step of the JexlEngine
      * initialization code before expression creation &amp; evaluation.</p>
+     *
      * @param silent true means no JexlException will occur, false allows them
      */
     public void setJexlEngineSilent(boolean silent) {
@@ -114,6 +127,7 @@ public class JexlEvaluator implements Evaluator, Serializable {
 
     /**
      * Checks whether the internal Jexl engine behaves in strict or lenient mode.
+     *
      * @return true for strict, false for lenient
      */
     public boolean isJexlEngineStrict() {
@@ -124,6 +138,7 @@ public class JexlEvaluator implements Evaluator, Serializable {
      * Delegate method for {@link JexlEngine#setStrict(boolean)} to set whether it behaves in strict or lenient mode.
      * <p>This method is should be called as an optional step of the JexlEngine
      * initialization code before expression creation &amp; evaluation.</p>
+     *
      * @param strict true for strict, false for lenient
      */
     public void setJexlEngineStrict(boolean strict) {
@@ -134,7 +149,7 @@ public class JexlEvaluator implements Evaluator, Serializable {
         }
     }
 
-     
+
     public String getSupportedDatamodel() {
         return SUPPORTED_DATA_MODEL;
     }
@@ -142,14 +157,14 @@ public class JexlEvaluator implements Evaluator, Serializable {
     /**
      * Evaluate an expression.
      *
-     * @param ctx variable context
+     * @param ctx  variable context
      * @param expr expression
      * @return a result of the evaluation
      * @throws SCXMLExpressionException For a malformed expression
      * @see Evaluator#eval(Context, String)
      */
     public Object eval(final Context ctx, final String expr)
-    throws SCXMLExpressionException {
+            throws SCXMLExpressionException {
         if (expr == null) {
             return null;
         }
@@ -157,7 +172,7 @@ public class JexlEvaluator implements Evaluator, Serializable {
             throw new SCXMLExpressionException(ERR_CTX_TYPE);
         }
         try {
-            final JexlContext effective = getEffectiveContext((JexlContext)ctx);
+            final JexlContext effective = getEffectiveContext((JexlContext) ctx);
             Expression exp = getJexlEngine().createExpression(expr);
             return exp.evaluate(effective);
         } catch (Exception e) {
@@ -170,7 +185,7 @@ public class JexlEvaluator implements Evaluator, Serializable {
      * @see Evaluator#evalCond(Context, String)
      */
     public Boolean evalCond(final Context ctx, final String expr)
-    throws SCXMLExpressionException {
+            throws SCXMLExpressionException {
         if (expr == null) {
             return null;
         }
@@ -178,10 +193,10 @@ public class JexlEvaluator implements Evaluator, Serializable {
             throw new SCXMLExpressionException(ERR_CTX_TYPE);
         }
         try {
-            final JexlContext effective = getEffectiveContext((JexlContext)ctx);
+            final JexlContext effective = getEffectiveContext((JexlContext) ctx);
             Expression exp = getJexlEngine().createExpression(expr);
             final Object result = exp.evaluate(effective);
-            return result == null ? Boolean.FALSE : (Boolean)result;
+            return result == null ? Boolean.FALSE : (Boolean) result;
         } catch (Exception e) {
             String exMessage = e.getMessage() != null ? e.getMessage() : e.getClass().getCanonicalName();
             throw new SCXMLExpressionException("evalCond('" + expr + "'): " + exMessage, e);
@@ -192,11 +207,10 @@ public class JexlEvaluator implements Evaluator, Serializable {
      * @see Evaluator#evalLocation(Context, String)
      */
     public Object evalLocation(final Context ctx, final String expr)
-    throws SCXMLExpressionException {
+            throws SCXMLExpressionException {
         if (expr == null) {
             return null;
-        }
-        else if (ctx.has(expr)) {
+        } else if (ctx.has(expr)) {
             return expr;
         }
 
@@ -204,7 +218,7 @@ public class JexlEvaluator implements Evaluator, Serializable {
             throw new SCXMLExpressionException(ERR_CTX_TYPE);
         }
         try {
-            final JexlContext effective = getEffectiveContext((JexlContext)ctx);
+            final JexlContext effective = getEffectiveContext((JexlContext) ctx);
             Expression exp = getJexlEngine().createExpression(expr);
             return exp.evaluate(effective);
         } catch (Exception e) {
@@ -224,19 +238,16 @@ public class JexlEvaluator implements Evaluator, Serializable {
 
             if (XPathBuiltin.isXPathLocation(ctx, loc)) {
                 XPathBuiltin.assign(ctx, loc, data, type, attr);
-            }
-            else {
+            } else {
                 StringBuilder sb = new StringBuilder(location).append("=").append(ASSIGN_VARIABLE_NAME);
                 try {
                     ctx.getVars().put(ASSIGN_VARIABLE_NAME, data);
                     eval(ctx, sb.toString());
-                }
-                finally {
+                } finally {
                     ctx.getVars().remove(ASSIGN_VARIABLE_NAME);
                 }
             }
-        }
-        else {
+        } else {
             throw new SCXMLExpressionException("evalAssign - cannot resolve location: '" + location + "'");
         }
     }
@@ -245,7 +256,7 @@ public class JexlEvaluator implements Evaluator, Serializable {
      * @see Evaluator#evalScript(Context, String)
      */
     public Object evalScript(final Context ctx, final String script)
-    throws SCXMLExpressionException {
+            throws SCXMLExpressionException {
         if (script == null) {
             return null;
         }
@@ -277,6 +288,7 @@ public class JexlEvaluator implements Evaluator, Serializable {
      * Create the internal JexlEngine member during the initialization.
      * This method can be overriden to specify more detailed options
      * into the JexlEngine.
+     *
      * @return new JexlEngine instance
      */
     protected JexlEngine createJexlEngine() {
@@ -293,9 +305,10 @@ public class JexlEvaluator implements Evaluator, Serializable {
     /**
      * Returns the internal JexlEngine if existing.
      * Otherwise, it creates a new engine by invoking {@link #createJexlEngine()}.
-     * <P>
+     * <p/>
      * <EM>NOTE: The internal JexlEngine instance can be null when this is deserialized.</EM>
      * </P>
+     *
      * @return the current JexlEngine
      */
     private JexlEngine getJexlEngine() {
@@ -320,7 +333,7 @@ public class JexlEvaluator implements Evaluator, Serializable {
      *
      * @param nodeCtx The JexlContext for this state.
      * @return The effective JexlContext for the path leading up to
-     *         document root.
+     * document root.
      */
     protected JexlContext getEffectiveContext(final JexlContext nodeCtx) {
         return new JexlContext(nodeCtx, new EffectiveContextMap(nodeCtx));

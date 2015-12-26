@@ -1,5 +1,9 @@
 package com.sysu.workflow.identityservice;
 
+import com.sysu.workflow.model.IdentityException;
+import com.sysu.workflow.taskservice.Task;
+import com.sysu.workflow.taskservice.TaskService;
+
 /**
  * Created by zhengshouzi on 2015/12/14.
  */
@@ -14,23 +18,14 @@ public class User {
     private String gender;
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public boolean addIntoWorkItem(Task task) throws IdentityException{
+        if (this.realName!=null){
+            TaskService taskService = new TaskService();
+            return taskService.insertInToWorkItem(this,task);
+        }else {
+            throw new IdentityException("没有这个用户");
+        }
+    }
 
 
 

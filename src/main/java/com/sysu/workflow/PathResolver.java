@@ -19,7 +19,6 @@ package com.sysu.workflow;
 /**
  * Interface for a component that may be used by the SCXML engines
  * to resolve context sensitive paths.
- *
  */
 public interface PathResolver {
 

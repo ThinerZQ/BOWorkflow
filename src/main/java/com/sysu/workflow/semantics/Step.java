@@ -27,7 +27,6 @@ import java.util.*;
 /**
  * SCXML执行一步的逻辑单元
  * A logical unit of progression in the execution of a SCXML model.
- *
  */
 public class Step {
 

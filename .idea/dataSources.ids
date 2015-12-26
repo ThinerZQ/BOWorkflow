@@ -8,23 +8,28 @@
     <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
     <schema name="" catalog="dbworkflow"/>
     <table name="user" schema="" catalog="dbworkflow" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="username" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="realname" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="password" sqlType="VARCHAR" precision="20" scale="0" nullable="true" jdbcType="12"/>
-      <column name="age" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="gender" sqlType="VARCHAR" precision="10" scale="0" nullable="true" jdbcType="12"/>
-      <column name="email" sqlType="VARCHAR" precision="50" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="PRIMARY" columns="id"/>
+      <column name="userId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="userName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="userRealName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="userPassword" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="userAge" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="userGender" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="userEmail" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="userId"/>
+      <exported-key name="FK_workitem" table="workitem" schema="" catalog="dbworkflow" columns="itemAssigineeId"/>
     </table>
     <table name="workitem" schema="" catalog="dbworkflow" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="name" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="createtime" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="duetime" sqlType="VARCHAR" precision="20" scale="0" nullable="true" jdbcType="12"/>
-      <column name="assigineeId" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="assignee" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="PRIMARY" columns="id"/>
+      <column name="itemId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="itemName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="itemCreateTime" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="itemDuetime" sqlType="VARCHAR" precision="20" scale="0" nullable="true" jdbcType="12"/>
+      <column name="itemAssigineeId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="itemAssigneeName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="itemProcessId" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="itemStateId" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="itemId"/>
+      <foreign-key name="FK_workitem" columns="itemAssigineeId" ref-table="user" ref-schema="" ref-catalog="dbworkflow" ref-columns="userId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FK_workitem" unique="false" columns="itemAssigineeId"/>
     </table>
   </data-source>
 </component>

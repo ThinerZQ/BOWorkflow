@@ -13,7 +13,17 @@ public class Task {
     private String createDate;
     private String dueDate;
     private String processId;
+    private String stateId;
 
+
+    public String getStateId() {
+        return stateId;
+    }
+
+    public Task setStateId(String stateId) {
+        this.stateId = stateId;
+        return this;
+    }
 
     public Task(String name) {
         this.name = name;

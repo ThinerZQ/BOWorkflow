@@ -30,27 +30,27 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * A static singleton factory for {@link EvaluatorProvider}s by supported SCXML datamodel type.
  * <p>
- *  The EvaluatorFactory is used to automatically create an {@link Evaluator} instance for an SCXML
- *  statemachine when none has been pre-defined and configured for the {@link SCXMLExecutor}.
+ * The EvaluatorFactory is used to automatically create an {@link Evaluator} instance for an SCXML
+ * statemachine when none has been pre-defined and configured for the {@link SCXMLExecutor}.
  * </p>
  * <p>
- *  The builtin supported providers are:
+ * The builtin supported providers are:
  * </p>
  * <ul>
- *  <li>no or empty datamodel (default) or datamodel="jexl": {@link JexlEvaluator.JexlEvaluatorProvider}</li>
- *  <li>datamodel="ecmascript": {@link JSEvaluator.JSEvaluatorProvider}</li>
- *  <li>datamodel="groovy": {@link GroovyEvaluator.GroovyEvaluatorProvider}</li>
- *  <li>datamodel="xpath": {@link XPathEvaluator.XPathEvaluatorProvider}</li>
- *  <li>datamodel="null": {@link MinimalEvaluator.MinimalEvaluatorProvider}</li>
+ * <li>no or empty datamodel (default) or datamodel="jexl": {@link JexlEvaluator.JexlEvaluatorProvider}</li>
+ * <li>datamodel="ecmascript": {@link JSEvaluator.JSEvaluatorProvider}</li>
+ * <li>datamodel="groovy": {@link GroovyEvaluator.GroovyEvaluatorProvider}</li>
+ * <li>datamodel="xpath": {@link XPathEvaluator.XPathEvaluatorProvider}</li>
+ * <li>datamodel="null": {@link MinimalEvaluator.MinimalEvaluatorProvider}</li>
  * </ul>
  * <p>
- *  For adding additional or overriding the builtin Evaluator implementations use
- *  {@link #registerEvaluatorProvider(EvaluatorProvider)} or {@link #unregisterEvaluatorProvider(String)}.
+ * For adding additional or overriding the builtin Evaluator implementations use
+ * {@link #registerEvaluatorProvider(EvaluatorProvider)} or {@link #unregisterEvaluatorProvider(String)}.
  * </p>
  * <p>
- *  The default provider can be overridden using the {@link #setDefaultProvider(EvaluatorProvider)} which will
- *  register the provider under the {@link Evaluator#DEFAULT_DATA_MODEL} ("") value for the datamodel.<br>
- *  Note: this is <em>not</em> the same as datamodel="null"!
+ * The default provider can be overridden using the {@link #setDefaultProvider(EvaluatorProvider)} which will
+ * register the provider under the {@link Evaluator#DEFAULT_DATA_MODEL} ("") value for the datamodel.<br>
+ * Note: this is <em>not</em> the same as datamodel="null"!
  * </p>
  */
 public class EvaluatorFactory {
@@ -95,6 +95,7 @@ public class EvaluatorFactory {
     /**
      * Returns a dedicated Evaluator instance for a specific SCXML document its documentmodel.
      * <p>If no SCXML document is provided a default Evaluator will be returned.</p>
+     *
      * @param document The document to return a dedicated Evaluator for. May be null to retrieve the default Evaluator.
      * @return a new and not sharable Evaluator instance for the provided document, or a default Evaluator otherwise
      * @throws ModelException If the SCXML document datamodel is not supported.
@@ -103,7 +104,7 @@ public class EvaluatorFactory {
         String datamodelName = document != null ? document.getDatamodelName() : null;
         EvaluatorProvider provider = INSTANCE.providers.get(datamodelName == null ? Evaluator.DEFAULT_DATA_MODEL : datamodelName);
         if (provider == null) {
-            throw new ModelException("Unsupported SCXML document datamodel \""+(datamodelName)+"\"");
+            throw new ModelException("Unsupported SCXML document datamodel \"" + (datamodelName) + "\"");
         }
         return document != null ? provider.getEvaluator(document) : provider.getEvaluator();
     }

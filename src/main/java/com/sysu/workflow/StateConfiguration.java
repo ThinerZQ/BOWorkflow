@@ -24,9 +24,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- *
  * 一个状态机中当前的活跃状态
- *
+ * <p/>
  * The current active states of a state machine
  */
 public class StateConfiguration implements Serializable {
@@ -51,10 +50,10 @@ public class StateConfiguration implements Serializable {
      * Get the active states
      *
      * @return active states including simple states and their
-     *         complex ancestors up to the root.
+     * complex ancestors up to the root.
      */
     public Set<EnterableState> getActiveStates() {
-        return  activeStatesSet;
+        return activeStatesSet;
     }
 
     /**
@@ -63,21 +62,22 @@ public class StateConfiguration implements Serializable {
      * @return Returns the atomic states - simple (leaf) states only.
      */
     public Set<EnterableState> getStates() {
-        return  atomicStatesSet;
+        return atomicStatesSet;
     }
 
     /**
      * Enter an active state
      * If the state is atomic also record it add it to the current states
+     *
      * @param state state to enter
      */
     public void enterState(final EnterableState state) {
         if (!activeStates.add(state)) {
-            throw new IllegalStateException("State "+state.getId()+" already added.");
+            throw new IllegalStateException("State " + state.getId() + " already added.");
         }
         if (state.isAtomicState()) {
             if (!atomicStates.add(state)) {
-                throw new IllegalStateException("Atomic state "+state.getId()+" already added.");
+                throw new IllegalStateException("Atomic state " + state.getId() + " already added.");
             }
         }
     }
@@ -85,11 +85,12 @@ public class StateConfiguration implements Serializable {
     /**
      * Exit an active state
      * If the state is atomic also remove it from current states
+     *
      * @param state state to exit
      */
     public void exitState(final EnterableState state) {
         if (!activeStates.remove(state)) {
-            throw new IllegalStateException("State "+state.getId()+" not active.");
+            throw new IllegalStateException("State " + state.getId() + " not active.");
         }
         atomicStates.remove(state);
     }

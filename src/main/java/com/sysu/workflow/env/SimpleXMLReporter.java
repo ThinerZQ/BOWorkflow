@@ -32,10 +32,14 @@ import java.io.Serializable;
  */
 public class SimpleXMLReporter implements XMLReporter, Serializable {
 
-    /** Serial version UID. */
+    /**
+     * Serial version UID.
+     */
     private static final long serialVersionUID = 1L;
 
-    /** Log. */
+    /**
+     * Log.
+     */
     private Log log = LogFactory.getLog(getClass());
 
     /**
@@ -49,8 +53,8 @@ public class SimpleXMLReporter implements XMLReporter, Serializable {
      * @see XMLReporter#report(String, String, Object, Location)
      */
     public void report(final String message, final String errorType, final Object relatedInformation,
-            final Location location)
-    throws XMLStreamException {
+                       final Location location)
+            throws XMLStreamException {
         if (log.isWarnEnabled()) {
             log.warn("[" + errorType + "] " + message + " (" + relatedInformation + ") at " + location);
         }

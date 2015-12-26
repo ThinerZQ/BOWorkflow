@@ -32,20 +32,29 @@ import java.io.Serializable;
 
 /**
  * A simple tracer connected to Apache Commons Logging.
- *
  */
 public class Tracer implements ErrorHandler, ErrorReporter,
         SCXMLListener, Serializable, XMLReporter {
 
-    /** Serial version UID. */
+    /**
+     * Serial version UID.
+     */
     private static final long serialVersionUID = 1L;
-    /** ErrorHandler delegate. */
+    /**
+     * ErrorHandler delegate.
+     */
     private ErrorHandler errHandler;
-    /** ErrorReporter delegate. */
+    /**
+     * ErrorReporter delegate.
+     */
     private ErrorReporter errReporter;
-    /** SCXMLListener delegate. */
+    /**
+     * SCXMLListener delegate.
+     */
     private SCXMLListener scxmlListener;
-    /** XMLReporter delegate. */
+    /**
+     * XMLReporter delegate.
+     */
     private XMLReporter xmlReporter;
 
     /**
@@ -63,7 +72,7 @@ public class Tracer implements ErrorHandler, ErrorReporter,
      * @see ErrorHandler#warning(SAXParseException)
      */
     public void warning(final SAXParseException exception)
-    throws SAXException {
+            throws SAXException {
         errHandler.warning(exception);
     }
 
@@ -71,7 +80,7 @@ public class Tracer implements ErrorHandler, ErrorReporter,
      * @see ErrorHandler#error(SAXParseException)
      */
     public void error(final SAXParseException exception)
-    throws SAXException {
+            throws SAXException {
         errHandler.error(exception);
     }
 
@@ -79,7 +88,7 @@ public class Tracer implements ErrorHandler, ErrorReporter,
      * @see ErrorHandler#fatalError(SAXParseException)
      */
     public void fatalError(final SAXParseException exception)
-    throws SAXException {
+            throws SAXException {
         errHandler.fatalError(exception);
     }
 
@@ -87,7 +96,7 @@ public class Tracer implements ErrorHandler, ErrorReporter,
      * @see ErrorReporter#onError(String, String, Object)
      */
     public void onError(final String errCode, final String errDetail,
-            final Object errCtx) {
+                        final Object errCtx) {
         errReporter.onError(errCode, errDetail, errCtx);
     }
 
@@ -106,21 +115,21 @@ public class Tracer implements ErrorHandler, ErrorReporter,
     }
 
     /**
-     * @see SCXMLListener#onTransition(TransitionTarget,TransitionTarget, Transition,String)
+     * @see SCXMLListener#onTransition(TransitionTarget, TransitionTarget, Transition, String)
      */
     public void onTransition(final TransitionTarget from,
-            final TransitionTarget to, final Transition transition, final String event) {
+                             final TransitionTarget to, final Transition transition, final String event) {
         scxmlListener.onTransition(from, to, transition, event);
     }
 
     /**
      * @see XMLReporter#report(String, String, Object, Location)
      */
-	public void report(final String message, final String errorType, final Object relatedInformation,
-			final Location location)
-	throws XMLStreamException {
-		xmlReporter.report(message, errorType, relatedInformation, location);
-	}
+    public void report(final String message, final String errorType, final Object relatedInformation,
+                       final Location location)
+            throws XMLStreamException {
+        xmlReporter.report(message, errorType, relatedInformation, location);
+    }
 
 }
 

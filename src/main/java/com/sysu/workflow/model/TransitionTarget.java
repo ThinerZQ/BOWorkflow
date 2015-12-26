@@ -21,7 +21,6 @@ import java.io.Serializable;
 /**
  * An abstract base class for elements in SCXML that can serve as a
  * &lt;target&gt; for a &lt;transition&gt;, such as State or Parallel.
- *
  */
 public abstract class TransitionTarget implements Serializable, Observable {
 
@@ -63,6 +62,7 @@ public abstract class TransitionTarget implements Serializable, Observable {
 
     /**
      * Sets the observableId for this Observable, which must be unique within the SCXML state machine
+     *
      * @param observableId the observableId
      */
     public final void setObservableId(Integer observableId) {
@@ -96,6 +96,7 @@ public abstract class TransitionTarget implements Serializable, Observable {
 
     /**
      * Get the ancestor of this TransitionTarget at specified level
+     *
      * @param level the level of the ancestor to return, zero being top
      * @return the ancestor at specified level
      */
@@ -140,7 +141,7 @@ public abstract class TransitionTarget implements Serializable, Observable {
      */
     protected void updateDescendantsAncestors() {
         TransitionTarget ttParent = parent;
-        ancestors = new EnterableState[ttParent.ancestors.length+1];
+        ancestors = new EnterableState[ttParent.ancestors.length + 1];
         System.arraycopy(ttParent.ancestors, 0, ancestors, 0, ttParent.ancestors.length);
         ancestors[ttParent.ancestors.length] = parent;
     }
@@ -149,17 +150,17 @@ public abstract class TransitionTarget implements Serializable, Observable {
      * Checks whether this transition target (State or Parallel) is a
      * descendant of the transition target context.
      *
-     * @param context
-     *            TransitionTarget context - a potential ancestor
+     * @param context TransitionTarget context - a potential ancestor
      * @return true if this is a descendant of context, false otherwise
      */
     public final boolean isDescendantOf(TransitionTarget context) {
         return getNumberOfAncestors() > context.getNumberOfAncestors()
                 && getAncestor(context.getNumberOfAncestors()) == context;
     }
-    
+
     /**
      * Enforce identity equality only
+     *
      * @param other other object to compare with
      * @return this == other
      */
@@ -170,6 +171,7 @@ public abstract class TransitionTarget implements Serializable, Observable {
 
     /**
      * Enforce returning identity based hascode
+     *
      * @return {@link System#identityHashCode(Object) System.identityHashCode(this)}
      */
     @Override

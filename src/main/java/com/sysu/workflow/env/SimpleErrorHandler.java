@@ -29,14 +29,22 @@ import java.io.Serializable;
  */
 public class SimpleErrorHandler implements ErrorHandler, Serializable {
 
-    /** Serial version UID. */
+    /**
+     * Serial version UID.
+     */
     private static final long serialVersionUID = 1L;
-    /** Message prefix. */
+    /**
+     * Message prefix.
+     */
     private static final String MSG_PREFIX = "SCXML SAX Parsing: ";
-    /** Message postfix. */
+    /**
+     * Message postfix.
+     */
     private static final String MSG_POSTFIX = " Correct the SCXML document.";
 
-    /** Log. */
+    /**
+     * Log.
+     */
     private Log log = LogFactory.getLog(getClass());
 
     /**
@@ -52,7 +60,7 @@ public class SimpleErrorHandler implements ErrorHandler, Serializable {
     public void error(final SAXParseException exception) {
         if (log.isErrorEnabled()) {
             log.error(MSG_PREFIX + exception.getMessage() + MSG_POSTFIX,
-                exception);
+                    exception);
         }
     }
 
@@ -62,7 +70,7 @@ public class SimpleErrorHandler implements ErrorHandler, Serializable {
     public void fatalError(final SAXParseException exception) {
         if (log.isFatalEnabled()) {
             log.fatal(MSG_PREFIX + exception.getMessage() + MSG_POSTFIX,
-                exception);
+                    exception);
         }
     }
 
@@ -72,7 +80,7 @@ public class SimpleErrorHandler implements ErrorHandler, Serializable {
     public void warning(final SAXParseException exception) {
         if (log.isWarnEnabled()) {
             log.warn(MSG_PREFIX + exception.getMessage() + MSG_POSTFIX,
-                exception);
+                    exception);
         }
     }
 }

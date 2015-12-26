@@ -39,17 +39,17 @@ import java.util.Properties;
  * model. Class uses the visitor pattern to trace through the
  * object heirarchy. Used primarily for testing, debugging and
  * visual verification.</p>
- *
+ * <p/>
  * <b>NOTE:</b> This writer makes the following assumptions about the
  * original SCXML document(s) parsed to create the object model:
  * <ul>
- *  <li>The default document namespace is the SCXML namespace:
- *      <i>http://www.w3.org/2005/07/scxml</i></li>
- *  <li>The Commons SCXML namespace
- *      ( <i>http://commons.apache.org/scxml</i> ), if needed, uses the
- *      &quot;<i>cs</i>&quot; prefix</li>
- *  <li>All namespace prefixes needed throughout the document are
- *      declared on the document root element (&lt;scxml&gt;)</li>
+ * <li>The default document namespace is the SCXML namespace:
+ * <i>http://www.w3.org/2005/07/scxml</i></li>
+ * <li>The Commons SCXML namespace
+ * ( <i>http://commons.apache.org/scxml</i> ), if needed, uses the
+ * &quot;<i>cs</i>&quot; prefix</li>
+ * <li>All namespace prefixes needed throughout the document are
+ * declared on the document root element (&lt;scxml&gt;)</li>
  * </ul>
  *
  * @since 1.0
@@ -152,16 +152,15 @@ public class SCXMLWriter {
     private static final Transformer XFORMER = getTransformer();
 
     //------------------------- PUBLIC API METHODS -------------------------//
+
     /**
      * Write out the Commons SCXML object model as an SCXML document (used
      * primarily for testing, debugging and visual verification), returned as
      * a string.
      *
      * @param scxml The object model to serialize.
-     *
      * @return The corresponding SCXML document as a string.
-     *
-     * @throws IOException An IO error during serialization.
+     * @throws IOException        An IO error during serialization.
      * @throws XMLStreamException An exception processing the underlying {@link XMLStreamWriter}.
      */
     public static String write(final SCXML scxml)
@@ -175,12 +174,10 @@ public class SCXMLWriter {
      * primarily for testing, debugging and visual verification) using the
      * supplied {@link Configuration}, and return as a string.
      *
-     * @param scxml The object model to serialize.
+     * @param scxml         The object model to serialize.
      * @param configuration The {@link Configuration} to use while serializing.
-     *
      * @return The corresponding SCXML document as a string.
-     *
-     * @throws IOException An IO error during serialization.
+     * @throws IOException        An IO error during serialization.
      * @throws XMLStreamException An exception processing the underlying {@link XMLStreamWriter}.
      */
     public static String write(final SCXML scxml, final Configuration configuration)
@@ -201,10 +198,9 @@ public class SCXMLWriter {
      * Write out the Commons SCXML object model as an SCXML document to the
      * supplied {@link OutputStream}.
      *
-     * @param scxml The object model to write out.
+     * @param scxml       The object model to write out.
      * @param scxmlStream The {@link OutputStream} to write to.
-     *
-     * @throws IOException An IO error during serialization.
+     * @throws IOException        An IO error during serialization.
      * @throws XMLStreamException An exception processing the underlying {@link XMLStreamWriter}.
      */
     public static void write(final SCXML scxml, final OutputStream scxmlStream)
@@ -217,11 +213,10 @@ public class SCXMLWriter {
      * Write out the Commons SCXML object model as an SCXML document to the
      * supplied {@link OutputStream} using the given {@link Configuration}.
      *
-     * @param scxml The object model to write out.
-     * @param scxmlStream The {@link OutputStream} to write to.
+     * @param scxml         The object model to write out.
+     * @param scxmlStream   The {@link OutputStream} to write to.
      * @param configuration The {@link Configuration} to use.
-     *
-     * @throws IOException An IO error during serialization.
+     * @throws IOException        An IO error during serialization.
      * @throws XMLStreamException An exception processing the underlying {@link XMLStreamWriter}.
      */
     public static void write(final SCXML scxml, final OutputStream scxmlStream, final Configuration configuration)
@@ -241,10 +236,9 @@ public class SCXMLWriter {
      * Write out the Commons SCXML object model as an SCXML document to the
      * supplied {@link Writer}.
      *
-     * @param scxml The object model to write out.
+     * @param scxml       The object model to write out.
      * @param scxmlWriter The {@link Writer} to write to.
-     *
-     * @throws IOException An IO error during serialization.
+     * @throws IOException        An IO error during serialization.
      * @throws XMLStreamException An exception processing the underlying {@link XMLStreamWriter}.
      */
     public static void write(final SCXML scxml, final Writer scxmlWriter)
@@ -257,11 +251,10 @@ public class SCXMLWriter {
      * Write out the Commons SCXML object model as an SCXML document to the
      * supplied {@link Writer} using the given {@link Configuration}.
      *
-     * @param scxml The object model to write out.
-     * @param scxmlWriter The {@link Writer} to write to.
+     * @param scxml         The object model to write out.
+     * @param scxmlWriter   The {@link Writer} to write to.
      * @param configuration The {@link Configuration} to use.
-     *
-     * @throws IOException An IO error during serialization.
+     * @throws IOException        An IO error during serialization.
      * @throws XMLStreamException An exception processing the underlying {@link XMLStreamWriter}.
      */
     public static void write(final SCXML scxml, final Writer scxmlWriter, final Configuration configuration)
@@ -281,10 +274,9 @@ public class SCXMLWriter {
      * Write out the Commons SCXML object model as an SCXML document to the
      * supplied {@link Result}.
      *
-     * @param scxml The object model to write out.
+     * @param scxml       The object model to write out.
      * @param scxmlResult The {@link Result} to write to.
-     *
-     * @throws IOException An IO error during serialization.
+     * @throws IOException        An IO error during serialization.
      * @throws XMLStreamException An exception processing the underlying {@link XMLStreamWriter}.
      */
     public static void write(final SCXML scxml, final Result scxmlResult)
@@ -297,11 +289,10 @@ public class SCXMLWriter {
      * Write out the Commons SCXML object model as an SCXML document to the
      * supplied {@link Result} using the given {@link Configuration}.
      *
-     * @param scxml The object model to write out.
-     * @param scxmlResult The {@link Result} to write to.
+     * @param scxml         The object model to write out.
+     * @param scxmlResult   The {@link Result} to write to.
      * @param configuration The {@link Configuration} to use.
-     *
-     * @throws IOException An IO error during serialization.
+     * @throws IOException        An IO error during serialization.
      * @throws XMLStreamException An exception processing the underlying {@link XMLStreamWriter}.
      */
     public static void write(final SCXML scxml, final Result scxmlResult, final Configuration configuration)
@@ -371,13 +362,12 @@ public class SCXMLWriter {
      * Write out the Commons SCXML object model using the supplied {@link Configuration}.
      * Exactly one of the stream, writer or result parameters must be provided.
      *
-     * @param scxml The object model to write out.
+     * @param scxml         The object model to write out.
      * @param configuration The {@link Configuration} to use.
-     * @param scxmlStream The optional {@link OutputStream} to write to.
-     * @param scxmlWriter The optional {@link Writer} to write to.
-     * @param scxmlResult The optional {@link Result} to write to.
-     *
-     * @throws IOException An IO error during serialization.
+     * @param scxmlStream   The optional {@link OutputStream} to write to.
+     * @param scxmlWriter   The optional {@link Writer} to write to.
+     * @param scxmlResult   The optional {@link Result} to write to.
+     * @throws IOException        An IO error during serialization.
      * @throws XMLStreamException An exception processing the underlying {@link XMLStreamWriter}.
      */
     private static void writeInternal(final SCXML scxml, final Configuration configuration,
@@ -405,10 +395,9 @@ public class SCXMLWriter {
      * Write out the Commons SCXML object model as an SCXML document using the supplied {@link Configuration}.
      * This method tackles the XML document level concerns.
      *
-     * @param writer The {@link XMLStreamWriter} in use for the serialization.
+     * @param writer        The {@link XMLStreamWriter} in use for the serialization.
      * @param configuration The {@link Configuration} in use.
-     * @param scxml The root of the object model to write out.
-     *
+     * @param scxml         The root of the object model to write out.
      * @throws XMLStreamException An exception processing the underlying {@link XMLStreamWriter}.
      */
     private static void writeDocument(final XMLStreamWriter writer, final Configuration configuration,
@@ -428,8 +417,7 @@ public class SCXMLWriter {
      * Write out this {@link SCXML} object into its serialization as the corresponding &lt;scxml&gt; element.
      *
      * @param writer The {@link XMLStreamWriter} in use for the serialization.
-     * @param scxml The root of the object model to write out.
-     *
+     * @param scxml  The root of the object model to write out.
      * @throws XMLStreamException An exception processing the underlying {@link XMLStreamWriter}.
      */
     private static void writeSCXML(final XMLStreamWriter writer, final SCXML scxml)
@@ -486,9 +474,8 @@ public class SCXMLWriter {
     /**
      * Write out this {@link Datamodel} object into its serialization as the corresponding &lt;datamodel&gt; element.
      *
-     * @param writer The {@link XMLStreamWriter} in use for the serialization.
+     * @param writer    The {@link XMLStreamWriter} in use for the serialization.
      * @param datamodel The {@link Datamodel} to serialize.
-     *
      * @throws XMLStreamException An exception processing the underlying {@link XMLStreamWriter}.
      */
     private static void writeDatamodel(final XMLStreamWriter writer, final Datamodel datamodel)
@@ -520,8 +507,9 @@ public class SCXMLWriter {
 
     /**
      * Write out the TransitionTarget id attribute unless it was auto-generated
+     *
      * @param writer The {@link XMLStreamWriter} in use for the serialization.
-     * @param tt The {@link TransitionTarget} for which to write the id attribute.
+     * @param tt     The {@link TransitionTarget} for which to write the id attribute.
      * @throws XMLStreamException
      */
     private static void writeTransitionTargetId(final XMLStreamWriter writer, final TransitionTarget tt)
@@ -535,8 +523,7 @@ public class SCXMLWriter {
      * Write out this {@link State} object into its serialization as the corresponding &lt;state&gt; element.
      *
      * @param writer The {@link XMLStreamWriter} in use for the serialization.
-     * @param state The {@link State} to serialize.
-     *
+     * @param state  The {@link State} to serialize.
      * @throws XMLStreamException An exception processing the underlying {@link XMLStreamWriter}.
      */
     private static void writeState(final XMLStreamWriter writer, final State state)
@@ -579,9 +566,8 @@ public class SCXMLWriter {
     /**
      * Write out this {@link Parallel} object into its serialization as the corresponding &lt;parallel&gt; element.
      *
-     * @param writer The {@link XMLStreamWriter} in use for the serialization.
+     * @param writer   The {@link XMLStreamWriter} in use for the serialization.
      * @param parallel The {@link Parallel} to serialize.
-     *
      * @throws XMLStreamException An exception processing the underlying {@link XMLStreamWriter}.
      */
     private static void writeParallel(final XMLStreamWriter writer, final Parallel parallel)
@@ -624,8 +610,7 @@ public class SCXMLWriter {
      * Write out this {@link Final} object into its serialization as the corresponding &lt;final&gt; element.
      *
      * @param writer The {@link XMLStreamWriter} in use for the serialization.
-     * @param end The {@link Final} to serialize.
-     *
+     * @param end    The {@link Final} to serialize.
      * @throws XMLStreamException An exception processing the underlying {@link XMLStreamWriter}.
      */
     private static void writeFinal(final XMLStreamWriter writer, final Final end)
@@ -645,9 +630,8 @@ public class SCXMLWriter {
     /**
      * Write out this {@link Initial} object into its serialization as the corresponding &lt;initial&gt; element.
      *
-     * @param writer The {@link XMLStreamWriter} in use for the serialization.
+     * @param writer  The {@link XMLStreamWriter} in use for the serialization.
      * @param initial The {@link Initial} to serialize.
-     *
      * @throws XMLStreamException An exception processing the underlying {@link XMLStreamWriter}.
      */
     private static void writeInitial(final XMLStreamWriter writer, final Initial initial)
@@ -666,9 +650,8 @@ public class SCXMLWriter {
      * Write out this {@link History} list into its serialization as the corresponding set of &lt;history&gt;
      * elements.
      *
-     * @param writer The {@link XMLStreamWriter} in use for the serialization.
+     * @param writer  The {@link XMLStreamWriter} in use for the serialization.
      * @param history The {@link History} list to serialize.
-     *
      * @throws XMLStreamException An exception processing the underlying {@link XMLStreamWriter}.
      */
     private static void writeHistory(final XMLStreamWriter writer, final List<History> history)
@@ -694,15 +677,14 @@ public class SCXMLWriter {
     /**
      * Write out this {@link OnEntry} object into its serialization as the corresponding &lt;onentry&gt; element.
      *
-     * @param writer The {@link XMLStreamWriter} in use for the serialization.
+     * @param writer  The {@link XMLStreamWriter} in use for the serialization.
      * @param onentry The {@link OnEntry} to serialize.
-     *
      * @throws XMLStreamException An exception processing the underlying {@link XMLStreamWriter}.
      */
     private static void writeOnEntry(final XMLStreamWriter writer, final OnEntry onentry)
             throws XMLStreamException {
 
-        if (onentry != null && (onentry.isRaiseEvent() || onentry.getActions().size() > 0 )) {
+        if (onentry != null && (onentry.isRaiseEvent() || onentry.getActions().size() > 0)) {
             writer.writeStartElement(ELEM_ONENTRY);
             writeAV(writer, ATTR_EVENT, onentry.getRaiseEvent());
             writeExecutableContent(writer, onentry.getActions());
@@ -715,7 +697,6 @@ public class SCXMLWriter {
      *
      * @param writer The {@link XMLStreamWriter} in use for the serialization.
      * @param onexit The {@link OnExit} to serialize.
-     *
      * @throws XMLStreamException An exception processing the underlying {@link XMLStreamWriter}.
      */
     private static void writeOnExit(final XMLStreamWriter writer, final OnExit onexit)
@@ -732,9 +713,8 @@ public class SCXMLWriter {
     /**
      * Write out this {@link Transition} object into its serialization as the corresponding &lt;transition&gt; element.
      *
-     * @param writer The {@link XMLStreamWriter} in use for the serialization.
+     * @param writer     The {@link XMLStreamWriter} in use for the serialization.
      * @param transition The {@link Transition} to serialize.
-     *
      * @throws XMLStreamException An exception processing the underlying {@link XMLStreamWriter}.
      */
     private static void writeTransition(final XMLStreamWriter writer, final SimpleTransition transition)
@@ -742,8 +722,8 @@ public class SCXMLWriter {
 
         writer.writeStartElement(ELEM_TRANSITION);
         if (transition instanceof Transition) {
-            writeAV(writer, ATTR_EVENT, ((Transition)transition).getEvent());
-            writeAV(writer, ATTR_COND, escapeXML(((Transition)transition).getCond()));
+            writeAV(writer, ATTR_EVENT, ((Transition) transition).getEvent());
+            writeAV(writer, ATTR_COND, escapeXML(((Transition) transition).getCond()));
         }
 
         writeAV(writer, ATTR_TARGET, transition.getNext());
@@ -759,7 +739,6 @@ public class SCXMLWriter {
      *
      * @param writer The {@link XMLStreamWriter} in use for the serialization.
      * @param invoke The {@link Invoke} to serialize.
-     *
      * @throws XMLStreamException An exception processing the underlying {@link XMLStreamWriter}.
      */
     private static void writeInvoke(final XMLStreamWriter writer, final Invoke invoke)
@@ -788,9 +767,8 @@ public class SCXMLWriter {
     /**
      * Write out this {@link Finalize} object into its serialization as the corresponding &lt;finalize&gt; element.
      *
-     * @param writer The {@link XMLStreamWriter} in use for the serialization.
+     * @param writer   The {@link XMLStreamWriter} in use for the serialization.
      * @param finalize The {@link Finalize} to serialize.
-     *
      * @throws XMLStreamException An exception processing the underlying {@link XMLStreamWriter}.
      */
     private static void writeFinalize(final XMLStreamWriter writer, final Finalize finalize)
@@ -807,9 +785,8 @@ public class SCXMLWriter {
      * Write out this executable content (list of actions) into its serialization as the corresponding set of action
      * elements. Custom actions aren't serialized.
      *
-     * @param writer The {@link XMLStreamWriter} in use for the serialization.
+     * @param writer  The {@link XMLStreamWriter} in use for the serialization.
      * @param actions The list of actions to serialize.
-     *
      * @throws XMLStreamException An exception processing the underlying {@link XMLStreamWriter}.
      */
     private static void writeExecutableContent(final XMLStreamWriter writer, final List<Action> actions)
@@ -880,8 +857,7 @@ public class SCXMLWriter {
      * Write out this {@link Send} object into its serialization as the corresponding &lt;send&gt; element.
      *
      * @param writer The {@link XMLStreamWriter} in use for the serialization.
-     * @param send The {@link Send} to serialize.
-     *
+     * @param send   The {@link Send} to serialize.
      * @throws XMLStreamException An exception processing the underlying {@link XMLStreamWriter}.
      */
     private static void writeSend(final XMLStreamWriter writer, final Send send)
@@ -917,8 +893,7 @@ public class SCXMLWriter {
      * Write out this {@link If} object into its serialization as the corresponding &lt;if&gt; element.
      *
      * @param writer The {@link XMLStreamWriter} in use for the serialization.
-     * @param iff The {@link If} to serialize.
-     *
+     * @param iff    The {@link If} to serialize.
      * @throws XMLStreamException An exception processing the underlying {@link XMLStreamWriter}.
      */
     private static void writeIf(final XMLStreamWriter writer, final If iff)
@@ -933,9 +908,8 @@ public class SCXMLWriter {
     /**
      * Write out this {@link Foreach} object into its serialization as the corresponding &lt;foreach&gt; element.
      *
-     * @param writer The {@link XMLStreamWriter} in use for the serialization.
+     * @param writer  The {@link XMLStreamWriter} in use for the serialization.
      * @param foreach The {@link If} to serialize.
-     *
      * @throws XMLStreamException An exception processing the underlying {@link XMLStreamWriter}.
      */
     private static void writeForeach(final XMLStreamWriter writer, final Foreach foreach)
@@ -952,9 +926,8 @@ public class SCXMLWriter {
     /**
      * Write the {@link Content} element.
      *
-     * @param writer The {@link XMLStreamWriter} in use for the serialization.
+     * @param writer  The {@link XMLStreamWriter} in use for the serialization.
      * @param content The content element to write.
-     *
      * @throws XMLStreamException An exception processing the underlying {@link XMLStreamWriter}.
      */
     private static void writeContent(final XMLStreamWriter writer, final Content content)
@@ -965,17 +938,15 @@ public class SCXMLWriter {
             writeAV(writer, ATTR_EXPR, content.getExpr());
             if (content.getBody() != null) {
                 if (content.getBody() instanceof Node) {
-                    NodeList nodeList = ((Node)content.getBody()).getChildNodes();
+                    NodeList nodeList = ((Node) content.getBody()).getChildNodes();
                     if (nodeList.getLength() > 0 && XFORMER == null) {
                         writer.writeComment("External content was not serialized");
-                    }
-                    else {
+                    } else {
                         for (int i = 0, size = nodeList.getLength(); i < size; i++) {
                             writeNode(writer, nodeList.item(i));
                         }
                     }
-                }
-                else {
+                } else {
                     writer.writeCharacters(content.getBody().toString());
                 }
             }
@@ -986,9 +957,8 @@ public class SCXMLWriter {
     /**
      * Write the serialized body of this {@link ExternalContent} element.
      *
-     * @param writer The {@link XMLStreamWriter} in use for the serialization.
+     * @param writer          The {@link XMLStreamWriter} in use for the serialization.
      * @param externalContent The model element containing the external body content.
-     *
      * @throws XMLStreamException An exception processing the underlying {@link XMLStreamWriter}.
      */
     private static void writeExternalContent(final XMLStreamWriter writer,
@@ -1010,8 +980,7 @@ public class SCXMLWriter {
      * Write out this {@link Node} object into its serialization.
      *
      * @param writer The {@link XMLStreamWriter} in use for the serialization.
-     * @param node The {@link Node} to serialize.
-     *
+     * @param node   The {@link Node} to serialize.
      * @throws XMLStreamException An exception processing the underlying {@link XMLStreamWriter}.
      */
     private static void writeNode(final XMLStreamWriter writer, final Node node)
@@ -1033,10 +1002,9 @@ public class SCXMLWriter {
     /**
      * Write out this attribute, if the value is not <code>null</code>.
      *
-     * @param writer The {@link XMLStreamWriter} in use for the serialization.
+     * @param writer    The {@link XMLStreamWriter} in use for the serialization.
      * @param localName The local name of the attribute.
-     * @param value The attribute value.
-     *
+     * @param value     The attribute value.
      * @throws XMLStreamException An exception processing the underlying {@link XMLStreamWriter}.
      */
     private static void writeAV(final XMLStreamWriter writer, final String localName, final String value)
@@ -1049,10 +1017,9 @@ public class SCXMLWriter {
     /**
      * Write out this attribute, if the value is not <code>null</code>.
      *
-     * @param writer The {@link XMLStreamWriter} in use for the serialization.
+     * @param writer    The {@link XMLStreamWriter} in use for the serialization.
      * @param localName The local name of the attribute.
-     * @param value The attribute value.
-     *
+     * @param value     The attribute value.
      * @throws XMLStreamException An exception processing the underlying {@link XMLStreamWriter}.
      */
     private static void writeAV(final XMLStreamWriter writer, final String localName, final Boolean value)
@@ -1068,11 +1035,10 @@ public class SCXMLWriter {
      * or result parameters must be provided.
      *
      * @param configuration The {@link Configuration} to use.
-     * @param scxmlStream The optional {@link OutputStream} to write to.
-     * @param scxmlWriter The optional {@link Writer} to write to.
-     * @param scxmlResult The optional {@link Result} to write to.
-     *
-     * @throws IOException An IO error during serialization.
+     * @param scxmlStream   The optional {@link OutputStream} to write to.
+     * @param scxmlWriter   The optional {@link Writer} to write to.
+     * @param scxmlResult   The optional {@link Result} to write to.
+     * @throws IOException        An IO error during serialization.
      * @throws XMLStreamException An exception processing the underlying {@link XMLStreamWriter}.
      */
     private static void writePretty(final Configuration configuration, final OutputStream scxmlStream,
@@ -1109,12 +1075,10 @@ public class SCXMLWriter {
      * {@link SCXMLWriter}. Exactly one of the stream, writer or result parameters must be provided.
      *
      * @param configuration The {@link Configuration} to use.
-     * @param stream The optional {@link OutputStream} to write to.
-     * @param writer The optional {@link Writer} to write to.
-     * @param result The optional {@link Result} to write to.
-     *
+     * @param stream        The optional {@link OutputStream} to write to.
+     * @param writer        The optional {@link Writer} to write to.
+     * @param result        The optional {@link Result} to write to.
      * @return The appropriately configured {@link XMLStreamWriter}.
-     *
      * @throws XMLStreamException A problem with the XML stream creation.
      */
     private static XMLStreamWriter getWriter(final Configuration configuration, final OutputStream stream,
@@ -1185,16 +1149,17 @@ public class SCXMLWriter {
     }
 
     //------------------------- CONFIGURATION CLASS -------------------------//
+
     /**
      * <p>
      * Configuration for the {@link SCXMLWriter}. The configuration properties necessary for the following are
      * covered:
      * </p>
-     *
+     * <p/>
      * <ul>
-     *   <li>{@link XMLOutputFactory} configuration properties such as <code>factoryId</code> or any properties</li>
-     *   <li>{@link XMLStreamWriter} configuration properties such as target {@link Writer} or {@link OutputStream}
-     *   and the <code>encoding</code></li>
+     * <li>{@link XMLOutputFactory} configuration properties such as <code>factoryId</code> or any properties</li>
+     * <li>{@link XMLStreamWriter} configuration properties such as target {@link Writer} or {@link OutputStream}
+     * and the <code>encoding</code></li>
      * </ul>
      */
     public static class Configuration {
@@ -1256,6 +1221,7 @@ public class SCXMLWriter {
         /*
          * Public constructors
          */
+
         /**
          * Default constructor.
          */
@@ -1269,15 +1235,15 @@ public class SCXMLWriter {
          * to <code>false</code>). At the moment, the <code>factoryId</code> and <code>factoryClassLoader</code>
          * arguments are effectively ignored due to a bug in the underlying StAX {@link XMLOutputFactory} API.
          *
-         * @param factoryId The <code>factoryId</code> to use.
-         * @param factoryClassLoader The {@link ClassLoader} to use for the {@link XMLOutputFactory} instance to
-         *                           create.
-         * @param properties The map of properties (keys are property name strings, values are object property values)
-         *                   for the {@link XMLOutputFactory}.
-         * @param encoding The <code>encoding</code> to use for the {@link XMLStreamWriter}
-         * @param usePrettyPrint Whether to make the output human readable as far as possible. Since StAX does not
-         *                       provide a portable way to do this in JDK 1.6, choosing the pretty print option
-         *                       is currently not very efficient.
+         * @param factoryId               The <code>factoryId</code> to use.
+         * @param factoryClassLoader      The {@link ClassLoader} to use for the {@link XMLOutputFactory} instance to
+         *                                create.
+         * @param properties              The map of properties (keys are property name strings, values are object property values)
+         *                                for the {@link XMLOutputFactory}.
+         * @param encoding                The <code>encoding</code> to use for the {@link XMLStreamWriter}
+         * @param usePrettyPrint          Whether to make the output human readable as far as possible. Since StAX does not
+         *                                provide a portable way to do this in JDK 1.6, choosing the pretty print option
+         *                                is currently not very efficient.
          * @param closeUnderlyingWhenDone Whether to close the underlying stream or writer passed by the caller.
          */
         public Configuration(final String factoryId, final ClassLoader factoryClassLoader,
@@ -1290,10 +1256,11 @@ public class SCXMLWriter {
         /*
          * Package access constructors
          */
+
         /**
          * Convenience package access constructor.
          *
-         * @param writeToString Whether we will be returning the serialization as a string.
+         * @param writeToString  Whether we will be returning the serialization as a string.
          * @param usePrettyPrint Whether we will attempt to make the output human readable as far as possible.
          */
         Configuration(final boolean writeToString, final boolean usePrettyPrint) {
@@ -1304,17 +1271,17 @@ public class SCXMLWriter {
         /**
          * All-purpose package access constructor.
          *
-         * @param factoryId The <code>factoryId</code> to use.
-         * @param factoryClassLoader The {@link ClassLoader} to use for the {@link XMLOutputFactory} instance to
-         *                           create.
-         * @param properties The map of properties (keys are property name strings, values are object property values)
-         *                   for the {@link XMLOutputFactory}.
-         * @param encoding The <code>encoding</code> to use for the {@link XMLStreamWriter}
-         * @param usePrettyPrint Whether to make the output human readable as far as possible. Since StAX does not
-         *                       provide a portable way to do this in JDK 1.6, choosing the pretty print option
-         *                       is currently not very efficient.
+         * @param factoryId               The <code>factoryId</code> to use.
+         * @param factoryClassLoader      The {@link ClassLoader} to use for the {@link XMLOutputFactory} instance to
+         *                                create.
+         * @param properties              The map of properties (keys are property name strings, values are object property values)
+         *                                for the {@link XMLOutputFactory}.
+         * @param encoding                The <code>encoding</code> to use for the {@link XMLStreamWriter}
+         * @param usePrettyPrint          Whether to make the output human readable as far as possible. Since StAX does not
+         *                                provide a portable way to do this in JDK 1.6, choosing the pretty print option
+         *                                is currently not very efficient.
          * @param closeUnderlyingWhenDone Whether to close the underlying stream or writer passed by the caller.
-         * @param writeToString Whether to maintain an internal writer to return the serialization as a string.
+         * @param writeToString           Whether to maintain an internal writer to return the serialization as a string.
          */
         Configuration(final String factoryId, final ClassLoader factoryClassLoader,
                       final Map<String, Object> properties, final String encoding, final boolean usePrettyPrint,

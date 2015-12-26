@@ -22,7 +22,6 @@ import com.sysu.workflow.SCXMLExpressionException;
 /**
  * The class in this SCXML object model that corresponds to the
  * &lt;elseif&gt; SCXML element.
- *
  */
 public class ElseIf extends Action {
 

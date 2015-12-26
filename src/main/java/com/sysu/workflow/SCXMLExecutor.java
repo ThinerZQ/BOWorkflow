@@ -32,10 +32,10 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * <p>The SCXML &quot;engine&quot; that executes SCXML documents. The
  * particular semantics used by this engine for executing the SCXML are
  * encapsulated in the SCXMLSemantics implementation that it uses.</p>
- *
+ * <p/>
  * <p>The default implementation is
  * <code>SCXMLSemanticsImpl</code></p>
- *
+ * <p/>
  * <p>The executor uses SCXMLExecutionContext to manage the state and
  * provide all the services to the SCXMLSemantics implementation.</p>
  *
@@ -54,7 +54,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
     private SCXMLExecutor parentSCXMLExecutor;
 
     /**
-     *  Interpretation semantics.
+     * Interpretation semantics.
      */
     private SCXMLSemantics semantics;
 
@@ -79,8 +79,8 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
      * Constructor.
      *
      * @param expEvaluator The expression evaluator
-     * @param evtDisp The event dispatcher
-     * @param errRep The error reporter
+     * @param evtDisp      The event dispatcher
+     * @param errRep       The error reporter
      */
     public SCXMLExecutor(final Evaluator expEvaluator,
                          final EventDispatcher evtDisp, final ErrorReporter errRep) {
@@ -91,9 +91,9 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
      * Constructor.
      *
      * @param expEvaluator The expression evaluator
-     * @param evtDisp The event dispatcher
-     * @param errRep The error reporter
-     * @param semantics The SCXML semantics
+     * @param evtDisp      The event dispatcher
+     * @param errRep       The error reporter
+     * @param semantics    The SCXML semantics
      */
     public SCXMLExecutor(final Evaluator expEvaluator,
                          final EventDispatcher evtDisp, final ErrorReporter errRep,
@@ -136,9 +136,10 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
      * This will first (re)initialize the current state machine: clearing all variable contexts, histories and current
      * status, and clones the SCXML root datamodel into the root context.
      * </p>
+     *
      * @param atomicStateIds The set of atomic state ids for the state machine
      * @throws ModelException when the state machine hasn't been properly configured yet, when an unknown or illegal
-     * stateId is specified, or when the specified active configuration does not represent a legal configuration.
+     *                        stateId is specified, or when the specified active configuration does not represent a legal configuration.
      * @see SCInstance#initialize()
      * @see SCXMLSemantics#isLegalConfiguration(Set, ErrorReporter)
      */
@@ -147,14 +148,13 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
         Set<EnterableState> states = new HashSet<EnterableState>();
         for (String stateId : atomicStateIds) {
             TransitionTarget tt = getStateMachine().getTargets().get(stateId);
-            if (tt instanceof EnterableState && ((EnterableState)tt).isAtomicState()) {
-                EnterableState es = (EnterableState)tt;
+            if (tt instanceof EnterableState && ((EnterableState) tt).isAtomicState()) {
+                EnterableState es = (EnterableState) tt;
                 while (es != null && !states.add(es)) {
                     es = es.getParent();
                 }
-            }
-            else {
-                throw new ModelException("Illegal atomic stateId "+stateId+": state unknown or not an atomic state");
+            } else {
+                throw new ModelException("Illegal atomic stateId " + stateId + ": state unknown or not an atomic state");
             }
         }
         if (semantics.isLegalConfiguration(states, getErrorReporter())) {
@@ -162,8 +162,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
                 exctx.getScInstance().getStateConfiguration().enterState(es);
             }
             logState();
-        }
-        else {
+        } else {
             throw new ModelException("Illegal state machine configuration!");
         }
     }
@@ -177,6 +176,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
      * <p>
      * Also the external event queue will be cleared.
      * </p>
+     *
      * @param evaluator The evaluator to set
      * @throws ModelException if attempting to set a null value or the state machine instance failed to re-initialize
      */
@@ -211,6 +211,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
      * The global context is the top level context within the state machine itself and should be regarded and treated
      * "read-only" from external usage.
      * </p>
+     *
      * @return Context The global context.
      */
     public Context getGlobalContext() {
@@ -260,6 +261,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
      * <p>
      * Also the external event queue will be cleared.
      * </p>
+     *
      * @param stateMachine The state machine to set
      * @throws ModelException if attempting to set a null value or the state machine instance failed to re-initialize
      */
@@ -306,6 +308,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
 
     /**
      * Set if the SCXML configuration should be checked before execution (default = true)
+     *
      * @param checkLegalConfiguration flag to set
      */
     public void setCheckLegalConfiguration(boolean checkLegalConfiguration) {
@@ -332,7 +335,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
      * Add a listener to the {@link Observable}.
      *
      * @param observable The {@link Observable} to attach the listener to.
-     * @param listener The SCXMLListener.
+     * @param listener   The SCXMLListener.
      */
     public void addListener(final Observable observable, final SCXMLListener listener) {
         exctx.getNotificationRegistry().addListener(observable, listener);
@@ -342,7 +345,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
      * Remove this listener from the {@link Observable}.
      *
      * @param observable The {@link Observable}.
-     * @param listener The SCXMLListener to be removed.
+     * @param listener   The SCXMLListener to be removed.
      */
     public void removeListener(final Observable observable,
                                final SCXMLListener listener) {
@@ -352,7 +355,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
     /**
      * Register an Invoker for this target type.
      *
-     * @param type The target type (specified by "type" attribute of the invoke element).
+     * @param type         The target type (specified by "type" attribute of the invoke element).
      * @param invokerClass The Invoker class.
      */
     public void registerInvokerClass(final String type, final Class<? extends Invoker> invokerClass) {
@@ -378,6 +381,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
      * for {@link #addEvent(TriggerEvent)} which might still be used (concurrently) by running Invokers, or
      * {@link #hasPendingEvents()} to check for possible pending events.
      * </p>
+     *
      * @return the detached instance
      */
     public SCInstance detachInstance() {
@@ -389,6 +393,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
      * <p>
      * Note: an already attached instance will get overwritten (and thus lost).
      * </p>
+     *
      * @param instance An previously detached SCInstance
      */
     public void attachInstance(SCInstance instance) {
@@ -406,7 +411,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
      * Initiate state machine execution.
      *
      * @throws ModelException in case there is a fatal SCXML object
-     *  model problem.
+     *                        model problem.
      */
     public void go() throws ModelException {
         // same as reset
@@ -432,6 +437,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
      * <p>
      * No processing of the vent will be done, until the next triggerEvent methods is invoked.
      * </p>
+     *
      * @param evt an external event
      */
     public void addEvent(final TriggerEvent evt) {
@@ -457,11 +463,10 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
     /**
      * Convenience method when only one event needs to be triggered.
      *
-     * @param evt
-     *            the external events which triggered during the last
+     * @param evt the external events which triggered during the last
      *            time quantum
      * @throws ModelException in case there is a fatal SCXML object
-     *            model problem.
+     *                        model problem.
      */
     public void triggerEvent(final TriggerEvent evt)
             throws ModelException {
@@ -473,11 +478,10 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
      * The worker method.
      * Re-evaluates current status whenever any events are triggered.
      *
-     * @param evts
-     *            an array of external events which triggered during the last
-     *            time quantum
+     * @param evts an array of external events which triggered during the last
+     *             time quantum
      * @throws ModelException in case there is a fatal SCXML object
-     *            model problem.
+     *                        model problem.
      */
     public void triggerEvents(final TriggerEvent[] evts)
             throws ModelException {
@@ -491,6 +495,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
 
     /**
      * Trigger all pending and incoming events, until there are no more pending events
+     *
      * @throws ModelException in case there is a fatal SCXML object model problem.
      */
     public void triggerEvents() throws ModelException {

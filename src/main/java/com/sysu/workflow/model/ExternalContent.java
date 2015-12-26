@@ -25,7 +25,6 @@ import java.util.List;
  * element in the SCXML document that may contain &quot;body
  * content&quot;, which means an arbitrary number of child nodes
  * belonging to external namespaces.
- *
  */
 public interface ExternalContent {
 

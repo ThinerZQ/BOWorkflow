@@ -50,7 +50,7 @@ public class SCXMLTestHelper {
     public static final String SERIALIZATION_FILE_SUFFIX = ".ser";
 
     // Generate a unique sequence number for the serialization files
-    private static int sequence=0;
+    private static int sequence = 0;
 
     private synchronized static String getSequenceNumber() {
         return Integer.toString(++sequence);
@@ -129,16 +129,16 @@ public class SCXMLTestHelper {
         if (tt == null || !(tt instanceof EnterableState)) {
             return null;
         }
-        return exec.getSCInstance().lookupContext((EnterableState)tt);
+        return exec.getSCInstance().lookupContext((EnterableState) tt);
     }
 
     public static void assertState(SCXMLExecutor exec, String expectedStateId) throws Exception {
         Set<EnterableState> currentStates = exec.getStatus().getStates();
         Assert.assertEquals("Expected 1 simple (leaf) state with id '"
-            + expectedStateId + "' but found " + currentStates.size() + " states instead.",
-            1, currentStates.size());
+                        + expectedStateId + "' but found " + currentStates.size() + " states instead.",
+                1, currentStates.size());
         Assert.assertEquals(expectedStateId, currentStates.iterator().
-            next().getId());
+                next().getId());
     }
 
     public static Set<EnterableState> fireEvent(SCXMLExecutor exec, String name) throws Exception {
@@ -162,62 +162,62 @@ public class SCXMLTestHelper {
     }
 
     public static void assertPostTriggerState(SCXMLExecutor exec,
-            String triggerEventName, String expectedStateId) throws Exception {
+                                              String triggerEventName, String expectedStateId) throws Exception {
         assertPostTriggerState(exec, triggerEventName, null, expectedStateId);
     }
 
     public static void assertPostTriggerState(SCXMLExecutor exec,
-            String triggerEventName, Object payload, String expectedStateId) throws Exception {
+                                              String triggerEventName, Object payload, String expectedStateId) throws Exception {
         assertPostTriggerState(exec, new TriggerEvent(triggerEventName,
                 TriggerEvent.SIGNAL_EVENT, payload), expectedStateId);
     }
 
     public static void assertPostTriggerStates(SCXMLExecutor exec,
-            String triggerEventName, String[] expectedStateIds) throws Exception {
+                                               String triggerEventName, String[] expectedStateIds) throws Exception {
         assertPostTriggerStates(exec, triggerEventName, null, expectedStateIds);
     }
 
     public static void assertPostTriggerStates(SCXMLExecutor exec,
-            String triggerEventName, Object payload, String[] expectedStateIds) throws Exception {
+                                               String triggerEventName, Object payload, String[] expectedStateIds) throws Exception {
         assertPostTriggerStates(exec, new TriggerEvent(triggerEventName,
                 TriggerEvent.SIGNAL_EVENT, payload), expectedStateIds);
     }
 
     public static void assertPostTriggerState(SCXMLExecutor exec,
-            TriggerEvent triggerEvent, String expectedStateId) throws Exception {
+                                              TriggerEvent triggerEvent, String expectedStateId) throws Exception {
         Set<EnterableState> currentStates = fireEvent(exec, triggerEvent);
         Assert.assertEquals("Expected 1 simple (leaf) state with id '"
-            + expectedStateId + "' on firing event " + triggerEvent
-            + " but found " + currentStates.size() + " states instead.",
-            1, currentStates.size());
+                        + expectedStateId + "' on firing event " + triggerEvent
+                        + " but found " + currentStates.size() + " states instead.",
+                1, currentStates.size());
         Assert.assertEquals(expectedStateId, currentStates.iterator().
-            next().getId());
+                next().getId());
     }
 
     public static void assertPostTriggerStates(SCXMLExecutor exec,
-            TriggerEvent triggerEvent, String[] expectedStateIds) throws Exception {
+                                               TriggerEvent triggerEvent, String[] expectedStateIds) throws Exception {
         if (expectedStateIds == null || expectedStateIds.length == 0) {
             Assert.fail("Must specify an array of one or more "
-                + "expected state IDs");
+                    + "expected state IDs");
         }
         Set<EnterableState> currentStates = fireEvent(exec, triggerEvent);
         int n = expectedStateIds.length;
         Assert.assertEquals("Expected " + n + " simple (leaf) state(s) "
-            + " on firing event " + triggerEvent + " but found "
-            + currentStates.size() + " states instead.",
-            n, currentStates.size());
+                        + " on firing event " + triggerEvent + " but found "
+                        + currentStates.size() + " states instead.",
+                n, currentStates.size());
         List<String> expectedStateIdList = new ArrayList<String>(Arrays.asList(expectedStateIds));
         for (TransitionTarget tt : currentStates) {
             String stateId = tt.getId();
-            if(!expectedStateIdList.remove(stateId)) {
+            if (!expectedStateIdList.remove(stateId)) {
                 Assert.fail("Expected state with id '" + stateId
-                    + "' in current states on firing event "
-                    + triggerEvent);
+                        + "' in current states on firing event "
+                        + triggerEvent);
             }
         }
         Assert.assertEquals("More states in current configuration than those"
-            + "specified in the expected state ids '" + expectedStateIds
-            + "'", 0, expectedStateIdList.size());
+                + "specified in the expected state ids '" + expectedStateIds
+                + "'", 0, expectedStateIdList.size());
     }
 
     public static SCXML testModelSerializability(final SCXML scxml) throws Exception {
@@ -226,14 +226,14 @@ public class SCXMLTestHelper {
             fileDir.mkdirs();
         }
         String filename = SERIALIZATION_FILE_PREFIX
-            + getSequenceNumber() + SERIALIZATION_FILE_SUFFIX;
+                + getSequenceNumber() + SERIALIZATION_FILE_SUFFIX;
         SCXML roundtrip = null;
         ObjectOutputStream out =
-            new ObjectOutputStream(new FileOutputStream(filename));
+                new ObjectOutputStream(new FileOutputStream(filename));
         out.writeObject(scxml);
         out.close();
         ObjectInputStream in =
-            new ObjectInputStream(new FileInputStream(filename));
+                new ObjectInputStream(new FileInputStream(filename));
         roundtrip = (SCXML) in.readObject();
         in.close();
         return roundtrip;
@@ -245,13 +245,13 @@ public class SCXMLTestHelper {
             fileDir.mkdirs();
         }
         String filename = SERIALIZATION_FILE_PREFIX
-            + getSequenceNumber() + SERIALIZATION_FILE_SUFFIX;
+                + getSequenceNumber() + SERIALIZATION_FILE_SUFFIX;
         ObjectOutputStream out =
-            new ObjectOutputStream(new FileOutputStream(filename));
+                new ObjectOutputStream(new FileOutputStream(filename));
         out.writeObject(exec.detachInstance());
         out.close();
         ObjectInputStream in =
-            new ObjectInputStream(new FileInputStream(filename));
+                new ObjectInputStream(new FileInputStream(filename));
         exec.attachInstance((SCInstance) in.readObject());
         in.close();
         return exec;

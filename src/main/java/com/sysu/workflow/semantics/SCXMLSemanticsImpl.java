@@ -28,14 +28,14 @@ import java.util.*;
  * 封装和实现了 SCXML解释器的算法部分
  * This class encapsulate and implements the
  * <a href="http://www.w3.org/TR/2014/CR-scxml-20140313/#AlgorithmforSCXMLInterpretation">
- *     W3C SCXML Algorithm for SCXML Interpretation</a>
- *
+ * W3C SCXML Algorithm for SCXML Interpretation</a>
+ * <p/>
  * 自定义语义可以通过继承这个类来实现
  * <p>Custom semantics can be created by sub-classing this implementation.</p>
- *
+ * <p/>
  * 这个实现是无状态的，所有的方法都是公共可访问的
  * <p>This implementation is full stateless and all methods are public accessible to make
- *
+ * <p/>
  * 很容易扩展，重用，测试他的行为
  * it easier to extend, reuse and test its behavior.</p>
  */
@@ -77,9 +77,10 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
      * If the state machine no longer is running after all this, first the {@link #finalStep(SCXMLExecutionContext)}
      * will be called for cleanup before returning.
      * </p>
+     *
      * @param exctx The execution context for this step
      * @throws ModelException if the state machine instance failed to initialize or a SCXML model error occurred during
-     * the execution.
+     *                        the execution.
      */
     public void firstStep(final SCXMLExecutionContext exctx) throws ModelException {
         // (re)initialize the execution context and state machine instance
@@ -124,6 +125,7 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
      * If the state machine no longer is running after all this, first the {@link #finalStep(SCXMLExecutionContext)}
      * will be called for cleanup before returning.
      * </p>
+     *
      * @param exctx The execution context for this step
      * @param event The event to process
      * @throws ModelException if a SCXML model error occurred during the execution.
@@ -134,8 +136,7 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
         }
         if (isCancelEvent(event)) {
             exctx.stopRunning();
-        }
-        else {
+        } else {
             setSystemEventVariable(exctx.getScInstance(), event, false);
             processInvokes(exctx, event);
             Step step = new Step(event);
@@ -167,8 +168,9 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
      * This final step will exit all remaining active states and cancel any active invokers.
      * </p>
      * <p>
-     *  <em>TODO: the current implementation does not yet provide final donedata handling.</em>
+     * <em>TODO: the current implementation does not yet provide final donedata handling.</em>
      * </p>
+     *
      * @param exctx The execution context for this step
      * @throws ModelException if a SCXML model error occurred during the execution.
      */
@@ -184,7 +186,7 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
             }
             if (es instanceof TransitionalState) {
                 // check if invokers are active in this state
-                for (Invoke inv : ((TransitionalState)es).getInvokes()) {
+                for (Invoke inv : ((TransitionalState) es).getInvokes()) {
                     exctx.cancelInvoker(inv);
                 }
             }
@@ -200,11 +202,12 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
 
     /**
      * Perform a micro step in the execution of a state machine.
-     * <p>
+     * <p/>
      * This micro step is corresponding to the Algorithm for SCXML processing microstep() procedure.
-     * <p>
-     * @param exctx The execution context for this step
-     * @param step The current micro step
+     * <p/>
+     *
+     * @param exctx          The execution context for this step
+     * @param step           The current micro step
      * @param statesToInvoke the set of activated states which invokes need to be invoked at the end of the current
      *                       macro step
      * @throws ModelException if a SCXML model error occurred during the execution.
@@ -223,7 +226,7 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
      * buildStep builds the exitSet and entrySet for the current configuration given the transitionList on the step.
      *
      * @param exctx The SCXML execution context
-     * @param step The step containing the list of transitions to be taken
+     * @param step  The step containing the list of transitions to be taken
      * @throws ModelException if the result of taking the transitions would lead to an illegal configuration
      */
     public void buildStep(final SCXMLExecutionContext exctx, final Step step) throws ModelException {
@@ -252,12 +255,13 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
 
     /**
      * Perform a macro step in the execution of a state machine.
-     * <p>
+     * <p/>
      * This macro step is corresponding to the Algorithm for SCXML processing mainEventLoop() procedure macro step
      * sub-flow, which are the first <em>3</em> steps of the described <em>4</em>, so everything up to the blocking
      * wait for an external event.
-     * <p>
-     * @param exctx The execution context for this step
+     * <p/>
+     *
+     * @param exctx          The execution context for this step
      * @param statesToInvoke the set of activated states which invokes need to be invoked at the end of the current
      *                       macro step
      * @throws ModelException if a SCXML model error occurred during the execution.
@@ -274,8 +278,7 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
                     if (event != null) {
                         if (isCancelEvent(event)) {
                             exctx.stopRunning();
-                        }
-                        else {
+                        } else {
                             setSystemEventVariable(exctx.getScInstance(), event, true);
                             step = new Step(event);
                             selectTransitions(exctx, step);
@@ -284,8 +287,7 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
                 }
                 if (step.getTransitList().isEmpty()) {
                     macroStepDone = true;
-                }
-                else {
+                } else {
                     microStep(exctx, step, statesToInvoke);
                 }
 
@@ -300,10 +302,11 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
 
     /**
      * Compute and store the set of states to exit for the current list of transitions in the provided step.
-     * <p>
+     * <p/>
      * This method corresponds to the Algorithm for SCXML processing computeExitSet() procedure.
-     * <p>
-     * @param step The step containing the list of transitions to be taken
+     * <p/>
+     *
+     * @param step               The step containing the list of transitions to be taken
      * @param stateConfiguration The current configuration of the state machine ({@link SCInstance#getStateConfiguration()}).
      */
     public void computeExitSet(final Step step, final StateConfiguration stateConfiguration) {
@@ -317,11 +320,12 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
 
     /**
      * Compute and store the set of states to exit for one specific transition in the provided step.
-     * <p>
+     * <p/>
      * This method corresponds to the Algorithm for SCXML processing computeExitSet() procedure.
-     * <p>
-     * @param transition The transition to compute the states to exit from
-     * @param exitSet The set for adding the states to exit to
+     * <p/>
+     *
+     * @param transition   The transition to compute the states to exit from
+     * @param exitSet      The set for adding the states to exit to
      * @param activeStates The current active states of the state machine ({@link StateConfiguration#getActiveStates()}).
      */
     public void computeExitSet(SimpleTransition transition, Set<EnterableState> exitSet, Set<EnterableState> activeStates) {
@@ -330,8 +334,7 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
             if (transitionDomain == null) {
                 // root transition: every active state will be exited
                 exitSet.addAll(activeStates);
-            }
-            else {
+            } else {
                 for (EnterableState state : activeStates) {
                     if (state.isDescendantOf(transitionDomain)) {
                         exitSet.add(state);
@@ -352,14 +355,15 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
      * history configurations will be persisted during the actual {@link #exitStates(SCXMLExecutionContext, Step, Set)}
      * processing.
      * </p>
-     * @param step The step containing the list of states to exit, and the map to record the new history configurations
+     *
+     * @param step         The step containing the list of states to exit, and the map to record the new history configurations
      * @param atomicStates The current set of active atomic states in the state machine
      * @param activeStates The current set of all active states in the state machine
      */
     public void recordHistory(final Step step, final Set<EnterableState> atomicStates, final Set<EnterableState> activeStates) {
         for (EnterableState es : step.getExitSet()) {
-            if (es instanceof TransitionalState && ((TransitionalState)es).hasHistory()) {
-                TransitionalState ts = (TransitionalState)es;
+            if (es instanceof TransitionalState && ((TransitionalState) es).hasHistory()) {
+                TransitionalState ts = (TransitionalState) es;
                 Set<EnterableState> shallow = null;
                 Set<EnterableState> deep = null;
                 for (History h : ts.getHistory()) {
@@ -389,11 +393,12 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
 
     /**
      * Compute and store the set of states to enter for the current list of transitions in the provided step.
-     * <p>
+     * <p/>
      * This method corresponds to the Algorithm for SCXML processing computeEntrySet() procedure.
-     * <p>
+     * <p/>
+     *
      * @param exctx The execution context for this step
-     * @param step The step containing the list of transitions to be taken
+     * @param step  The step containing the list of transitions to be taken
      */
     public void computeEntrySet(final SCXMLExecutionContext exctx, final Step step) {
         Set<History> historyTargets = new HashSet<History>();
@@ -402,10 +407,9 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
             for (TransitionTarget tt : st.getTargets()) {
                 if (tt instanceof EnterableState) {
                     entrySet.add((EnterableState) tt);
-                }
-                else {
+                } else {
                     // History
-                    historyTargets.add((History)tt);
+                    historyTargets.add((History) tt);
                 }
             }
         }
@@ -427,11 +431,11 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
      * This method corresponds to the Algorithm for SCXML processing addDescendantStatesToEnter() procedure.
      *
      * @param exctx The execution context for this step
-     * @param step The step
-     * @param tt The TransitionTarget
+     * @param step  The step
+     * @param tt    The TransitionTarget
      */
     public void addDescendantStatesToEnter(final SCXMLExecutionContext exctx, final Step step,
-                                              final TransitionTarget tt) {
+                                           final TransitionTarget tt) {
         if (tt instanceof History) {
             History h = (History) tt;
             Set<EnterableState> lastConfiguration = step.getNewHistoryConfigurations().get(h);
@@ -454,23 +458,21 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
                     addAncestorStatesToEnter(exctx, step, dtt, tt.getParent());
                 }
             }
-        }
-        else { // tt instanceof EnterableState
-            EnterableState es = (EnterableState)tt;
+        } else { // tt instanceof EnterableState
+            EnterableState es = (EnterableState) tt;
             step.getEntrySet().add(es);
             if (es instanceof Parallel) {
-                for (EnterableState child : ((Parallel)es).getChildren()) {
+                for (EnterableState child : ((Parallel) es).getChildren()) {
                     if (!containsDescendant(step.getEntrySet(), child)) {
                         addDescendantStatesToEnter(exctx, step, child);
                     }
                 }
-            }
-            else if (es instanceof State && ((State) es).isComposite()) {
+            } else if (es instanceof State && ((State) es).isComposite()) {
                 step.getDefaultEntrySet().add(es);
-                for (TransitionTarget dtt : ((State)es).getInitial().getTransition().getTargets()) {
+                for (TransitionTarget dtt : ((State) es).getInitial().getTransition().getTargets()) {
                     addDescendantStatesToEnter(exctx, step, dtt);
                 }
-                for (TransitionTarget dtt : ((State)es).getInitial().getTransition().getTargets()) {
+                for (TransitionTarget dtt : ((State) es).getInitial().getTransition().getTargets()) {
                     addAncestorStatesToEnter(exctx, step, dtt, tt);
                 }
             }
@@ -480,22 +482,22 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
     /**
      * This method corresponds to the Algorithm for SCXML processing addAncestorStatesToEnter() procedure.
      *
-     * @param exctx The execution context for this step
-     * @param step The step
-     * @param tt The TransitionTarget
+     * @param exctx    The execution context for this step
+     * @param step     The step
+     * @param tt       The TransitionTarget
      * @param ancestor The ancestor TransitionTarget
      */
     public void addAncestorStatesToEnter(final SCXMLExecutionContext exctx, final Step step,
-                                            final TransitionTarget tt, TransitionTarget ancestor) {
+                                         final TransitionTarget tt, TransitionTarget ancestor) {
         // for for anc in getProperAncestors(tt,ancestor)
-        for (int i = tt.getNumberOfAncestors()-1; i > -1; i--) {
+        for (int i = tt.getNumberOfAncestors() - 1; i > -1; i--) {
             EnterableState anc = tt.getAncestor(i);
             if (anc == ancestor) {
                 break;
             }
             step.getEntrySet().add(anc);
             if (anc instanceof Parallel) {
-                for (EnterableState child : ((Parallel)anc).getChildren()) {
+                for (EnterableState child : ((Parallel) anc).getChildren()) {
                     if (!containsDescendant(step.getEntrySet(), child)) {
                         addDescendantStatesToEnter(exctx, step, child);
                     }
@@ -506,9 +508,9 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
     }
 
     /**
-     * @return Returns true if a member of the provided states set is a descendant of the provided state.
      * @param states the set of states to check for descendants
-     * @param state the state to check with
+     * @param state  the state to check with
+     * @return Returns true if a member of the provided states set is a descendant of the provided state.
      */
     public boolean containsDescendant(Set<EnterableState> states, EnterableState state) {
         for (EnterableState es : states) {
@@ -522,9 +524,10 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
     /**
      * This method corresponds to the Algorithm for SCXML processing selectTransitions() as well as the
      * selectEventlessTransitions() procedure, depending on the event (or null) in the provided step
-     * <p>
+     * <p/>
+     *
      * @param exctx The execution context for this step
-     * @param step The step
+     * @param step  The step
      * @throws ModelException if there is a fatal SCXML state error
      */
     public void selectTransitions(final SCXMLExecutionContext exctx, final Step step) throws ModelException {
@@ -532,7 +535,7 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
         ArrayList<Transition> enabledTransitions = new ArrayList<Transition>();
 
         ArrayList<EnterableState> configuration = new ArrayList<EnterableState>(exctx.getScInstance().getStateConfiguration().getActiveStates());
-        Collections.sort(configuration,DocumentOrder.documentOrderComparator);
+        Collections.sort(configuration, DocumentOrder.documentOrderComparator);
 
         HashSet<EnterableState> visited = new HashSet<EnterableState>();
 
@@ -545,14 +548,13 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
                         // should not happen: a top level active Final state should have stopped the state machine
                         throw new ModelException("Illegal state machine configuration: encountered top level <final> "
                                 + "state while processing an event");
-                    }
-                    else {
+                    } else {
                         es = es.getParent();
                     }
                 }
-                TransitionalState state = (TransitionalState)es;
+                TransitionalState state = (TransitionalState) es;
                 TransitionalState current = state;
-                int ancestorIndex = state.getNumberOfAncestors()-1;
+                int ancestorIndex = state.getNumberOfAncestors() - 1;
                 boolean transitionMatched = false;
                 do {
                     for (Transition transition : current.getTransitionsList()) {
@@ -571,8 +573,8 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
     /**
      * This method corresponds to the Algorithm for SCXML processing removeConflictingTransitions() procedure.
      *
-     * @param exctx The execution context for this step
-     * @param step The step
+     * @param exctx              The execution context for this step
+     * @param step               The step
      * @param enabledTransitions The list of enabled transitions
      */
     public void removeConflictingTransitions(final SCXMLExecutionContext exctx, final Step step,
@@ -611,8 +613,7 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
                 if (hasIntersection) {
                     if (t1.getParent().isDescendantOf(t2.getParent())) {
                         preemptedTransitions.add(t2);
-                    }
-                    else {
+                    } else {
                         t1Preempted = true;
                         break;
                     }
@@ -620,8 +621,7 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
             }
             if (t1Preempted) {
                 exitSets.remove(t1);
-            }
-            else {
+            } else {
                 for (Transition preempted : preemptedTransitions) {
                     filteredTransitions.remove(preempted);
                     exitSets.remove(preempted);
@@ -633,11 +633,11 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
     }
 
     /**
-     * @param exctx The execution context for this step
+     * @param exctx      The execution context for this step
      * @param transition The transition
-     * @param eventName The (optional) event name to match against
+     * @param eventName  The (optional) event name to match against
      * @return Returns true if the transition matches against the provided eventName, or is event-less when no eventName
-     *         is provided, <em>AND</em> its (optional) condition guard evaluates to true.
+     * is provided, <em>AND</em> its (optional) condition guard evaluates to true.
      */
     public boolean matchTransition(final SCXMLExecutionContext exctx, final Transition transition, final String eventName) {
         if (eventName != null) {
@@ -645,7 +645,7 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
                 boolean eventMatch = false;
                 for (String event : transition.getEvents()) {
                     if (eventName.startsWith(event)) {
-                        if (eventName.length() == event.length() || eventName.charAt(event.length())=='.')
+                        if (eventName.length() == event.length() || eventName.charAt(event.length()) == '.')
                             eventMatch = true;
                         break;
                     }
@@ -653,12 +653,10 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
                 if (!eventMatch) {
                     return false;
                 }
-            }
-            else if (!transition.isAllEventsTransition()) {
+            } else if (!transition.isAllEventsTransition()) {
                 return false;
             }
-        }
-        else if (!transition.isNoEventsTransition()) {
+        } else if (!transition.isNoEventsTransition()) {
             return false;
         }
         if (transition.getCond() != null) {
@@ -673,13 +671,11 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
                                 + transition.getCond() + "'");
                     }
                 }
-            }
-            catch (SCXMLExpressionException e) {
+            } catch (SCXMLExpressionException e) {
                 exctx.getInternalIOProcessor().addEvent(new TriggerEvent(TriggerEvent.ERROR_EXECUTION, TriggerEvent.ERROR_EVENT));
                 exctx.getErrorReporter().onError(ErrorConstants.EXPRESSION_ERROR, "Treating as false due to error: "
                         + e.getMessage(), transition);
-            }
-            finally {
+            } finally {
                 context.setLocal(Context.NAMESPACES_KEY, null);
             }
             return result;
@@ -690,21 +686,20 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
     /**
      * This method corresponds to the Algorithm for SCXML processing isFinalState() function.
      *
-     * @param es the enterable state to check
+     * @param es            the enterable state to check
      * @param configuration the current state machine configuration
      * @return Return true if s is a compound state and one of its children is an active final state (i.e. is a member
-     *         of the current configuration), or if s is a parallel state and isInFinalState is true of all its children.
+     * of the current configuration), or if s is a parallel state and isInFinalState is true of all its children.
      */
     public boolean isInFinalState(final EnterableState es, final Set<EnterableState> configuration) {
         if (es instanceof State) {
-            for (EnterableState child : ((State)es).getChildren()) {
+            for (EnterableState child : ((State) es).getChildren()) {
                 if (child instanceof Final && configuration.contains(child)) {
                     return true;
                 }
             }
-        }
-        else if (es instanceof Parallel) {
-            for (EnterableState child : ((Parallel)es).getChildren()) {
+        } else if (es instanceof Parallel) {
+            for (EnterableState child : ((Parallel) es).getChildren()) {
                 if (!isInFinalState(child, configuration)) {
                     return false;
                 }
@@ -718,13 +713,12 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
      * Checks if an external event was send (back) by an specific Invoker
      *
      * @param invokerId the invokerId
-     *
-     * @param event received external event
+     * @param event     received external event
      * @return true if this event was send by the specific Invoker
      */
     public boolean isInvokerEvent(final String invokerId, final TriggerEvent event) {
-        return event.getName().equals("done.invoke."+invokerId) ||
-                event.getName().startsWith("done.invoke."+invokerId+".");
+        return event.getName().equals("done.invoke." + invokerId) ||
+                event.getName().startsWith("done.invoke." + invokerId + ".");
     }
 
     /**
@@ -775,8 +769,7 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
         if (scxmlCount.size() > 1) {
             errRep.onError(ErrorConstants.ILLEGAL_CONFIG, "Multiple top-level OR states active!", scxmlCount);
             legalConfig = false;
-        }
-        else {
+        } else {
             //Validate child counts:
             for (Map.Entry<EnterableState, Set<EnterableState>> entry : counts.entrySet()) {
                 EnterableState es = entry.getKey();
@@ -808,9 +801,10 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
      * For the event a EventVariable is instantiated and the provided event its type is mapped to the one of the
      * SCXML specification predefined types.
      * </p>
+     *
      * @param scInstance the state machine instance holding the system context
-     * @param event The event being stored
-     * @param internal Flag indicating the event was received internally or externally
+     * @param event      The event being stored
+     * @param internal   Flag indicating the event was received internally or externally
      */
     public void setSystemEventVariable(final SCInstance scInstance, final TriggerEvent event, boolean internal) {
         Context systemContext = scInstance.getSystemContext();
@@ -837,7 +831,7 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
      */
     public void executeGlobalScript(final SCXMLExecutionContext exctx) throws ModelException {
         Script globalScript = exctx.getStateMachine().getGlobalScript();
-        if ( globalScript != null) {
+        if (globalScript != null) {
             try {
                 globalScript.execute(exctx.getActionExecutionContext());
             } catch (SCXMLExpressionException e) {
@@ -851,8 +845,8 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
      * This method corresponds to the Algorithm for SCXML processing exitStates() procedure, where the states to exit
      * already have been pre-computed in {@link #microStep(SCXMLExecutionContext, Step, Set)}.
      *
-     * @param exctx The execution context for this micro step
-     * @param step the step
+     * @param exctx          The execution context for this micro step
+     * @param step           the step
      * @param statesToInvoke the set of activated states which invokes need to be invoked at the end of the current
      *                       macro step
      * @throws ModelException if a SCXML model error occurred during the execution.
@@ -868,9 +862,9 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
 
         for (EnterableState es : exitList) {
 
-            if (es instanceof TransitionalState && ((TransitionalState)es).hasHistory()) {
+            if (es instanceof TransitionalState && ((TransitionalState) es).hasHistory()) {
                 // persist the new history configurations for this state to exit
-                for (History h : ((TransitionalState)es).getHistory()) {
+                for (History h : ((TransitionalState) es).getHistory()) {
                     exctx.getScInstance().setLastConfiguration(h, step.getNewHistoryConfigurations().get(h));
                 }
             }
@@ -880,7 +874,7 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
                 executeContent(exctx, onexit);
                 if (!onexitEventRaised && onexit.isRaiseEvent()) {
                     onexitEventRaised = true;
-                    exctx.getInternalIOProcessor().addEvent(new TriggerEvent("exit.state."+es.getId(), TriggerEvent.CHANGE_EVENT));
+                    exctx.getInternalIOProcessor().addEvent(new TriggerEvent("exit.state." + es.getId(), TriggerEvent.CHANGE_EVENT));
                 }
             }
             exctx.getNotificationRegistry().fireOnExit(es, es);
@@ -888,7 +882,7 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
 
             if (es instanceof TransitionalState && !statesToInvoke.remove(es)) {
                 // check if invokers are active in this state
-                for (Invoke inv : ((TransitionalState)es).getInvokes()) {
+                for (Invoke inv : ((TransitionalState) es).getInvokes()) {
                     exctx.cancelInvoker(inv);
                 }
             }
@@ -900,7 +894,7 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
      * Executes the executable content for all transitions in the micro step
      *
      * @param exctx The execution context for this micro step
-     * @param step the step
+     * @param step  the step
      * @throws ModelException if a SCXML model error occurred during the execution.
      */
     public void executeTransitionContent(final SCXMLExecutionContext exctx, final Step step) throws ModelException {
@@ -913,7 +907,7 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
      * Executes the executable content for a specific executable in the micro step
      *
      * @param exctx The execution context for this micro step
-     * @param exec the executable providing the execution content
+     * @param exec  the executable providing the execution content
      * @throws ModelException if a SCXML model error occurred during the execution.
      */
     public void executeContent(SCXMLExecutionContext exctx, Executable exec) throws ModelException {
@@ -926,11 +920,10 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
             exctx.getErrorReporter().onError(ErrorConstants.EXPRESSION_ERROR, e.getMessage(), exec);
         }
         if (exec instanceof Transition) {
-            Transition t = (Transition)exec;
+            Transition t = (Transition) exec;
             if (t.getTargets().isEmpty()) {
                 notifyOnTransition(exctx, t, t.getParent());
-            }
-            else {
+            } else {
                 for (TransitionTarget tt : t.getTargets()) {
                     notifyOnTransition(exctx, t, tt);
                 }
@@ -941,13 +934,13 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
     /**
      * Notifies SCXMLListeners on the transition taken
      *
-     * @param exctx The execution context for this micro step
-     * @param t The Transition taken
+     * @param exctx  The execution context for this micro step
+     * @param t      The Transition taken
      * @param target The target of the Transition
      */
     public void notifyOnTransition(final SCXMLExecutionContext exctx, final Transition t,
-                                      final TransitionTarget target) {
-        EventVariable event = (EventVariable)exctx.getScInstance().getSystemContext().getVars().get(SCXMLSystemContext.EVENT_KEY);
+                                   final TransitionTarget target) {
+        EventVariable event = (EventVariable) exctx.getScInstance().getSystemContext().getVars().get(SCXMLSystemContext.EVENT_KEY);
         String eventName = event != null ? event.getName() : null;
         exctx.getNotificationRegistry().fireOnTransition(t, t.getParent(), target, t, eventName);
         exctx.getNotificationRegistry().fireOnTransition(exctx.getStateMachine(), t.getParent(), target, t, eventName);
@@ -957,8 +950,8 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
      * This method corresponds to the Algorithm for SCXML processing enterStates() procedure, where the states to enter
      * already have been pre-computed in {@link #microStep(SCXMLExecutionContext, Step, Set)}.
      *
-     * @param exctx The execution context for this micro step
-     * @param step the step
+     * @param exctx          The execution context for this micro step
+     * @param step           the step
      * @param statesToInvoke the set of activated states which invokes need to be invoked at the end of the current
      *                       macro step
      * @throws ModelException if a SCXML model error occurred during the execution.
@@ -973,7 +966,7 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
         Collections.sort(entryList, DocumentOrder.documentOrderComparator);
         for (EnterableState es : entryList) {
             exctx.getScInstance().getStateConfiguration().enterState(es);
-            if (es instanceof TransitionalState && !((TransitionalState)es).getInvokes().isEmpty()) {
+            if (es instanceof TransitionalState && !((TransitionalState) es).getInvokes().isEmpty()) {
                 statesToInvoke.add((TransitionalState) es);
             }
 
@@ -982,14 +975,14 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
                 executeContent(exctx, onentry);
                 if (!onentryEventRaised && onentry.isRaiseEvent()) {
                     onentryEventRaised = true;
-                    exctx.getInternalIOProcessor().addEvent(new TriggerEvent("entry.state."+es.getId(), TriggerEvent.CHANGE_EVENT));
+                    exctx.getInternalIOProcessor().addEvent(new TriggerEvent("entry.state." + es.getId(), TriggerEvent.CHANGE_EVENT));
                 }
             }
             exctx.getNotificationRegistry().fireOnEntry(es, es);
             exctx.getNotificationRegistry().fireOnEntry(exctx.getStateMachine(), es);
 
-            if (es instanceof State && step.getDefaultEntrySet().contains(es) && ((State)es).getInitial() != null) {
-                executeContent(exctx, ((State)es).getInitial().getTransition());
+            if (es instanceof State && step.getDefaultEntrySet().contains(es) && ((State) es).getInitial() != null) {
+                executeContent(exctx, ((State) es).getInitial().getTransition());
             }
             if (es instanceof TransitionalState) {
                 SimpleTransition hTransition = step.getDefaultHistoryTransitions().get(es);
@@ -999,15 +992,14 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
             }
 
             if (es instanceof Final) {
-                State parent = (State)es.getParent();
+                State parent = (State) es.getParent();
                 if (parent == null) {
                     exctx.stopRunning();
-                }
-                else {
-                    exctx.getInternalIOProcessor().addEvent(new TriggerEvent("done.state."+parent.getId(), TriggerEvent.CHANGE_EVENT));
+                } else {
+                    exctx.getInternalIOProcessor().addEvent(new TriggerEvent("done.state." + parent.getId(), TriggerEvent.CHANGE_EVENT));
                     if (parent.isRegion()) {
                         if (isInFinalState(parent.getParent(), exctx.getScInstance().getStateConfiguration().getActiveStates())) {
-                            exctx.getInternalIOProcessor().addEvent(new TriggerEvent("done.state."+parent.getParent().getId()
+                            exctx.getInternalIOProcessor().addEvent(new TriggerEvent("done.state." + parent.getParent().getId()
                                     , TriggerEvent.CHANGE_EVENT));
                         }
                     }
@@ -1019,7 +1011,7 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
     /**
      * Initiate any new invoked activities.
      *
-     * @param exctx provides the execution context
+     * @param exctx          provides the execution context
      * @param statesToInvoke the set of activated states which invokes need to be invoked
      * @throws ModelException if there is a fatal SCXML state error
      */
@@ -1042,7 +1034,6 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
      *
      * @param exctx provides the execution context
      * @param event The events to be forwarded
-     *
      * @throws ModelException in case there is a fatal SCXML object model problem.
      */
     public void processInvokes(final SCXMLExecutionContext exctx, final TriggerEvent event) throws ModelException {

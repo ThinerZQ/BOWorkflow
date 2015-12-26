@@ -23,7 +23,7 @@ import com.sysu.workflow.NotificationRegistry;
  * can be observed using the {@link NotificationRegistry}. These include
  * individual {@link TransitionTarget}s, {@link Transition}s or the entire state
  * machine {@link SCXML}.
- *
+ * <p/>
  * <p>Note: it is assumed there will be no more than Integer.MAX_VALUE of such elements in a single SCXML document</p>
  */
 public interface Observable {

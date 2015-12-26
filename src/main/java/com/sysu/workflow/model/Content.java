@@ -21,7 +21,6 @@ import java.io.Serializable;
 /**
  * The class in this SCXML object model that corresponds to the
  * &lt;content&gt; SCXML element.
- *
  */
 public class Content implements Serializable {
 

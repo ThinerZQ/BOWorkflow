@@ -44,7 +44,7 @@ public class GroovyContext extends SimpleContext {
         if (binding == null) {
             binding = new GroovyContextBinding(this);
         }
-        return  binding;
+        return binding;
     }
 
     /**
@@ -57,9 +57,9 @@ public class GroovyContext extends SimpleContext {
     /**
      * Constructor with initial vars.
      *
-     * @param parent The parent context.
+     * @param parent      The parent context.
      * @param initialVars The initial set of variables.
-     * @param evaluator The groovy evaluator
+     * @param evaluator   The groovy evaluator
      */
     public GroovyContext(final Context parent, final Map<String, Object> initialVars, GroovyEvaluator evaluator) {
         super(parent, initialVars);
@@ -69,7 +69,7 @@ public class GroovyContext extends SimpleContext {
     /**
      * Constructor with parent context.
      *
-     * @param parent The parent context.
+     * @param parent    The parent context.
      * @param evaluator The groovy evaluator
      */
     public GroovyContext(final Context parent, GroovyEvaluator evaluator) {
@@ -104,7 +104,7 @@ public class GroovyContext extends SimpleContext {
             return scriptBaseClass;
         }
         if (getParent() instanceof GroovyContext) {
-            return ((GroovyContext)getParent()).getScriptBaseClass();
+            return ((GroovyContext) getParent()).getScriptBaseClass();
         }
         return null;
     }
@@ -133,11 +133,11 @@ public class GroovyContext extends SimpleContext {
     }
 
     @SuppressWarnings("unchecked")
-    private void readObject(ObjectInputStream in) throws IOException,ClassNotFoundException {
-        this.scriptBaseClass = (String)in.readObject();
-        this.evaluator = (GroovyEvaluator)in.readObject();
-        this.binding = (GroovyContextBinding)in.readObject();
-        byte[] bytes  = (byte[])in.readObject();
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        this.scriptBaseClass = (String) in.readObject();
+        this.evaluator = (GroovyEvaluator) in.readObject();
+        this.binding = (GroovyContextBinding) in.readObject();
+        byte[] bytes = (byte[]) in.readObject();
         if (evaluator != null) {
             this.vars = (Map<String, Object>)
                     new ObjectInputStream(new ByteArrayInputStream(bytes)) {
@@ -145,9 +145,8 @@ public class GroovyContext extends SimpleContext {
                             return Class.forName(osc.getName(), true, evaluator.getGroovyClassLoader());
                         }
                     }.readObject();
-        }
-        else {
-            this.vars = (Map<String, Object>)new ObjectInputStream(new ByteArrayInputStream(bytes)).readObject();
+        } else {
+            this.vars = (Map<String, Object>) new ObjectInputStream(new ByteArrayInputStream(bytes)).readObject();
         }
     }
 }

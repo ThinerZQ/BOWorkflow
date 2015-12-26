@@ -91,17 +91,23 @@ public class GroovyExtendableScriptCache implements Serializable {
         String preProcess(String script);
     }
 
-    /** Default CodeSource code base for the compiled Groovy scripts */
+    /**
+     * Default CodeSource code base for the compiled Groovy scripts
+     */
     public static final String DEFAULT_SCRIPT_CODE_BASE = "/groovy/scxml/script";
 
-    /** Default factory for the Groovy parent ClassLoader, returning this class its ClassLoader */
+    /**
+     * Default factory for the Groovy parent ClassLoader, returning this class its ClassLoader
+     */
     public static final ParentClassLoaderFactory DEFAULT_PARENT_CLASS_LOADER_FACTORY = new ParentClassLoaderFactory() {
         public ClassLoader getClassLoader() {
             return GroovyExtendableScriptCache.class.getClassLoader();
         }
     };
 
-    /** Default factory for the Groovy CompilerConfiguration, returning a new and unmodified CompilerConfiguration instance */
+    /**
+     * Default factory for the Groovy CompilerConfiguration, returning a new and unmodified CompilerConfiguration instance
+     */
     public static final CompilerConfigurationFactory DEFAULT_COMPILER_CONFIGURATION_FACTORY = new CompilerConfigurationFactory() {
         public CompilerConfiguration getCompilerConfiguration() {
             return new CompilerConfiguration();
@@ -215,8 +221,7 @@ public class GroovyExtendableScriptCache implements Serializable {
             ScriptCacheElement cacheElement = scriptCache.get(cacheKey);
             if (cacheElement != null) {
                 scriptClass = cacheElement.getScriptClass();
-            }
-            else {
+            } else {
                 String scriptName = generatedScriptName(scriptSource, scriptCache.size());
                 scriptClass = compileScript(scriptBaseClass, scriptSource, scriptName);
                 cacheKey.setScriptName(scriptName);
@@ -227,7 +232,7 @@ public class GroovyExtendableScriptCache implements Serializable {
         try {
             return scriptClass.newInstance();
         } catch (Exception e) {
-            throw new GroovyRuntimeException("Failed to create Script instance for class: "+ scriptClass + ". Reason: " + e, e);
+            throw new GroovyRuntimeException("Failed to create Script instance for class: " + scriptClass + ". Reason: " + e, e);
         }
     }
 
@@ -268,8 +273,7 @@ public class GroovyExtendableScriptCache implements Serializable {
                 compilerConfiguration.setScriptBaseClass(scriptBaseClass);
             }
             return groovyClassLoader.parseClass(codeSource, false);
-        }
-        finally {
+        } finally {
             compilerConfiguration.setScriptBaseClass(currentScriptBaseClass);
         }
     }
@@ -279,25 +283,26 @@ public class GroovyExtendableScriptCache implements Serializable {
     }
 
     protected String generatedScriptName(String scriptSource, int seed) {
-        return "script"+seed+"_"+Math.abs(scriptSource.hashCode())+".groovy";
+        return "script" + seed + "_" + Math.abs(scriptSource.hashCode()) + ".groovy";
     }
 
-    /** @return The current configured CodeSource code base used for the compilation of the Groovy scripts */
+    /**
+     * @return The current configured CodeSource code base used for the compilation of the Groovy scripts
+     */
     public String getScriptCodeBase() {
         return scriptCodeBase;
     }
 
     /**
      * @param scriptCodeBase The CodeSource code base to be used for the compilation of the Groovy scripts.<br>
-     *                             When null, of zero length or not (at least) starting with a '/',
-     *                             the {@link #DEFAULT_SCRIPT_CODE_BASE} will be set instead.
+     *                       When null, of zero length or not (at least) starting with a '/',
+     *                       the {@link #DEFAULT_SCRIPT_CODE_BASE} will be set instead.
      */
     @SuppressWarnings("unused")
     public void setScriptCodeBase(String scriptCodeBase) {
         if (scriptCodeBase != null && scriptCodeBase.length() > 0 && scriptCodeBase.charAt(0) == '/') {
             this.scriptCodeBase = scriptCodeBase;
-        }
-        else {
+        } else {
             this.scriptCodeBase = DEFAULT_SCRIPT_CODE_BASE;
         }
     }
@@ -341,6 +346,7 @@ public class GroovyExtendableScriptCache implements Serializable {
             return scriptCache.isEmpty();
         }
     }
+
     public void clearCache() {
         synchronized (scriptCache) {
             scriptCache.clear();

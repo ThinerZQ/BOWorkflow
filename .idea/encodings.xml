@@ -63,11 +63,9 @@
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/invoke/Invoker.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/invoke/InvokerException.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/invoke/SimpleSCXMLInvoker.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/invoke/package.html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/io/ModelUpdater.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/io/SCXMLReader.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/io/SCXMLWriter.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/io/package.html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/model/Action.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/model/ActionsContainer.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/model/Assign.java" charset="UTF-8" />
@@ -114,11 +112,9 @@
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/model/TransitionType.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/model/TransitionalState.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/model/Var.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/model/package.html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/semantics/ErrorConstants.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/semantics/SCXMLSemanticsImpl.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/semantics/Step.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/semantics/package.html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/system/EventVariable.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/test/StandaloneJexlExpressions.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/test/StandaloneUtils.java" charset="UTF-8" />

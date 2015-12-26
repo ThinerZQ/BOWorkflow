@@ -32,11 +32,14 @@ public final class EffectiveContextMap extends AbstractMap<String, Object> imple
 
     private static final long serialVersionUID = 1L;
 
-    /** The {@link Context} for the current state. */
+    /**
+     * The {@link Context} for the current state.
+     */
     private final Context leaf;
 
     /**
      * Constructor.
+     *
      * @param ctx context of the current leave state node
      */
     public EffectiveContextMap(final Context ctx) {

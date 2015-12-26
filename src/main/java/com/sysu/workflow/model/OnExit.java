@@ -21,7 +21,6 @@ package com.sysu.workflow.model;
  * &lt;onexit&gt; SCXML element, which is an optional property
  * holding executable content to be run upon exiting the parent
  * State or Parallel.
- *
  */
 public class OnExit extends Executable {
 
@@ -61,7 +60,7 @@ public class OnExit extends Executable {
 
     /**
      * @return Returns the indicator whether to raise the non-standard "exit.state.id" internal event after executing
-     *         this OnExit. When null no event will be raised
+     * this OnExit. When null no event will be raised
      */
     public final Boolean getRaiseEvent() {
         return raiseEvent;
@@ -69,6 +68,7 @@ public class OnExit extends Executable {
 
     /**
      * Set the indicator whether to raise the non-standard "exit.state.id" internal event after executing this OnExit.
+     *
      * @param raiseEvent The indicator, when null no event will be raised
      */
     public final void setRaiseEvent(final Boolean raiseEvent) {

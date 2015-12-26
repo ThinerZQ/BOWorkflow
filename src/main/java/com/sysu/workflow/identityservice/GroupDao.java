@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class GroupDao {
 
-    public boolean addGroup(Group group){
+    public boolean addGroup(Group group) {
        /* int i=0;
         try {
 

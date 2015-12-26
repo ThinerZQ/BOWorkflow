@@ -25,7 +25,6 @@ import java.util.Set;
 /**
  * 对状态机的当前状态的一个不可变的封装
  * The immutable encapsulation of the current state of a state machine.
- *
  */
 public class Status implements Serializable {
 
@@ -55,7 +54,7 @@ public class Status implements Serializable {
         if (configuration.getStates().size() == 1) {
             EnterableState es = configuration.getStates().iterator().next();
             if (es instanceof Final && es.getParent() == null) {
-                return (Final)es;
+                return (Final) es;
             }
         }
         return null;
@@ -74,7 +73,7 @@ public class Status implements Serializable {
      * Get the active states configuration.
      *
      * @return active states configuration including simple states and their
-     *         complex ancestors up to the root.
+     * complex ancestors up to the root.
      */
     public Set<EnterableState> getActiveStates() {
         return configuration.getActiveStates();

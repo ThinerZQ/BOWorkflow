@@ -48,9 +48,10 @@ public abstract class ParamsContainer extends PayloadProvider {
 
     /**
      * Adds data to the payload data map based on the {@link Param}s of this {@link ParamsContainer}
-     * @param exctx The ActionExecutionContext
+     *
+     * @param exctx   The ActionExecutionContext
      * @param payload the payload data map to be updated
-     * @throws ModelException if this action has not an EnterableState as parent
+     * @throws ModelException           if this action has not an EnterableState as parent
      * @throws SCXMLExpressionException if a malformed or invalid expression is evaluated
      * @see PayloadProvider#addToPayload(String, Object, Map)
      */
@@ -66,18 +67,15 @@ public abstract class ParamsContainer extends PayloadProvider {
                 for (Param p : paramsList) {
                     if (p.getExpr() != null) {
                         paramValue = evaluator.eval(ctx, p.getExpr());
-                    }
-                    else if (p.getLocation() != null) {
+                    } else if (p.getLocation() != null) {
                         paramValue = evaluator.eval(ctx, p.getLocation());
-                    }
-                    else {
+                    } else {
                         // ignore invalid param definition
                         continue;
                     }
                     addToPayload(p.getName(), paramValue, payload);
                 }
-            }
-            finally {
+            } finally {
                 ctx.setLocal(getNamespacesKey(), null);
             }
         }

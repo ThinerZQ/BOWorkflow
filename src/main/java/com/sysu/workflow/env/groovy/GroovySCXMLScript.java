@@ -44,12 +44,13 @@ public abstract class GroovySCXMLScript extends Script {
     @Override
     public void setBinding(final Binding binding) {
         super.setBinding(binding);
-        this.binding = (GroovyContextBinding)binding;
+        this.binding = (GroovyContextBinding) binding;
         this.context = this.binding.getContext();
     }
 
     /**
      * Implements the In() predicate for SCXML documents ( see Builtin#isMember )
+     *
      * @param state The State ID to compare with
      * @return Whether this State belongs to this Set
      */
@@ -59,6 +60,7 @@ public abstract class GroovySCXMLScript extends Script {
 
     /**
      * Implements the Data() predicate for SCXML documents.
+     *
      * @param expression the XPath expression
      * @return the data matching the expression
      * @throws SCXMLExpressionException A malformed expression exception
@@ -69,6 +71,7 @@ public abstract class GroovySCXMLScript extends Script {
 
     /**
      * Implements the Location() predicate for SCXML documents.
+     *
      * @param location the XPath expression
      * @return the location list for the location expression
      * @throws SCXMLExpressionException A malformed expression exception
@@ -113,16 +116,16 @@ public abstract class GroovySCXMLScript extends Script {
     /**
      * The empty function mimics the behavior of the JEXL empty function, in that it returns true if the parameter is:
      * <ul>
-     *     <li>null, or</li>
-     *     <li>an empty String, or</li>
-     *     <li>an zero length Array, or</li>
-     *     <li>an empty Collection, or</li>
-     *     <li>an empty Map</li>
+     * <li>null, or</li>
+     * <li>an empty String, or</li>
+     * <li>an zero length Array, or</li>
+     * <li>an empty Collection, or</li>
+     * <li>an empty Map</li>
      * </ul>
      * <p>
-     *     Note: one difference with the JEXL language is that Groovy doesn't allow checking for undefined variables.<br>
-     *     Before being able to check, Groovy will already have raised an MissingPropertyException if the variable cannot be found.<br>
-     *     To work around this, the custom {@link #var(String)} function is available.
+     * Note: one difference with the JEXL language is that Groovy doesn't allow checking for undefined variables.<br>
+     * Before being able to check, Groovy will already have raised an MissingPropertyException if the variable cannot be found.<br>
+     * To work around this, the custom {@link #var(String)} function is available.
      * </p>
      *
      * @param obj the object to check if it is empty
@@ -130,9 +133,9 @@ public abstract class GroovySCXMLScript extends Script {
      */
     public boolean empty(Object obj) {
         return obj == null ||
-                (obj instanceof String && ((String)obj).isEmpty()) ||
-                ((obj.getClass().isArray() && Array.getLength(obj)==0)) ||
-                (obj instanceof Collection && ((Collection)obj).size()==0) ||
-                (obj instanceof Map && ((Map)obj).isEmpty());
+                (obj instanceof String && ((String) obj).isEmpty()) ||
+                ((obj.getClass().isArray() && Array.getLength(obj) == 0)) ||
+                (obj instanceof Collection && ((Collection) obj).size() == 0) ||
+                (obj instanceof Map && ((Map) obj).isEmpty());
     }
 }

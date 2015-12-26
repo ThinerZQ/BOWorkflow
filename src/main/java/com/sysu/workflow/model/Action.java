@@ -27,7 +27,6 @@ import java.util.Map;
 /**
  * An abstract base class for executable elements in SCXML,
  * such as &lt;assign&gt;, &lt;log&gt; etc.
- *
  */
 public abstract class Action implements NamespacePrefixesHolder,
         Serializable {
@@ -94,24 +93,22 @@ public abstract class Action implements NamespacePrefixesHolder,
      *
      * @return The parent {@link EnterableState}
      * @throws ModelException For an unknown EnterableState subclass
-     *
      * @since 0.9
      */
     public EnterableState getParentEnterableState()
-    throws ModelException {
-        if (parent == null && this instanceof Script && ((Script)this).isGlobalScript()) {
+            throws ModelException {
+        if (parent == null && this instanceof Script && ((Script) this).isGlobalScript()) {
             // global script doesn't have a EnterableState
             return null;
-        }
-        else if (parent == null) {
+        } else if (parent == null) {
             throw new ModelException("Action "
                     + this.getClass().getName() + " instance missing required parent TransitionTarget");
         }
         TransitionTarget tt = parent.getParent();
         if (tt instanceof EnterableState) {
-            return (EnterableState)tt;
+            return (EnterableState) tt;
         } else if (tt instanceof History) {
-            return ((History)tt).getParent();
+            return ((History) tt).getParent();
         } else {
             throw new ModelException("Unknown TransitionTarget subclass:"
                     + (tt != null ? tt.getClass().getName() : "(null)"));
@@ -122,11 +119,10 @@ public abstract class Action implements NamespacePrefixesHolder,
      * Execute this action instance.
      *
      * @param exctx The ActionExecutionContext for this execution instance
-     *
-     * @throws ModelException If the execution causes the model to enter
-     *                        a non-deterministic state.
+     * @throws ModelException           If the execution causes the model to enter
+     *                                  a non-deterministic state.
      * @throws SCXMLExpressionException If the execution involves trying
-     *                        to evaluate an expression which is malformed.
+     *                                  to evaluate an expression which is malformed.
      */
     public abstract void execute(ActionExecutionContext exctx) throws ModelException, SCXMLExpressionException;
 
@@ -143,12 +139,13 @@ public abstract class Action implements NamespacePrefixesHolder,
     /**
      * Convenient method to convert a possible {@link Node} result from an expression evaluation to a String
      * using its {@link Node#getTextContent()} method.
+     *
      * @param result the result to convert
      * @return its text content if the result is a {@link Node} otherwise the unmodified result itself
      */
     protected Object getTextContentIfNodeResult(final Object result) {
         if (result instanceof Node) {
-            return ((Node)result).getTextContent();
+            return ((Node) result).getTextContent();
         }
         return result;
     }

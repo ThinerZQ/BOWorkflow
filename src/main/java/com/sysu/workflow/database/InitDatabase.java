@@ -17,11 +17,12 @@ public class InitDatabase {
         }
     }
 
-    public static void createTables(){
+    public static void createTables() {
         createUserTable();
         createWorkItemTable();
     }
-    public static void createWorkItemTable(){
+
+    public static void createWorkItemTable() {
         try {
             Connection connection = DBUtils.getMysqlConnection();
             String sql = "DROP TABLE if EXISTS workitem;";
@@ -31,17 +32,18 @@ public class InitDatabase {
             preparedStatement.executeUpdate();
             DBUtils.closeAll(null, preparedStatement, null);
 
-            sql ="CREATE TABLE workitem(id INT PRIMARY KEY auto_increment ,name VARCHAR(255),createtime VARCHAR (255) ,duetime VARCHAR(20),assigineeId INT ,assignee VARCHAR(255))";
+            sql = "CREATE TABLE workitem(id INT PRIMARY KEY auto_increment ,name VARCHAR(255),createtime VARCHAR (255) ,duetime VARCHAR(20),assigineeId INT ,assignee VARCHAR(255))";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.executeUpdate(sql);
 
-            DBUtils.closeAll(connection,preparedStatement,null);
+            DBUtils.closeAll(connection, preparedStatement, null);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    public static void createUserTable(){
+
+    public static void createUserTable() {
         try {
             Connection connection = DBUtils.getMysqlConnection();
             String sql = "DROP TABLE if EXISTS user;";
@@ -51,17 +53,18 @@ public class InitDatabase {
             preparedStatement.executeUpdate();
             DBUtils.closeAll(null, preparedStatement, null);
 
-            sql ="CREATE TABLE user(id INT PRIMARY KEY auto_increment ,username VARCHAR(255),realname VARCHAR(255) ,password VARCHAR(20),age INT ,gender VARCHAR(10),email VARCHAR (50))";
-             preparedStatement = connection.prepareStatement(sql);
+            sql = "CREATE TABLE user(id INT PRIMARY KEY auto_increment ,username VARCHAR(255),realname VARCHAR(255) ,password VARCHAR(20),age INT ,gender VARCHAR(10),email VARCHAR (50))";
+            preparedStatement = connection.prepareStatement(sql);
             preparedStatement.executeUpdate(sql);
 
-            DBUtils.closeAll(connection,preparedStatement,null);
+            DBUtils.closeAll(connection, preparedStatement, null);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    public static void addUsers(){
+
+    public static void addUsers() {
       /*  try {
 
             Connection connection = DBUtils.getMysqlConnection();
@@ -83,7 +86,8 @@ public class InitDatabase {
             e.printStackTrace();
         }*/
     }
-    public static void printlnUsers(){
+
+    public static void printlnUsers() {
         try {
             Connection connection = DBUtils.getMysqlConnection();
             String sql = "SELECT * from user";
@@ -91,18 +95,18 @@ public class InitDatabase {
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 System.out.println(resultSet.getString(2));
             }
             DBUtils.closeAll(connection, preparedStatement, resultSet);
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
 
-    public static void initDatabase() throws Exception{
+    public static void initDatabase() throws Exception {
 
         //createTables();
         createWorkItemTable();

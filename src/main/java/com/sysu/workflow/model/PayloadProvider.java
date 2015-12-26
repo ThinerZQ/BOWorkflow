@@ -54,9 +54,10 @@ public abstract class PayloadProvider extends Action {
      * the other side, attribute values (notably: {@link Node} value only for now) is cloned first before being added
      * to the payload data map. This includes 'nested' values within a {@link NodeList}, {@link List} or {@link Map}.
      * </p>
-     * @param attrName the name of the attribute to add
+     *
+     * @param attrName  the name of the attribute to add
      * @param attrValue the value of the attribute to add
-     * @param payload the payload data map to be updated
+     * @param payload   the payload data map to be updated
      */
     @SuppressWarnings("unchecked")
     protected void addToPayload(final String attrName, final Object attrValue, Map<String, Object> payload) {
@@ -64,9 +65,8 @@ public abstract class PayloadProvider extends Action {
         Object value = payload.get(attrName);
         if (value != null) {
             if (value instanceof DataValueList) {
-                valueList = (DataValueList)value;
-            }
-            else {
+                valueList = (DataValueList) value;
+            } else {
                 valueList = new DataValueList();
                 valueList.add(value);
                 payload.put(attrName, valueList);
@@ -78,12 +78,10 @@ public abstract class PayloadProvider extends Action {
                 valueList = new DataValueList();
                 payload.put(attrName, valueList);
             }
-            valueList.addAll((List)value);
-        }
-        else if (valueList != null) {
+            valueList.addAll((List) value);
+        } else if (valueList != null) {
             valueList.add(value);
-        }
-        else {
+        } else {
             payload.put(attrName, value);
         }
     }
@@ -98,6 +96,7 @@ public abstract class PayloadProvider extends Action {
      * are also cloned (if possible) through recursive invocation of this same method, and put in
      * a new {@link List} or {@link Map} before returning.
      * </p>
+     *
      * @param value the value to be cloned
      * @return the cloned value if it could be cloned or otherwise the unmodified value parameter
      */
@@ -105,26 +104,23 @@ public abstract class PayloadProvider extends Action {
     protected Object clonePayloadValue(final Object value) {
         if (value != null) {
             if (value instanceof Node) {
-                return ((Node)value).cloneNode(true);
-            }
-            else if (value instanceof NodeList) {
-                NodeList nodeList = (NodeList)value;
+                return ((Node) value).cloneNode(true);
+            } else if (value instanceof NodeList) {
+                NodeList nodeList = (NodeList) value;
                 ArrayList<Node> list = new ArrayList<Node>();
                 for (int i = 0, size = nodeList.getLength(); i < size; i++) {
                     list.add(nodeList.item(i).cloneNode(true));
                 }
                 return list;
-            }
-            else if (value instanceof List) {
+            } else if (value instanceof List) {
                 ArrayList<Object> list = new ArrayList<Object>();
-                for (Object v : (List)value) {
+                for (Object v : (List) value) {
                     list.add(clonePayloadValue(v));
                 }
                 return list;
-            }
-            else if (value instanceof Map) {
+            } else if (value instanceof Map) {
                 HashMap<Object, Object> map = new HashMap<Object, Object>();
-                for (Map.Entry<Object,Object> entry : ((Map<Object,Object>)value).entrySet()) {
+                for (Map.Entry<Object, Object> entry : ((Map<Object, Object>) value).entrySet()) {
                     map.put(entry.getKey(), clonePayloadValue(entry.getValue()));
                 }
                 return map;
@@ -143,8 +139,9 @@ public abstract class PayloadProvider extends Action {
      * <p>
      * For non-xpath datamodels this method simply returns the original payload parameter unmodified.
      * </p>
+     *
      * @param evaluator the evaluator to test for which datamodel type this event payload is intended
-     * @param payload the payload data map
+     * @param payload   the payload data map
      * @return payload for an event
      * @throws ModelException if it fails to create payload or data node
      */
@@ -160,25 +157,21 @@ public abstract class PayloadProvider extends Action {
                     payloadNode.appendChild(dataNode);
                     dataNode.setAttribute("id", entry.getKey());
                     if (entry.getValue() instanceof Node) {
-                        dataNode.appendChild(document.importNode((Node)entry.getValue(), true));
-                    }
-                    else if (entry.getValue() instanceof DataValueList) {
-                        for (Object value : ((DataValueList)entry.getValue())) {
+                        dataNode.appendChild(document.importNode((Node) entry.getValue(), true));
+                    } else if (entry.getValue() instanceof DataValueList) {
+                        for (Object value : ((DataValueList) entry.getValue())) {
                             if (value instanceof Node) {
-                                dataNode.appendChild(document.importNode((Node)entry.getValue(), true));
-                            }
-                            else {
+                                dataNode.appendChild(document.importNode((Node) entry.getValue(), true));
+                            } else {
                                 dataNode.setTextContent(String.valueOf(value));
                             }
                         }
-                    }
-                    else if (entry.getValue() != null) {
+                    } else if (entry.getValue() != null) {
                         dataNode.setTextContent(String.valueOf(entry.getValue()));
                     }
                 }
                 return payloadNode;
-            }
-            catch (ParserConfigurationException pce) {
+            } catch (ParserConfigurationException pce) {
                 throw new ModelException("Cannot instantiate a DocumentBuilder", pce);
             }
         }

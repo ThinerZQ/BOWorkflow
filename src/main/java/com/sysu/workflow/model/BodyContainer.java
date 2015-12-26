@@ -19,7 +19,6 @@ package com.sysu.workflow.model;
 /**
  * A <code>BodyContainer</code> is an entity that retains the element body
  * text from the document.
- *
  */
 public interface BodyContainer {
 

@@ -24,7 +24,6 @@ import java.util.Set;
  * The class in this SCXML object model that corresponds to the
  * simple &lt;transition&gt; SCXML element, without Transition rules for &quot;events&quot; or
  * &quot;guard-conditions&quot;. Used for &lt;history&gt; or &lt;history&gt; elements.
- *
  */
 public class SimpleTransition extends Executable
         implements NamespacePrefixesHolder, Observable {
@@ -41,12 +40,14 @@ public class SimpleTransition extends Executable
 
     /**
      * The Transition type: internal or external (default)
+     *
      * @see #isTypeInternal()
      */
     private TransitionType type;
 
     /**
      * The transition domain for this transition.
+     *
      * @see #getTransitionDomain()
      */
     private TransitionalState transitionDomain;
@@ -58,6 +59,7 @@ public class SimpleTransition extends Executable
 
     /**
      * Derived effective Transition type.
+     *
      * @see #isTypeInternal()
      */
     private Boolean typeInternal;
@@ -90,7 +92,7 @@ public class SimpleTransition extends Executable
     }
 
     private boolean isCompoundStateParent(TransitionalState ts) {
-        return ts != null && ts instanceof State && ((State)ts).isComposite();
+        return ts != null && ts instanceof State && ((State) ts).isComposite();
     }
 
     /**
@@ -102,6 +104,7 @@ public class SimpleTransition extends Executable
 
     /**
      * Sets the observableId for this Observable, which must be unique within the SCXML state machine
+     *
      * @param observableId the observableId
      */
     public final void setObservableId(Integer observableId) {
@@ -115,7 +118,7 @@ public class SimpleTransition extends Executable
      */
     @Override
     public TransitionalState getParent() {
-        return (TransitionalState)super.getParent();
+        return (TransitionalState) super.getParent();
     }
 
     /**
@@ -139,6 +142,7 @@ public class SimpleTransition extends Executable
 
     /**
      * Sets the Transition type
+     *
      * @param type the Transition type
      */
     public final void setType(final TransitionType type) {
@@ -151,16 +155,17 @@ public class SimpleTransition extends Executable
      * A transition type is only effectively internal if:
      * </p>
      * <ul>
-     *   <li>its {@link #getType()} == {@link TransitionType#internal}</li>
-     *   <li>its source state {@link #getParent()} {@link State#isComposite()}</li>
-     *   <li>all its {@link #getTargets()} are proper descendants of its {@link #getParent()}</li>
+     * <li>its {@link #getType()} == {@link TransitionType#internal}</li>
+     * <li>its source state {@link #getParent()} {@link State#isComposite()}</li>
+     * <li>all its {@link #getTargets()} are proper descendants of its {@link #getParent()}</li>
      * </ul>
      * <p>
      * Otherwise it is treated (for determining its exit states) as if it is of type {@link TransitionType#external}
      * </p>
-     * @see <a href="http://www.w3.org/TR/2014/CR-scxml-20140313/#SelectingTransitions">
-     *     http://www.w3.org/TR/2014/CR-scxml-20140313/#SelectingTransitions</a>
+     *
      * @return true if the effective Transition type is {@link TransitionType#internal}
+     * @see <a href="http://www.w3.org/TR/2014/CR-scxml-20140313/#SelectingTransitions">
+     * http://www.w3.org/TR/2014/CR-scxml-20140313/#SelectingTransitions</a>
      */
     public final boolean isTypeInternal() {
         if (typeInternal == null) {
@@ -192,8 +197,8 @@ public class SimpleTransition extends Executable
      * If the transition has targets then the transition domain is the compound State parent such that:
      * </p>
      * <ul>
-     *   <li>all states that are exited or entered as a result of taking this transition are descendants of it</li>
-     *   <li>no descendant of it has this property</li>
+     * <li>all states that are exited or entered as a result of taking this transition are descendants of it</li>
+     * <li>no descendant of it has this property</li>
      * </ul>
      * <p>
      * If there is no such compound state parent, the transition domain effectively becomes the SCXML document itself,
@@ -209,10 +214,9 @@ public class SimpleTransition extends Executable
             if (getParent() != null) {
                 if (isTypeInternal()) {
                     transitionDomain = getParent();
-                }
-                else {
+                } else {
                     // findLCCA
-                    for (int i = getParent().getNumberOfAncestors()-1; i > -1; i--) {
+                    for (int i = getParent().getNumberOfAncestors() - 1; i > -1; i--) {
                         if (isCompoundStateParent(getParent().getAncestor(i))) {
                             boolean allDescendants = true;
                             for (TransitionTarget tt : targets) {
@@ -265,7 +269,6 @@ public class SimpleTransition extends Executable
      *
      * @return Returns the target(s) as specified in SCXML markup.
      * <p>Remarks: Is <code>empty</code> for &quot;stay&quot; transitions.
-     *
      * @since 0.7
      */
     public final Set<TransitionTarget> getTargets() {

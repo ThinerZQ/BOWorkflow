@@ -34,7 +34,7 @@ import java.net.URL;
  * <p>This class demonstrates one approach for providing the base
  * functionality needed by classes representing stateful entities,
  * whose behaviors are defined via SCXML documents.</p>
- *
+ * <p/>
  * <p>SCXML documents (more generically, UML state chart diagrams) can be
  * used to define stateful behavior of objects, and Commons SCXML enables
  * developers to use this model directly into the corresponding code
@@ -42,17 +42,16 @@ import java.net.URL;
  * a useful separation of concerns and are easier to understand and
  * maintain. As the size of the modeled entity grows, these benefits
  * become more apparent.</p>
- *
+ * <p/>
  * <p>This approach functions by registering an SCXMLListener that gets
  * notified onentry, and calls the namesake method for each state that
  * has been entered.</p>
- *
+ * <p/>
  * <p>This class swallows all exceptions only to log them. Developers of
  * subclasses should think of themselves as &quot;component developers&quot;
  * catering to other end users, and therefore ensure that the subclasses
  * are free of <code>ModelException</code>s and the like. Most methods
  * are <code>protected</code> for ease of subclassing.</p>
- *
  */
 public abstract class AbstractStateMachine {
 
@@ -102,15 +101,14 @@ public abstract class AbstractStateMachine {
      * @param scxmlDocument The URL pointing to the SCXML document that
      *                      describes the &quot;lifecycle&quot; of the
      *                      instances of this class.
-     * @param rootCtx The root context for this instance.
-     * @param evaluator The expression evaluator for this instance.
+     * @param rootCtx       The root context for this instance.
+     * @param evaluator     The expression evaluator for this instance.
      * @throws ModelException in case there is a fatal SCXML object model problem
-     *
      * @see Context
      * @see Evaluator
      */
     public AbstractStateMachine(final URL scxmlDocument,
-            final Context rootCtx, final Evaluator evaluator) throws ModelException {
+                                final Context rootCtx, final Evaluator evaluator) throws ModelException {
         log = LogFactory.getLog(this.getClass());
         try {
             stateMachine = SCXMLReader.read(scxmlDocument);
@@ -144,16 +142,15 @@ public abstract class AbstractStateMachine {
      * @param stateMachine The parsed SCXML instance that
      *                     describes the &quot;lifecycle&quot; of the
      *                     instances of this class.
-     * @param rootCtx The root context for this instance.
-     * @param evaluator The expression evaluator for this instance.
+     * @param rootCtx      The root context for this instance.
+     * @param evaluator    The expression evaluator for this instance.
      * @throws ModelException in case there is a fatal SCXML object model problem
      * @see Context
      * @see Evaluator
-     *
      * @since 0.7
      */
     public AbstractStateMachine(final SCXML stateMachine,
-            final Context rootCtx, final Evaluator evaluator) throws ModelException {
+                                final Context rootCtx, final Evaluator evaluator) throws ModelException {
         log = LogFactory.getLog(this.getClass());
         initialize(stateMachine, rootCtx, evaluator);
     }
@@ -162,14 +159,14 @@ public abstract class AbstractStateMachine {
      * Instantiate and initialize the underlying executor instance.
      *
      * @param stateMachine The state machine
-     * @param rootCtx The root context
-     * @param evaluator The expression evaluator
+     * @param rootCtx      The root context
+     * @param evaluator    The expression evaluator
      * @throws ModelException in case there is a fatal SCXML object model problem
      */
     private void initialize(final SCXML stateMachine,
-            final Context rootCtx, final Evaluator evaluator) throws ModelException {
+                            final Context rootCtx, final Evaluator evaluator) throws ModelException {
         engine = new SCXMLExecutor(evaluator, new SimpleDispatcher(),
-            new SimpleErrorReporter());
+                new SimpleErrorReporter());
         engine.setStateMachine(stateMachine);
         engine.setRootContext(rootCtx);
         engine.addListener(stateMachine, new EntryListener());
@@ -185,7 +182,7 @@ public abstract class AbstractStateMachine {
      *
      * @param event The event name.
      * @return Whether the state machine has reached a &quot;final&quot;
-     *         configuration.
+     * configuration.
      */
     public boolean fireEvent(final String event) {
         TriggerEvent[] evts = {new TriggerEvent(event,
@@ -298,13 +295,13 @@ public abstract class AbstractStateMachine {
         /**
          * No-op.
          *
-         * @param from The &quot;source&quot; transition target.
-         * @param to The &quot;destination&quot; transition target.
+         * @param from       The &quot;source&quot; transition target.
+         * @param to         The &quot;destination&quot; transition target.
          * @param transition The transition being followed.
-         * @param event The event triggering the transition
+         * @param event      The event triggering the transition
          */
         public void onTransition(final TransitionTarget from,
-                final TransitionTarget to, final Transition transition, final String event) {
+                                 final TransitionTarget to, final Transition transition, final String event) {
             // nothing to do
         }
 

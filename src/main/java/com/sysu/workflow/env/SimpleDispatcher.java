@@ -30,17 +30,18 @@ import java.util.*;
  * &lt;send&gt; events for the &quot;scxml&quot; <code>type</code>
  * attribute value (which is also the default). This implementation uses
  * J2SE <code>Timer</code>s.</p>
- *
+ * <p/>
  * <p>No other <code>type</code>s are processed. Subclasses may support
  * additional <code>type</code>s by overriding the
  * <code>send(...)</code> and <code>cancel(...)</code> methods and
  * delegating to their <code>super</code> counterparts for the
  * &quot;scxml&quot; <code>type</code>.</p>
- *
  */
 public class SimpleDispatcher implements EventDispatcher, Serializable {
 
-     /** Serial version UID. */
+    /**
+     * Serial version UID.
+     */
     private static final long serialVersionUID = 1L;
 
     /**
@@ -71,10 +72,10 @@ public class SimpleDispatcher implements EventDispatcher, Serializable {
         /**
          * Constructor for events with payload.
          *
-         * @param id The ID of the send element.
-         * @param event The name of the event to be triggered.
+         * @param id      The ID of the send element.
+         * @param event   The name of the event to be triggered.
          * @param payload The event payload, if any.
-         * @param target The target io processor
+         * @param target  The target io processor
          */
         DelayedEventTask(final String id, final String event, final Object payload, SCXMLIOProcessor target) {
             super();
@@ -98,8 +99,10 @@ public class SimpleDispatcher implements EventDispatcher, Serializable {
         }
     }
 
-    /** Implementation independent log category. */
-     private Log log = LogFactory.getLog(EventDispatcher.class);
+    /**
+     * Implementation independent log category.
+     */
+    private Log log = LogFactory.getLog(EventDispatcher.class);
 
     /**
      * The <code>Map</code> of active <code>Timer</code>s, keyed by
@@ -156,10 +159,10 @@ public class SimpleDispatcher implements EventDispatcher, Serializable {
     }
 
     /**
-    @see EventDispatcher#send(Map, String, String, String, String, Object, Object, long)
+     * @see EventDispatcher#send(Map, String, String, String, String, Object, Object, long)
      */
     public void send(final Map<String, SCXMLIOProcessor> ioProcessors, final String id, final String target,
-            final String type, final String event, final Object data, final Object hints, final long delay) {
+                     final String type, final String event, final Object data, final Object hints, final long delay) {
         if (log.isInfoEnabled()) {
             StringBuilder buf = new StringBuilder();
             buf.append("send ( id: ").append(id);
@@ -184,16 +187,13 @@ public class SimpleDispatcher implements EventDispatcher, Serializable {
 
             if (target == null) {
                 ioProcessor = ioProcessors.get(SCXMLIOProcessor.SCXML_EVENT_PROCESSOR);
-            }
-            else if (ioProcessors.containsKey(target)) {
+            } else if (ioProcessors.containsKey(target)) {
                 ioProcessor = ioProcessors.get(target);
                 internal = SCXMLIOProcessor.INTERNAL_EVENT_PROCESSOR.equals(target);
-            }
-            else if (SCXMLIOProcessor.INTERNAL_EVENT_PROCESSOR.equals(target)) {
+            } else if (SCXMLIOProcessor.INTERNAL_EVENT_PROCESSOR.equals(target)) {
                 ioProcessor = ioProcessors.get(SCXMLIOProcessor.INTERNAL_EVENT_PROCESSOR);
                 internal = true;
-            }
-            else {
+            } else {
                 // We know of no other target
                 if (log.isWarnEnabled()) {
                     log.warn("<send>: Unavailable target - " + target);
@@ -209,9 +209,7 @@ public class SimpleDispatcher implements EventDispatcher, Serializable {
                 }
                 ioProcessors.get(SCXMLIOProcessor.INTERNAL_EVENT_PROCESSOR).
                         addEvent(new TriggerEvent(TriggerEvent.ERROR_EXECUTION, TriggerEvent.ERROR_EVENT));
-            }
-
-            else if (!internal && delay > 0L) {
+            } else if (!internal && delay > 0L) {
                 // Need to schedule this one
                 Timer timer = new Timer(true);
                 timer.schedule(new DelayedEventTask(id, event, data, ioProcessor), delay);
@@ -221,12 +219,10 @@ public class SimpleDispatcher implements EventDispatcher, Serializable {
                             + delay + "ms, as specified by <send> with id '"
                             + id + "'");
                 }
-            }
-            else {
+            } else {
                 ioProcessor.addEvent(new TriggerEvent(event, TriggerEvent.SIGNAL_EVENT, data));
             }
-        }
-        else {
+        } else {
             if (log.isWarnEnabled()) {
                 log.warn("<send>: Unsupported type - " + type);
             }

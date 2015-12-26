@@ -36,13 +36,15 @@ import java.util.Map;
 
 /**
  * <p>An {@link Evaluator} implementation for XPath environments.</p>
- *
+ * <p/>
  * <p>Does not support the &lt;script&gt; module, throws
  * {@link UnsupportedOperationException} if attempted.</p>
  */
 public class XPathEvaluator implements Evaluator, Serializable {
 
-    /** Serial version UID. */
+    /**
+     * Serial version UID.
+     */
     private static final long serialVersionUID = -3578920670869493294L;
 
     public static final String SUPPORTED_DATA_MODEL = Evaluator.XPATH_DATA_MODEL;
@@ -115,8 +117,7 @@ public class XPathEvaluator implements Evaluator, Serializable {
             List list = getContext(ctx).selectNodes(expr);
             if (list.isEmpty()) {
                 return null;
-            }
-            else if (list.size() == 1) {
+            } else if (list.size() == 1) {
                 return list.get(0);
             }
             return list;
@@ -132,7 +133,7 @@ public class XPathEvaluator implements Evaluator, Serializable {
     public Boolean evalCond(final Context ctx, final String expr)
             throws SCXMLExpressionException {
         try {
-            return (Boolean)getContext(ctx).getValue(expr, Boolean.class);
+            return (Boolean) getContext(ctx).getValue(expr, Boolean.class);
         } catch (JXPathException xee) {
             throw new SCXMLExpressionException(xee.getMessage(), xee);
         }
@@ -150,11 +151,11 @@ public class XPathEvaluator implements Evaluator, Serializable {
             NodePointerList pointerList = null;
             while (iterator.hasNext()) {
                 pointer = iterator.next();
-                if (pointer != null && pointer instanceof NodePointer && ((NodePointer)pointer).getNode() != null) {
+                if (pointer != null && pointer instanceof NodePointer && ((NodePointer) pointer).getNode() != null) {
                     if (pointerList == null) {
                         pointerList = new NodePointerList();
                     }
-                    pointerList.add((NodePointer)pointer);
+                    pointerList.add((NodePointer) pointer);
                 }
             }
             return pointerList;
@@ -172,8 +173,7 @@ public class XPathEvaluator implements Evaluator, Serializable {
         Object loc = evalLocation(ctx, location);
         if (isXPathLocation(ctx, loc)) {
             assign(ctx, loc, data, type, attr);
-        }
-        else {
+        } else {
             throw new SCXMLExpressionException("evalAssign - cannot resolve location: '" + location + "'");
         }
     }
@@ -182,7 +182,7 @@ public class XPathEvaluator implements Evaluator, Serializable {
      * @see Evaluator#evalScript(Context, String)
      */
     public Object evalScript(Context ctx, String script)
-    throws SCXMLExpressionException {
+            throws SCXMLExpressionException {
         throw new UnsupportedOperationException("Scripts are not supported by the XPathEvaluator");
     }
 
@@ -196,7 +196,8 @@ public class XPathEvaluator implements Evaluator, Serializable {
 
     /**
      * Determine if an {@link Evaluator#evalLocation(Context, String)} returned result represents an XPath location
-     * @param ctx variable context
+     *
+     * @param ctx  variable context
      * @param data result data from {@link Evaluator#evalLocation(Context, String)}
      * @return true if the data represents an XPath location
      */
@@ -208,11 +209,11 @@ public class XPathEvaluator implements Evaluator, Serializable {
     /**
      * Assigns data to a location
      *
-     * @param ctx variable context
+     * @param ctx      variable context
      * @param location location expression
-     * @param data the data to assign.
-     * @param type the type of assignment to perform, null assumes {@link Evaluator.AssignType#REPLACE_CHILDREN}
-     * @param attr the name of the attribute to add when using type {@link Evaluator.AssignType#ADD_ATTRIBUTE}
+     * @param data     the data to assign.
+     * @param type     the type of assignment to perform, null assumes {@link Evaluator.AssignType#REPLACE_CHILDREN}
+     * @param attr     the name of the attribute to add when using type {@link Evaluator.AssignType#ADD_ATTRIBUTE}
      * @throws SCXMLExpressionException A malformed expression exception
      * @see Evaluator#evalAssign(Context, String, Object, Evaluator.AssignType, String)
      */
@@ -220,40 +221,35 @@ public class XPathEvaluator implements Evaluator, Serializable {
                        final String attr) throws SCXMLExpressionException {
         if (!isXPathLocation(ctx, location)) {
             throw new SCXMLExpressionException("assign requires a NodePointerList as location but is of type: " +
-                    (location==null ? "(null)" : location.getClass().getName()));
+                    (location == null ? "(null)" : location.getClass().getName()));
         }
-        for (NodePointer pointer : (NodePointerList)location) {
+        for (NodePointer pointer : (NodePointerList) location) {
             Object node = pointer.getNode();
             if (node != null) {
                 if (node instanceof Node) {
-                    assign(ctx, (Node)node, pointer.asPath(), data, type != null ? type : AssignType.REPLACE_CHILDREN, attr);
-                }
-                else if (pointer instanceof VariablePointer) {
+                    assign(ctx, (Node) node, pointer.asPath(), data, type != null ? type : AssignType.REPLACE_CHILDREN, attr);
+                } else if (pointer instanceof VariablePointer) {
                     if (type == AssignType.DELETE) {
                         pointer.remove();
                     }
-                    VariablePointer vp = (VariablePointer)pointer;
+                    VariablePointer vp = (VariablePointer) pointer;
                     Object variable = vp.getNode();
                     if (variable instanceof Node) {
-                        assign(ctx, (Node)variable, pointer.asPath(), data, type != null ? type : AssignType.REPLACE_CHILDREN, attr);
-                    }
-                    else if (type == null || type == AssignType.REPLACE) {
+                        assign(ctx, (Node) variable, pointer.asPath(), data, type != null ? type : AssignType.REPLACE_CHILDREN, attr);
+                    } else if (type == null || type == AssignType.REPLACE) {
                         String variableName = vp.getName().getName();
                         if (data instanceof CharacterData) {
-                            ctx.set(variableName, ((CharacterData)data).getNodeValue());
-                        }
-                        else {
+                            ctx.set(variableName, ((CharacterData) data).getNodeValue());
+                        } else {
                             ctx.set(variableName, data);
                         }
-                    }
-                    else {
+                    } else {
                         throw new SCXMLExpressionException("Unsupported assign type +" +
-                                type.name()+" for XPath variable "+pointer.asPath());
+                                type.name() + " for XPath variable " + pointer.asPath());
                     }
-                }
-                else {
+                } else {
                     throw new SCXMLExpressionException("Unsupported XPath location pointer " +
-                            pointer.getClass().getName()+" for location "+pointer.asPath());
+                            pointer.getClass().getName() + " for location " + pointer.asPath());
                 }
             }
             // else: silent ignore - NodePointerList should not have pointers without node
@@ -266,9 +262,8 @@ public class XPathEvaluator implements Evaluator, Serializable {
 
         if (type == AssignType.DELETE) {
             node.getParentNode().removeChild(node);
-        }
-        else if (node instanceof Element) {
-            Element element = (Element)node;
+        } else if (node instanceof Element) {
+            Element element = (Element) node;
             if (type == AssignType.ADD_ATTRIBUTE) {
                 if (attr == null) {
                     throw new SCXMLExpressionException("Missing required attribute name for adding attribute at " +
@@ -279,15 +274,14 @@ public class XPathEvaluator implements Evaluator, Serializable {
                             attr + " to location " + nodePath);
                 }
                 element.setAttribute(attr, data.toString());
-            }
-            else {
+            } else {
                 Node dataNode = null;
                 if (type != AssignType.REPLACE_CHILDREN) {
                     if (data == null) {
-                        throw new SCXMLExpressionException("Missing required data value for assign type "+type.name());
+                        throw new SCXMLExpressionException("Missing required data value for assign type " + type.name());
                     }
                     dataNode = data instanceof Node
-                            ? element.getOwnerDocument().importNode((Node)data, true)
+                            ? element.getOwnerDocument().importNode((Node) data, true)
                             : element.getOwnerDocument().createTextNode(data.toString());
                 }
                 switch (type) {
@@ -295,24 +289,20 @@ public class XPathEvaluator implements Evaluator, Serializable {
                         // quick way to delete all children
                         element.setTextContent(null);
                         if (data instanceof Node) {
-                            element.appendChild(element.getOwnerDocument().importNode((Node)data, true));
-                        }
-                        else if (data instanceof List) {
-                            for (Object dataElement : (List)data) {
+                            element.appendChild(element.getOwnerDocument().importNode((Node) data, true));
+                        } else if (data instanceof List) {
+                            for (Object dataElement : (List) data) {
                                 if (dataElement instanceof Node) {
-                                    element.appendChild(element.getOwnerDocument().importNode((Node)dataElement, true));
-                                }
-                                else if (dataElement != null) {
+                                    element.appendChild(element.getOwnerDocument().importNode((Node) dataElement, true));
+                                } else if (dataElement != null) {
                                     element.appendChild(element.getOwnerDocument().createTextNode(dataElement.toString()));
                                 }
                             }
-                        }
-                        else if (data instanceof NodeList) {
-                            NodeList list = (NodeList)data;
+                        } else if (data instanceof NodeList) {
+                            NodeList list = (NodeList) data;
                             for (int i = 0, size = list.getLength(); i < size; i++)
-                            element.appendChild(element.getOwnerDocument().importNode(list.item(i), true));
-                        }
-                        else {
+                                element.appendChild(element.getOwnerDocument().importNode(list.item(i), true));
+                        } else {
                             element.appendChild(element.getOwnerDocument().createTextNode(data.toString()));
                         }
                         // else if data == null: already taken care of above
@@ -334,23 +324,20 @@ public class XPathEvaluator implements Evaluator, Serializable {
                         break;
                 }
             }
-        }
-        else if (node instanceof CharacterData) {
+        } else if (node instanceof CharacterData) {
             if (type != AssignType.REPLACE) {
-                throw new SCXMLExpressionException("Assign type "+ type.name() +
+                throw new SCXMLExpressionException("Assign type " + type.name() +
                         " not supported for character data node at " + nodePath);
             }
-            ((CharacterData)node).setData(data.toString());
-        }
-        else if (node instanceof Attr) {
+            ((CharacterData) node).setData(data.toString());
+        } else if (node instanceof Attr) {
             if (type != AssignType.REPLACE) {
-                throw new SCXMLExpressionException("Assign type "+ type.name() +
+                throw new SCXMLExpressionException("Assign type " + type.name() +
                         " not supported for node attribute at " + nodePath);
             }
-            ((Attr)node).setValue(data.toString());
-        }
-        else {
-            throw new SCXMLExpressionException("Unsupported assign location Node type "+node.getNodeType());
+            ((Attr) node).setValue(data.toString());
+        } else {
+            throw new SCXMLExpressionException("Unsupported assign location Node type " + node.getNodeType());
         }
     }
 

@@ -19,7 +19,6 @@ package com.sysu.workflow.model;
 /**
  * The class in this SCXML object model that corresponds to the
  * &lt;history&gt; SCXML pseudo state element.
- *
  */
 public class History extends TransitionTarget {
 
@@ -80,7 +79,7 @@ public class History extends TransitionTarget {
 
     /**
      * @param type The history type, which can be &quot;shallow&quot; or
-     * &quot;deep&quot;
+     *             &quot;deep&quot;
      */
     public final void setType(final String type) {
         if ("deep".equals(type)) {
@@ -94,7 +93,7 @@ public class History extends TransitionTarget {
      */
     @Override
     public TransitionalState getParent() {
-        return (TransitionalState)super.getParent();
+        return (TransitionalState) super.getParent();
     }
 
     /**

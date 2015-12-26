@@ -21,7 +21,6 @@ package com.sysu.workflow.model;
  * &lt;onentry&gt; SCXML element, which is an optional property
  * holding executable content to be run upon entering the parent
  * State or Parallel.
- *
  */
 public class OnEntry extends Executable {
 
@@ -61,7 +60,7 @@ public class OnEntry extends Executable {
 
     /**
      * @return The indicator whether to raise the non-standard "entry.state.id" internal event after executing
-     *         this OnEntry. When null no event will be raised
+     * this OnEntry. When null no event will be raised
      */
     public final Boolean getRaiseEvent() {
         return raiseEvent;
@@ -69,6 +68,7 @@ public class OnEntry extends Executable {
 
     /**
      * Set the indicator whether to raise the non-standard "entry.state.id" internal event after executing this OnEntry.
+     *
      * @param raiseEvent The indicator, when null no event will be raised
      */
     public final void setRaiseEvent(final Boolean raiseEvent) {

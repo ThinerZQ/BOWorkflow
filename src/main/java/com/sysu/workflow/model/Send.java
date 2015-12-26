@@ -18,13 +18,13 @@ package com.sysu.workflow.model;
 
 import com.sysu.workflow.*;
 import org.apache.commons.logging.Log;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
  * The class in this SCXML object model that corresponds to the
  * &lt;send&gt; SCXML element.
- *
  */
 public class Send extends NamelistHolder implements ContentContainer {
 
@@ -385,8 +385,7 @@ public class Send extends NamelistHolder implements ContentContainer {
         addParamsToPayload(exctx, payloadDataMap);
         if (!payloadDataMap.isEmpty()) {
             payload = makeEventPayload(eval, payloadDataMap);
-        }
-        else if (content != null) {
+        } else if (content != null) {
             if (content.getExpr() != null) {
                 payload = clonePayloadValue(eval.eval(ctx, content.getExpr()));
             } else {

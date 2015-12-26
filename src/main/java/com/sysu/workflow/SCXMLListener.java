@@ -26,7 +26,6 @@ import com.sysu.workflow.model.*;
  * particular entry and exit notifications) and
  * {@link Transition} instances (subscribe to
  * particular transitions).
- *
  */
 public interface SCXMLListener {
 
@@ -47,10 +46,10 @@ public interface SCXMLListener {
     /**
      * Handle the transition.
      *
-     * @param from The source TransitionTarget
-     * @param to The destination TransitionTarget
+     * @param from       The source TransitionTarget
+     * @param to         The destination TransitionTarget
      * @param transition The Transition taken
-     * @param event The event name triggering the transition
+     * @param event      The event name triggering the transition
      */
     void onTransition(TransitionTarget from, TransitionTarget to,
                       Transition transition, String event);

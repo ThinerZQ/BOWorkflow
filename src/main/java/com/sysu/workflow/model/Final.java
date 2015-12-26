@@ -41,11 +41,12 @@ public class Final extends EnterableState {
      */
     @Override
     public State getParent() {
-        return (State)super.getParent();
+        return (State) super.getParent();
     }
 
     /**
      * Set the parent State.
+     *
      * @param parent The parent state to set
      */
     public final void setParent(State parent) {
@@ -54,6 +55,7 @@ public class Final extends EnterableState {
 
     /**
      * {@inheritDoc}
+     *
      * @return Returns always true (a state of type Final is always atomic)
      */
     public final boolean isAtomicState() {

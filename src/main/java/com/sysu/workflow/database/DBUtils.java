@@ -8,7 +8,7 @@ import java.sql.*;
 public class DBUtils {
 
 
-    public static Connection getH2InMemeConnection(){
+    public static Connection getH2InMemeConnection() {
         Connection connection = null;
         try {
             Class.forName("org.h2.Driver");
@@ -24,7 +24,7 @@ public class DBUtils {
     }
 
 
-    public static Connection getMysqlConnection(){
+    public static Connection getMysqlConnection() {
 
         String driver = "com.mysql.jdbc.Driver";
 
@@ -38,8 +38,8 @@ public class DBUtils {
         try {
             Class.forName(driver);
             try {
-                connection = DriverManager.getConnection(url,user,password);
-                if (connection!=null){
+                connection = DriverManager.getConnection(url, user, password);
+                if (connection != null) {
                     System.out.println("连接数据库成功");
                 }
             } catch (SQLException e) {
@@ -52,9 +52,7 @@ public class DBUtils {
     }
 
 
-
-
-    public static void closeAll(Connection connection ,PreparedStatement ps,ResultSet rs){
+    public static void closeAll(Connection connection, PreparedStatement ps, ResultSet rs) {
 
         try {
             if (rs != null) {
@@ -69,7 +67,7 @@ public class DBUtils {
                 connection.close();
                 connection = null;
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

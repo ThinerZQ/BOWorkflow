@@ -22,7 +22,6 @@ import com.sysu.workflow.model.State;
 /**
  * 错误的变量
  * Errors reported by the default SCXMLSemantics implementation.
- *
  */
 public class ErrorConstants {
 
@@ -37,7 +36,6 @@ public class ErrorConstants {
     /**
      * An initial state for a composite state whose Transition does not.
      * Map to a descendant of the composite state.
-     *
      */
     public static final String ILLEGAL_INITIAL = "ILLEGAL_INITIAL";
 

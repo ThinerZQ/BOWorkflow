@@ -1,6 +1,7 @@
 package com.sysu.workflow.taskservice;
 
 import com.sysu.workflow.database.DBUtils;
+import com.sysu.workflow.identityservice.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,27 +11,30 @@ import java.sql.PreparedStatement;
  */
 public class TaskDao {
 
-    public boolean saveWorkItem(Task task){
-        int i=0;
+    public boolean saveWorkItem(Task task) {
+        int i = 0;
+
         try {
             Connection connection = DBUtils.getMysqlConnection();
-            String sql = "INSERT INTO workitem VALUES(?,?,?,?,?,?)";
+            String sql = "INSERT INTO workitem VALUES(?,?,?,?,?,?,?,?)";
+
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-            //preparedStatement.setInt(1, 1);
-            preparedStatement.setInt(1,task.getId());
-            preparedStatement.setString(2,task.getName());
-            preparedStatement.setString(3,task.getCreateDate());
+            preparedStatement.setInt(1, 0);
+            preparedStatement.setString(2, task.getName());
+            preparedStatement.setString(3, task.getCreateDate());
             preparedStatement.setString(4, task.getDueDate());
-            preparedStatement.setInt(5,task.getAssigneeId());
-            preparedStatement.setString(6,task.getAssignee());
+            preparedStatement.setInt(5, task.getAssigneeId());
+            preparedStatement.setString(6, task.getAssignee());
+            preparedStatement.setString(7,task.getProcessId());
+            preparedStatement.setString(8,task.getStateId());
 
             i = preparedStatement.executeUpdate();
 
             DBUtils.closeAll(connection, preparedStatement, null);
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return i==1?true:false;
+        return i == 1 ? true : false;
     }
 }

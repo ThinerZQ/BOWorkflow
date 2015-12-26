@@ -31,17 +31,18 @@
         <data id="personnelApprove" expr="false"></data>
     </datamodel>
 
-   <state id="filling">
-       <onentry>
-           <userTask id="fill" name="填写请假单" assignee="zhengqiang" cadidateUsers="" cadidateGroups="" dueDate="" instances="">
-               <param name="申请人" expr="applicant"></param>
-               <param name="原因" expr="reason"></param>
-               <param name="开始时间" expr="from"></param>
-               <param name="结束时间" expr="to"></param>
-           </userTask>
-       </onentry>
+    <state id="filling">
+        <onentry>
+            <userTask id="fill" name="填写请假单" assignee="zhengqiang" cadidateUsers="" cadidateGroups="" dueDate=""
+                      instances="">
+                <param name="申请人" expr="applicant"></param>
+                <param name="原因" expr="reason"></param>
+                <param name="开始时间" expr="from"></param>
+                <param name="结束时间" expr="to"></param>
+            </userTask>
+        </onentry>
 
-    <transition event="to.end"  target="end"/>
-   </state>
+        <transition event="to.end" target="end"/>
+    </state>
     <final id="end"/>
 </scxml>

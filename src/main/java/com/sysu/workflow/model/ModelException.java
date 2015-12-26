@@ -20,7 +20,6 @@ package com.sysu.workflow.model;
  * Exception that is thrown when the SCXML model supplied to the
  * executor has a fatal flaw that prevents the executor from
  * further interpreting the the model.
- *
  */
 public class ModelException extends Exception {
 
@@ -37,25 +36,25 @@ public class ModelException extends Exception {
     }
 
     /**
-     * @see Exception#Exception(String)
      * @param message the detail message
+     * @see Exception#Exception(String)
      */
     public ModelException(final String message) {
         super(message);
     }
 
     /**
-     * @see Exception#Exception(Throwable)
      * @param cause the cause
+     * @see Exception#Exception(Throwable)
      */
     public ModelException(final Throwable cause) {
         super(cause);
     }
 
     /**
-     * @see Exception#Exception(String, Throwable)
      * @param message the detail message
-     * @param cause the cause
+     * @param cause   the cause
+     * @see Exception#Exception(String, Throwable)
      */
     public ModelException(final String message, final Throwable cause) {
         super(message, cause);

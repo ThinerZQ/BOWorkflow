@@ -127,10 +127,10 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
     /**
      * Constructor
      *
-     * @param scxmlExecutor The SCXMLExecutor of this SCXMLExecutionContext
-     * @param evaluator The evaluator
+     * @param scxmlExecutor   The SCXMLExecutor of this SCXMLExecutionContext
+     * @param evaluator       The evaluator
      * @param eventDispatcher The event dispatcher, if null a SimpleDispatcher instance will be used
-     * @param errorReporter The error reporter, if null a SimpleErrorReporter instance will be used
+     * @param errorReporter   The error reporter, if null a SimpleErrorReporter instance will be used
      */
     protected SCXMLExecutionContext(SCXMLExecutor scxmlExecutor, Evaluator evaluator,
                                     EventDispatcher eventDispatcher, ErrorReporter errorReporter) {
@@ -190,6 +190,7 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
 
     /**
      * Set if the SCXML configuration should be checked before execution (default = true)
+     *
      * @param checkLegalConfiguration flag to set
      */
     public void setCheckLegalConfiguration(boolean checkLegalConfiguration) {
@@ -241,6 +242,7 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
      * If the state machine instance has been initialized before, it will be initialized again, destroying all existing
      * state!
      * </p>
+     *
      * @param stateMachine The state machine to set
      * @throws ModelException if attempting to set a null value or the state machine instance failed to re-initialize
      */
@@ -254,6 +256,7 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
     /**
      * The SCXML specification section "C.1.1 _ioprocessors Value" states that the SCXMLEventProcessor <em>must</em>
      * maintain a 'location' field inside its entry in the _ioprocessors environment variable.
+     *
      * @return the 'location' of the SCXMLEventProcessor
      */
     public String getLocation() {
@@ -280,6 +283,7 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
      * If the state machine instance has been initialized before, it will be initialized again, destroying all existing
      * state!
      * </p>
+     *
      * @param evaluator The evaluator to set
      * @throws ModelException if attempting to set a null value or the state machine instance failed to re-initialize
      */
@@ -306,8 +310,7 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
         this.errorReporter = errorReporter != null ? errorReporter : new SimpleErrorReporter();
         try {
             scInstance.setErrorReporter(errorReporter);
-        }
-        catch (ModelException me) {
+        } catch (ModelException me) {
             // won't happen
         }
     }
@@ -341,14 +344,14 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
     protected void initializeIOProcessors() {
         if (scInstance.getEvaluator() != null) {
             // lazy register/reset #_scxml_sessionId event target
-            String currentSessionId = (String)getScInstance().getSystemContext().get(SCXMLSystemContext.SESSIONID_KEY);
+            String currentSessionId = (String) getScInstance().getSystemContext().get(SCXMLSystemContext.SESSIONID_KEY);
             if (sessionId != null && !sessionId.equals(currentSessionId)) {
                 // remove possible old/stale #_scxml_sessionId target
-                ioProcessors.remove(SCXMLIOProcessor.SCXML_SESSION_EVENT_PROCESSOR_PREFIX+sessionId);
+                ioProcessors.remove(SCXMLIOProcessor.SCXML_SESSION_EVENT_PROCESSOR_PREFIX + sessionId);
             }
             sessionId = currentSessionId;
-            if (!ioProcessors.containsKey(SCXMLIOProcessor.SCXML_SESSION_EVENT_PROCESSOR_PREFIX+sessionId)) {
-                ioProcessors.put(SCXMLIOProcessor.SCXML_SESSION_EVENT_PROCESSOR_PREFIX+sessionId, getExternalIOProcessor());
+            if (!ioProcessors.containsKey(SCXMLIOProcessor.SCXML_SESSION_EVENT_PROCESSOR_PREFIX + sessionId)) {
+                ioProcessors.put(SCXMLIOProcessor.SCXML_SESSION_EVENT_PROCESSOR_PREFIX + sessionId, getExternalIOProcessor());
             }
             getScInstance().getSystemContext().setLocal(SCXMLSystemContext.IOPROCESSORS_KEY, Collections.unmodifiableMap(ioProcessors));
         }
@@ -359,6 +362,7 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
      * <p>
      * {@link #attachInstance(SCInstance)} can be used to re-attach a previously detached instance
      * </p>
+     *
      * @return the detached instance
      */
     protected SCInstance detachInstance() {
@@ -376,10 +380,11 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
      * <p>
      * Note: an already attached instance will get overwritten (and thus lost).
      * </p>
+     *
      * @param instance An previously detached SCInstance
      */
     protected void attachInstance(SCInstance instance) {
-        if (scInstance != null ) {
+        if (scInstance != null) {
             scInstance.detach();
         }
         scInstance = instance;
@@ -390,8 +395,7 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
                 scInstance.setEvaluator(evaluator, true);
                 scInstance.setErrorReporter(errorReporter);
                 initializeIOProcessors();
-            }
-            catch (ModelException me) {
+            } catch (ModelException me) {
                 // should not happen
             }
         }
@@ -400,7 +404,7 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
     /**
      * Register an Invoker for this target type.
      *
-     * @param type The target type (specified by "type" attribute of the invoke element).
+     * @param type         The target type (specified by "type" attribute of the invoke element).
      * @param invokerClass The Invoker class.
      */
     protected void registerInvokerClass(final String type, final Class<? extends Invoker> invokerClass) {
@@ -421,8 +425,8 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
      *
      * @param type The type of the target being invoked.
      * @return An {@link Invoker} for the specified type, if an
-     *         invoker class is registered against that type,
-     *         <code>null</code> otherwise.
+     * invoker class is registered against that type,
+     * <code>null</code> otherwise.
      * @throws InvokerException When a suitable {@link Invoker} cannot be instantiated.
      */
     public Invoker newInvoker(final String type) throws InvokerException {
@@ -455,7 +459,7 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
     /**
      * Register the active {@link Invoker} for a {@link Invoke}
      *
-     * @param invoke The Invoke.
+     * @param invoke  The Invoke.
      * @param invoker The Invoker.
      * @throws InvokerException when the Invoker doesn't have an invokerId
      */
@@ -466,17 +470,18 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
         }
         invokeIds.put(invoke, invokeId);
         invokers.put(invokeId, invoker);
-        ioProcessors.put(SCXMLIOProcessor.EVENT_PROCESSOR_ALIAS_PREFIX+invoke.getId(), invoker.getChildIOProcessor());
+        ioProcessors.put(SCXMLIOProcessor.EVENT_PROCESSOR_ALIAS_PREFIX + invoke.getId(), invoker.getChildIOProcessor());
         initializeIOProcessors();
     }
 
     /**
      * Remove a previously active Invoker, which must already have been canceled
+     *
      * @param invoke The Invoke for the Invoker to remove
      */
     public void removeInvoker(final Invoke invoke) {
         invokers.remove(invokeIds.remove(invoke));
-        ioProcessors.remove(SCXMLIOProcessor.EVENT_PROCESSOR_ALIAS_PREFIX+invoke.getId());
+        ioProcessors.remove(SCXMLIOProcessor.EVENT_PROCESSOR_ALIAS_PREFIX + invoke.getId());
         initializeIOProcessors();
     }
 
@@ -499,7 +504,7 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
             try {
                 invokers.get(invokeId).cancel();
             } catch (InvokerException ie) {
-                TriggerEvent te = new TriggerEvent("failed.invoke.cancel."+invokeId, TriggerEvent.ERROR_EVENT);
+                TriggerEvent te = new TriggerEvent("failed.invoke.cancel." + invokeId, TriggerEvent.ERROR_EVENT);
                 addEvent(te);
             }
             removeInvoker(invoke);
@@ -508,6 +513,7 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
 
     /**
      * Add an event to the internal event queue
+     *
      * @param event The event
      */
 

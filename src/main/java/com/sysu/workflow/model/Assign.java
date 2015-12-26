@@ -30,7 +30,6 @@ import java.io.IOException;
 /**
  * The class in this SCXML object model that corresponds to the
  * &lt;assign&gt; SCXML element.
- *
  */
 public class Assign extends Action implements PathResolverHolder {
 
@@ -186,7 +185,7 @@ public class Assign extends Action implements PathResolverHolder {
             exctx.getAppLog().debug("<assign>: '" + location + "' updated");
         }
         // TODO: introduce a optional 'trace.change' setting or something alike to enable .change events,
-       //        but don't do this by default as it can interfere with transitions not expecting such events
+        //        but don't do this by default as it can interfere with transitions not expecting such events
         /*
         if ((Evaluator.XPATH_DATA_MODEL.equals(evaluator.getSupportedDatamodel()) && location.startsWith("$") && ctx.has(location.substring(1))
                 || ctx.has(location))) {
@@ -230,7 +229,7 @@ public class Assign extends Action implements PathResolverHolder {
      */
     private void logError(Throwable throwable) {
         org.apache.commons.logging.Log log = LogFactory.
-            getLog(Assign.class);
+                getLog(Assign.class);
         log.error(throwable.getMessage(), throwable);
     }
 }

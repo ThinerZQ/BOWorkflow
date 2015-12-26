@@ -18,11 +18,11 @@ package com.sysu.workflow.model;
 
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.Log;
+
 /**
  * A custom action is simply a tuple consisting of a namespace URI,
  * the local name for the custom action and the corresponding
  * {@link Action} class.
- *
  */
 public class CustomAction {
 
@@ -31,35 +31,35 @@ public class CustomAction {
      * in a null or empty namespace.
      */
     private static final String ERR_NO_NAMESPACE =
-        "Cannot define a custom SCXML action with a null or empty namespace";
+            "Cannot define a custom SCXML action with a null or empty namespace";
 
     /**
      * The SCXML namespace, to which custom actions may not be added.
      */
     private static final String NAMESPACE_SCXML =
-        "http://www.w3.org/2005/07/scxml";
+            "http://www.w3.org/2005/07/scxml";
 
     /**
      * Error logged while attempting to define a custom action
      * with the SCXML namespace.
      */
     private static final String ERR_RESERVED_NAMESPACE =
-        "Cannot define a custom SCXML action within the SCXML namespace '"
-        + NAMESPACE_SCXML + "'";
+            "Cannot define a custom SCXML action within the SCXML namespace '"
+                    + NAMESPACE_SCXML + "'";
 
     /**
      * Error logged while attempting to define a custom action
      * in a null or empty local name.
      */
     private static final String ERR_NO_LOCAL_NAME =
-        "Cannot define a custom SCXML action with a null or empty local name";
+            "Cannot define a custom SCXML action with a null or empty local name";
 
     /**
      * Error logged while attempting to define a custom action
      * which does not extend {@link Action}.
      */
     private static final String ERR_NOT_AN_ACTION =
-        "Custom SCXML action does not extend Action superclass";
+            "Custom SCXML action does not extend Action superclass";
 
     /**
      * The namespace this custom action belongs to.
@@ -82,12 +82,12 @@ public class CustomAction {
      * {@link IllegalArgumentException} is thrown.
      *
      * @param namespaceURI The namespace URI for this custom action.
-     * @param localName The local name for this custom action.
-     * @param actionClass The {@link Action} subclass implementing this
-     *                    custom action.
+     * @param localName    The local name for this custom action.
+     * @param actionClass  The {@link Action} subclass implementing this
+     *                     custom action.
      */
     public CustomAction(final String namespaceURI, final String localName,
-            final Class<? extends Action> actionClass) {
+                        final Class<? extends Action> actionClass) {
         Log log = LogFactory.getLog(CustomAction.class);
         if (namespaceURI == null || namespaceURI.trim().length() == 0) {
             log.error(ERR_NO_NAMESPACE);

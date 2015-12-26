@@ -19,7 +19,6 @@ package com.sysu.workflow;
 /**
  * Exception thrown when a malformed expression is encountered during
  * evaluation of an expression in a SCXML document.
- *
  */
 public class SCXMLExpressionException extends Exception {
 
@@ -36,28 +35,28 @@ public class SCXMLExpressionException extends Exception {
     }
 
     /**
-     * @see Exception#Exception(String)
      * @param message The error message
+     * @see Exception#Exception(String)
      */
     public SCXMLExpressionException(final String message) {
         super(message);
     }
 
     /**
-     * @see Exception#Exception(Throwable)
      * @param cause The cause
+     * @see Exception#Exception(Throwable)
      */
     public SCXMLExpressionException(final Throwable cause) {
         super(cause);
     }
 
     /**
-     * @see Exception#Exception(String, Throwable)
      * @param message The error message
-     * @param cause The cause
+     * @param cause   The cause
+     * @see Exception#Exception(String, Throwable)
      */
     public SCXMLExpressionException(final String message,
-            final Throwable cause) {
+                                    final Throwable cause) {
         super(message, cause);
     }
 

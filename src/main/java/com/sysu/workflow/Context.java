@@ -34,7 +34,7 @@ public interface Context {
      * The method searches the chain of parent Contexts for variable
      * existence.
      *
-     * @param name The variable name
+     * @param name  The variable name
      * @param value The variable value
      */
     void set(String name, Object value);
@@ -44,7 +44,7 @@ public interface Context {
      * The method allows to shaddow a variable of the same name up the
      * Context chain.
      *
-     * @param name The variable name
+     * @param name  The variable name
      * @param value The variable value
      */
     void setLocal(String name, Object value);

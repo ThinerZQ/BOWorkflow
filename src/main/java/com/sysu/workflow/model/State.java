@@ -19,7 +19,6 @@ package com.sysu.workflow.model;
 /**
  * The class in this SCXML object model that corresponds to the
  * &lt;state&gt; SCXML element.
- *
  */
 public class State extends TransitionalState {
 
@@ -57,8 +56,7 @@ public class State extends TransitionalState {
     /**
      * Set the initial state.
      *
-     * @param target
-     *            The target to set.
+     * @param target The target to set.
      */
     public final void setInitial(final Initial target) {
         this.first = null;
@@ -78,8 +76,7 @@ public class State extends TransitionalState {
     /**
      * Set the initial state by its ID string.
      *
-     * @param target
-     *            The initial target's ID to set.
+     * @param target The initial target's ID to set.
      */
     public final void setFirst(final String target) {
         this.first = target;
@@ -94,6 +91,7 @@ public class State extends TransitionalState {
 
     /**
      * {@inheritDoc}
+     *
      * @return Returns true if this State has no children
      */
     public final boolean isAtomicState() {
@@ -131,6 +129,7 @@ public class State extends TransitionalState {
 
     /**
      * Adds an EnterableState (State, Final or Parallel) child
+     *
      * @param es the child to add
      */
     @Override

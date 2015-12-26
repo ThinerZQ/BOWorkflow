@@ -23,12 +23,13 @@ import java.util.Map;
 
 /**
  * JEXL Context implementation for Commons SCXML.
- *
  */
 public class JexlContext extends SimpleContext
-    implements org.apache.commons.jexl2.JexlContext {
+        implements org.apache.commons.jexl2.JexlContext {
 
-    /** Serial version UID. */
+    /**
+     * Serial version UID.
+     */
     private static final long serialVersionUID = 1L;
 
     /**
@@ -40,7 +41,8 @@ public class JexlContext extends SimpleContext
 
     /**
      * Constructor with initial vars.
-     * @param parent The parent context
+     *
+     * @param parent      The parent context
      * @param initialVars The initial set of variables.
      */
     public JexlContext(final Context parent, final Map<String, Object> initialVars) {

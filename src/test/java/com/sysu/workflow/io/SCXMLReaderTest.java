@@ -21,7 +21,7 @@ public class SCXMLReaderTest {
 
     /**
      * Test the implementation
-     */    
+     */
     @Test
     public void testSCXMLReader() throws Exception {
         URL url = SCXMLTestHelper.getResource("scxml-initial-attr.xml");
@@ -29,6 +29,7 @@ public class SCXMLReaderTest {
 
         Assert.assertNotNull(scxml);
     }
+
     /**
      * Test the implementation
      */
@@ -46,13 +47,11 @@ public class SCXMLReaderTest {
 
         executor.go();
 
-        executor.triggerEvent(new TriggerEvent("to.end",TriggerEvent.SIGNAL_EVENT));
-
+        executor.triggerEvent(new TriggerEvent("to.end", TriggerEvent.SIGNAL_EVENT));
 
 
     }
 
-    
 
 }
 

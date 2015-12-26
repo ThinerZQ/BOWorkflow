@@ -26,23 +26,23 @@ import java.util.Set;
 /**
  * <p>The purpose of this interface is to separate the the
  * <a href="http://www.w3.org/TR/2014/CR-scxml-20140313/#AlgorithmforSCXMLInterpretation">
- *     W3C SCXML Algorithm for SCXML Interpretation</a>
+ * W3C SCXML Algorithm for SCXML Interpretation</a>
  * from the <code>SCXMLExecutor</code> and therefore make it pluggable.</p>
  * <p>
  * From an SCXML execution POV, there are only three entry points needed into the Algorithm, namely:
  * </p>
  * <ul>
- *  <li>Performing the initialization of the state machine and completing a first macro step,
- *   see: {@link #firstStep(SCXMLExecutionContext)}. The state machine thereafter should be ready
- *   for processing external events (or be terminated already)</li>
- *  <li>Processing a single external event and completing the macro step for it, after which the
- *   state machine should be ready for processing another external event (if any), or be terminated already.
- *   See: {@link #nextStep(SCXMLExecutionContext, TriggerEvent)}.
- *  </li>
- *  <li>Finally, if the state machine terminated ({@link SCXMLExecutionContext#isRunning()} == false), after either
- *   of the above steps, finalize the state machine by performing the final step.
- *   See: {@link #finalStep(SCXMLExecutionContext)}.
- *   </li>
+ * <li>Performing the initialization of the state machine and completing a first macro step,
+ * see: {@link #firstStep(SCXMLExecutionContext)}. The state machine thereafter should be ready
+ * for processing external events (or be terminated already)</li>
+ * <li>Processing a single external event and completing the macro step for it, after which the
+ * state machine should be ready for processing another external event (if any), or be terminated already.
+ * See: {@link #nextStep(SCXMLExecutionContext, TriggerEvent)}.
+ * </li>
+ * <li>Finally, if the state machine terminated ({@link SCXMLExecutionContext#isRunning()} == false), after either
+ * of the above steps, finalize the state machine by performing the final step.
+ * See: {@link #finalStep(SCXMLExecutionContext)}.
+ * </li>
  * </ul>
  * <p>After a state machine has been terminated you can re-initialize the execution context, and start again.</p>
  * <p>
@@ -52,9 +52,9 @@ import java.util.Set;
  * for external events can be handled externally.
  * </p>
  * <p>
- *  These three entry points are the only interface methods used by the SCXMLExecutor. It is up to the
- *  specific SCXMLSemantics implementation to provide the concrete handling for these according to the Algorithm in
- *  the SCXML specification (or possibly something else/different).
+ * These three entry points are the only interface methods used by the SCXMLExecutor. It is up to the
+ * specific SCXMLSemantics implementation to provide the concrete handling for these according to the Algorithm in
+ * the SCXML specification (or possibly something else/different).
  * </p>
  * <p>
  * The default {@link SCXMLSemanticsImpl} provides an implementation of the
@@ -66,7 +66,7 @@ import java.util.Set;
  * first run to completion for any internal events raised before returning, as expected and required by the SCXML
  * specification, so it is currently not possible to 'manage' internal event processing externally.
  * </p>
- *
+ * <p/>
  * <p>Specific semantics can be created by subclassing
  * <code>SCXMLSemanticsImpl</code>.</p>
  */
@@ -100,9 +100,10 @@ public interface SCXMLSemantics {
      * If the state machine no longer is running after all this, first the {@link #finalStep(SCXMLExecutionContext)}
      * should be called for cleanup before returning.
      * </p>
+     *
      * @param exctx The execution context for this step
      * @throws ModelException if the state machine instance failed to initialize or a SCXML model error occurred during
-     * the execution.
+     *                        the execution.
      */
     void firstStep(final SCXMLExecutionContext exctx) throws ModelException;
 
@@ -127,6 +128,7 @@ public interface SCXMLSemantics {
      * If the state machine no longer is running after all this, first the {@link #finalStep(SCXMLExecutionContext)}
      * should be called for cleanup before returning.
      * </p>
+     *
      * @param exctx The execution context for this step
      * @param event The event to process
      * @throws ModelException if a SCXML model error occurred during the execution.
@@ -148,8 +150,9 @@ public interface SCXMLSemantics {
      * the possible donedata element for the last final state.
      * </p>
      * <p>
-     *  <em>NOTE: the current implementation does not yet provide final donedata handling.</em>
+     * <em>NOTE: the current implementation does not yet provide final donedata handling.</em>
      * </p>
+     *
      * @param exctx The execution context for this step
      * @throws ModelException if a SCXML model error occurred during the execution.
      */
@@ -168,6 +171,7 @@ public interface SCXMLSemantics {
      * This method is also first invoked when manually initializing the status of a state machine through
      * {@link SCXMLExecutor#setConfiguration(Set)}.
      * </p>
+     *
      * @param states a set of states
      * @param errRep ErrorReporter to report detailed error info if needed
      * @return true if a given state configuration is legal, false otherwise

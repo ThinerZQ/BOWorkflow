@@ -21,7 +21,6 @@ import com.sysu.workflow.*;
 /**
  * The class in this SCXML object model that corresponds to the
  * &lt;var&gt; SCXML element.
- *
  */
 public class Var extends Action {
 
@@ -98,7 +97,7 @@ public class Var extends Action {
         ctx.setLocal(name, varObj);
         if (exctx.getAppLog().isDebugEnabled()) {
             exctx.getAppLog().debug("<var>: Defined variable '" + name
-                + "' with initial value '" + String.valueOf(varObj) + "'");
+                    + "' with initial value '" + String.valueOf(varObj) + "'");
         }
         TriggerEvent ev = new TriggerEvent(name + ".change", TriggerEvent.CHANGE_EVENT);
         exctx.getInternalIOProcessor().addEvent(ev);

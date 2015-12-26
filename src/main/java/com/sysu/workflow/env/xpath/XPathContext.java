@@ -22,17 +22,17 @@ import org.apache.commons.jxpath.Variables;
 
 /**
  * A {@link Context} implementation for JXPath environments.
- *
  */
 public class XPathContext extends SimpleContext
-implements Context, Variables {
+        implements Context, Variables {
 
-    /** Serial version UID. */
+    /**
+     * Serial version UID.
+     */
     private static final long serialVersionUID = -6803159294612685806L;
 
     /**
      * No argument constructor.
-     *
      */
     public XPathContext() {
         super();
@@ -47,22 +47,22 @@ implements Context, Variables {
         super(parent);
     }
 
-    @Override
+
     public boolean isDeclaredVariable(final String varName) {
         return has(varName);
     }
 
-    @Override
+
     public Object getVariable(final String varName) {
         return get(varName);
     }
 
-    @Override
+
     public void declareVariable(final String varName, final Object value) {
         set(varName, value);
     }
 
-    @Override
+
     public void undeclareVariable(final String varName) {
         if (has(varName)) {
             Context ctx = this;

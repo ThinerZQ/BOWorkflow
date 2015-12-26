@@ -28,7 +28,6 @@ import java.util.Map;
 /**
  * The class in this SCXML object model that corresponds to the
  * &lt;invoke&gt; SCXML element.
- *
  */
 public class Invoke extends NamelistHolder implements PathResolverHolder, ContentContainer {
 
@@ -44,7 +43,7 @@ public class Invoke extends NamelistHolder implements PathResolverHolder, Conten
 
     /**
      * Identifier for this Invoke.
-     * */
+     */
     private String id;
 
     /**
@@ -122,6 +121,7 @@ public class Invoke extends NamelistHolder implements PathResolverHolder, Conten
 
     /**
      * Set the idlocation expression
+     *
      * @param idlocation The idlocation expression
      */
     public void setIdlocation(final String idlocation) {
@@ -155,6 +155,7 @@ public class Invoke extends NamelistHolder implements PathResolverHolder, Conten
 
     /**
      * Sets the type expression
+     *
      * @param typeexpr The type expression to set
      */
     public void setTypeexpr(final String typeexpr) {
@@ -216,6 +217,7 @@ public class Invoke extends NamelistHolder implements PathResolverHolder, Conten
 
     /**
      * Set the flag indicating whether to forward events to the invoked process.
+     *
      * @param autoForward the flag
      */
     public final void setAutoForward(final Boolean autoForward) {
@@ -260,6 +262,7 @@ public class Invoke extends NamelistHolder implements PathResolverHolder, Conten
 
     /**
      * Enforce identity equality only
+     *
      * @param other other object to compare with
      * @return this == other
      */
@@ -270,6 +273,7 @@ public class Invoke extends NamelistHolder implements PathResolverHolder, Conten
 
     /**
      * Enforce returning identity based hascode
+     *
      * @return {@link System#identityHashCode(Object) System.identityHashCode(this)}
      */
     @Override
@@ -313,6 +317,7 @@ public class Invoke extends NamelistHolder implements PathResolverHolder, Conten
 
     /**
      * Set the parent EnterableState.
+     *
      * @param parent The parent state to set
      */
     public void setParentEnterableState(final EnterableState parent) {
@@ -327,9 +332,9 @@ public class Invoke extends NamelistHolder implements PathResolverHolder, Conten
     public void execute(final ActionExecutionContext axctx) throws ModelException {
         EnterableState parentState = getParentEnterableState();
         Context ctx = axctx.getContext(parentState);
-        SCXMLExecutionContext exctx = (SCXMLExecutionContext)ctx.getVars().get(getCurrentSCXMLExecutionContextKey());
+        SCXMLExecutionContext exctx = (SCXMLExecutionContext) ctx.getVars().get(getCurrentSCXMLExecutionContextKey());
         if (exctx == null) {
-            throw new ModelException("Missing current SCXMLExecutionContext instance in context under key: "+ getCurrentSCXMLExecutionContextKey());
+            throw new ModelException("Missing current SCXMLExecutionContext instance in context under key: " + getCurrentSCXMLExecutionContextKey());
         }
         try {
             ctx.setLocal(getNamespacesKey(), getNamespaces());
@@ -339,7 +344,7 @@ public class Invoke extends NamelistHolder implements PathResolverHolder, Conten
             if (typeValue == null && typeexpr != null) {
                 typeValue = (String) getTextContentIfNodeResult(eval.eval(ctx, typeexpr));
                 if (typeValue == null) {
-                    throw new SCXMLExpressionException("<invoke> for state "+parentState.getId() +
+                    throw new SCXMLExpressionException("<invoke> for state " + parentState.getId() +
                             ": type expression \"" + typeexpr + "\" evaluated to null or empty String");
                 }
             }
@@ -376,14 +381,13 @@ public class Invoke extends NamelistHolder implements PathResolverHolder, Conten
                     contentValue = content.getBody();
                 }
                 if (contentValue instanceof Node) {
-                    srcNode = ((Node)contentValue).cloneNode(true);
-                }
-                else if (contentValue != null) {
+                    srcNode = ((Node) contentValue).cloneNode(true);
+                } else if (contentValue != null) {
                     src = String.valueOf(contentValue);
                 }
             }
             if (src == null && srcNode == null) {
-                throw new SCXMLExpressionException("<invoke> for state "+parentState.getId() +
+                throw new SCXMLExpressionException("<invoke> for state " + parentState.getId() +
                         ": no src and no content defined");
             }
             Map<String, Object> payloadDataMap = new HashMap<String, Object>();
@@ -395,16 +399,13 @@ public class Invoke extends NamelistHolder implements PathResolverHolder, Conten
             }
             // TODO: } else { invoker.invoke(srcNode, payloadDataMap); }
             exctx.registerInvoker(this, invoker);
-        }
-        catch (InvokerException e) {
+        } catch (InvokerException e) {
             axctx.getErrorReporter().onError(ErrorConstants.EXECUTION_ERROR, e.getMessage(), this);
             axctx.getInternalIOProcessor().addEvent(new TriggerEvent(TriggerEvent.ERROR_EXECUTION, TriggerEvent.ERROR_EVENT));
-        }
-        catch (SCXMLExpressionException e) {
+        } catch (SCXMLExpressionException e) {
             axctx.getInternalIOProcessor().addEvent(new TriggerEvent(TriggerEvent.ERROR_EXECUTION, TriggerEvent.ERROR_EVENT));
             axctx.getErrorReporter().onError(ErrorConstants.EXPRESSION_ERROR, e.getMessage(), this);
-        }
-        finally {
+        } finally {
             ctx.setLocal(getNamespacesKey(), null);
         }
     }

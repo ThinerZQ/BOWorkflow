@@ -22,7 +22,6 @@ import java.util.Map;
  * A <code>NamespacePrefixesHolder</code> is an entity that retains
  * namespace prefix information from the document for deferred XPath
  * evaluation.
- *
  */
 public interface NamespacePrefixesHolder {
 

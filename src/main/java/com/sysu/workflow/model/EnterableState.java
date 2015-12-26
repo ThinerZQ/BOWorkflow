@@ -51,13 +51,14 @@ public abstract class EnterableState extends TransitionTarget implements Documen
      * @return the document order of this state
      * @see DocumentOrder
      */
-    @Override
+
     public final int getOrder() {
         return order;
     }
 
     /**
      * Sets the document order of this state
+     *
      * @param order the document order
      * @see DocumentOrder
      */
@@ -108,6 +109,7 @@ public abstract class EnterableState extends TransitionTarget implements Documen
      * <p>
      * An atomic state is a state of type Final or of type State without children,
      * </p>
+     *
      * @return Returns true if this is an atomic state.
      */
     public abstract boolean isAtomicState();

@@ -27,25 +27,31 @@ import java.util.Map;
 
 /**
  * Simple Context wrapping a map of variables.
- *
  */
 public class SimpleContext implements Context, Serializable {
 
-    /** Serial version UID. */
+    /**
+     * Serial version UID.
+     */
     private static final long serialVersionUID = 1L;
-    /** Implementation independent log category. */
+    /**
+     * Implementation independent log category.
+     */
     private static final Log DEFAULT_LOG = LogFactory.getLog(Context.class);
     private Log log = DEFAULT_LOG;
-    /** The parent Context to this Context. */
+    /**
+     * The parent Context to this Context.
+     */
     private Context parent;
-    /** The Map of variables and their values in this Context. */
+    /**
+     * The Map of variables and their values in this Context.
+     */
     private Map<String, Object> vars;
 
     protected final SCXMLSystemContext systemContext;
 
     /**
      * Constructor.
-     *
      */
     public SimpleContext() {
         this(null, null);
@@ -63,7 +69,7 @@ public class SimpleContext implements Context, Serializable {
     /**
      * Constructor.
      *
-     * @param parent A parent Context, can be null
+     * @param parent      A parent Context, can be null
      * @param initialVars A pre-populated initial variables map
      */
     public SimpleContext(final Context parent, final Map<String, Object> initialVars) {
@@ -82,7 +88,7 @@ public class SimpleContext implements Context, Serializable {
      * The method searches the chain of parent Contexts for variable
      * existence.
      *
-     * @param name The variable name
+     * @param name  The variable name
      * @param value The variable value
      * @see Context#set(String, Object)
      */
@@ -169,7 +175,7 @@ public class SimpleContext implements Context, Serializable {
      * The method allows to shaddow a variable of the same name up the
      * Context chain.
      *
-     * @param name The variable name
+     * @param name  The variable name
      * @param value The variable value
      * @see Context#setLocal(String, Object)
      */

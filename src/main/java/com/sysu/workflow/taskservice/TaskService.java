@@ -12,23 +12,31 @@ import java.util.ArrayList;
 public class TaskService {
 
 
+    private TaskDao taskDao = null;
 
-   public boolean insertInToWorkItem(User user,Task task){
+    public boolean insertInToWorkItem(User user, Task task) {
+        if (taskDao==null){
+            taskDao = new TaskDao();
+        }
+        task.setAssigneeId(user.getId());
+        task.setAssignee(user.getRealName());
+        return taskDao.saveWorkItem(task);
+    }
+
+    public boolean insertIntoWorkItem(Group group, Task task) {
+        return false;
+    }
+
+    public boolean insertIntoWorkItem(ArrayList<Group> groupArrayList, Task task) {
+        return false;
+    }
+
+    public boolean insertInToWorkItem(ArrayList<User> userArrayList, Task task) {
 
         return false;
-   }
-    public boolean insertIntoWorkItem(Group group ,Task task){
-return false;
-    }
-    public boolean insertIntoWorkItem(ArrayList<Group> groupArrayList ,Task task){
-return false;
-    }
-    public boolean insertInToWorkItem(ArrayList<User> userArrayList,Task task){
-
-return false;
     }
 
-    public Task newTask(String taskname){
+    public Task newTask(String taskname) {
         return new Task(taskname);
     }
 
