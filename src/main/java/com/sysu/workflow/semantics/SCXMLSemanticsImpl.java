@@ -84,15 +84,21 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
      */
     public void firstStep(final SCXMLExecutionContext exctx) throws ModelException {
         // (re)initialize the execution context and state machine instance
+        //清除所有的执行上下文和状态机实例
         exctx.initialize();
+
+        //执行全局 Script
         // execute global script if defined
         executeGlobalScript(exctx);
+
+        //执行初始化第一步
         // enter initial states
         HashSet<TransitionalState> statesToInvoke = new HashSet<TransitionalState>();
         Step step = new Step(null);
         step.getTransitList().add(exctx.getStateMachine().getInitialTransition());
         microStep(exctx, step, statesToInvoke);
-        // Execute Immediate Transitions
+
+        // Execute Immediate Transitions，执行即时转移
 
         if (exctx.isRunning()) {
             macroStep(exctx, statesToInvoke);
@@ -202,8 +208,12 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
 
     /**
      * Perform a micro step in the execution of a state machine.
+     * 在执行的状态机中，执行一个微步（micro step）
+     *
      * <p/>
+     * 微步相应的算法是microstep()程序
      * This micro step is corresponding to the Algorithm for SCXML processing microstep() procedure.
+     *
      * <p/>
      *
      * @param exctx          The execution context for this step
@@ -215,15 +225,25 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
     public void microStep(final SCXMLExecutionContext exctx, final Step step,
                           final Set<TransitionalState> statesToInvoke)
             throws ModelException {
+        //针对当前配置构建退出集合和进入集合，给出step的转移列表
         buildStep(exctx, step);
+
+        //退出退出状态集合
         exitStates(exctx, step, statesToInvoke);
+
+        //执行转移
         executeTransitionContent(exctx, step);
+
+        //进入进入状态集合
         enterStates(exctx, step, statesToInvoke);
+
+        //清除这一步的即时转移
         step.clearIntermediateState();
     }
 
     /**
      * buildStep builds the exitSet and entrySet for the current configuration given the transitionList on the step.
+     * 针对当前配置构建退出集合和进入集合，给出step的转移列表，并没有真正的执行退出，和进入操作
      *
      * @param exctx The SCXML execution context
      * @param step  The step containing the list of transitions to be taken
@@ -233,21 +253,22 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
         step.clearIntermediateState();
 
         // compute exitSet, if there is something to exit and record their History configurations if applicable
-        if (!exctx.getScInstance().getStateConfiguration().getActiveStates().isEmpty()) {
+        if (!exctx.getScInstance().getStateConfiguration().getActiveStates().isEmpty()) { //如果当前状态机配置的活跃状态不为空（状态机刚启动的时候肯定是空的），，计算退出状态集合
             computeExitSet(step, exctx.getScInstance().getStateConfiguration());
         }
-        // compute entrySet
+        // compute entrySet  ，计算进入状态集合
         computeEntrySet(exctx, step);
 
-        // default result states to entrySet
+        // default result states to entrySet   ， 默认的进入集合
         Set<EnterableState> states = step.getEntrySet();
-        if (!step.getExitSet().isEmpty()) {
+
+        if (!step.getExitSet().isEmpty()) { //如果当前步的退出集合不为空，状态机刚启动的时候肯定是空的。
             // calculate result states by taking current states, subtracting exitSet and adding entrySet
-            states = new HashSet<EnterableState>(exctx.getScInstance().getStateConfiguration().getStates());
-            states.removeAll(step.getExitSet());
-            states.addAll(step.getEntrySet());
+            states = new HashSet<EnterableState>(exctx.getScInstance().getStateConfiguration().getStates());   //将当前的所有原子状态机集合放入states
+            states.removeAll(step.getExitSet());   //移除所有退出状态集合
+            states.addAll(step.getEntrySet()); //再加上所有的进入状态集合
         }
-        // validate the result states represent a legal configuration
+        // validate the result states represent a legal configuration， 验证当前的状态配置是否是一个合法的配置
         if (exctx.isCheckLegalConfiguration() && !isLegalConfiguration(states, exctx.getErrorReporter())) {
             throw new ModelException("Illegal state machine configuration!");
         }
@@ -844,6 +865,8 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
     /**
      * This method corresponds to the Algorithm for SCXML processing exitStates() procedure, where the states to exit
      * already have been pre-computed in {@link #microStep(SCXMLExecutionContext, Step, Set)}.
+     * 这个方法对应于SCXML规范描述的算法 exitStates() 程序，
+     *
      *
      * @param exctx          The execution context for this micro step
      * @param step           the step
@@ -854,38 +877,49 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
     public void exitStates(final SCXMLExecutionContext exctx, final Step step,
                            final Set<TransitionalState> statesToInvoke)
             throws ModelException {
-        if (step.getExitSet().isEmpty()) {
+        if (step.getExitSet().isEmpty()) { //当前不的退出集合是空的，直接返回，例如状态机刚启动的时候退出集合是空的
             return;
         }
+        //将要退出的状态放入arraylist， 并按照文档逆序顺序排好序
         ArrayList<EnterableState> exitList = new ArrayList<EnterableState>(step.getExitSet());
         Collections.sort(exitList, DocumentOrder.reverseDocumentOrderComparator);
 
+        //对于每一个需要退出的状态
         for (EnterableState es : exitList) {
 
+            //如果退出的是TransitionalState 状态，并且当前状态（肯定不是原子状态）有你是伪状态
             if (es instanceof TransitionalState && ((TransitionalState) es).hasHistory()) {
-                // persist the new history configurations for this state to exit
+                // persist the new history configurations for this state to exit    将新的历史配置存储起来，
                 for (History h : ((TransitionalState) es).getHistory()) {
                     exctx.getScInstance().setLastConfiguration(h, step.getNewHistoryConfigurations().get(h));
                 }
             }
-
+            //是否有抛出事件的一个标记，默认为false
             boolean onexitEventRaised = false;
+
+            //执行每一个状态状态里面的每一个退出区域
             for (OnExit onexit : es.getOnExits()) {
+                //执行可执行内容
                 executeContent(exctx, onexit);
+
+                //如果状态不是原子状态退出的时候，需要抛出内部事件
                 if (!onexitEventRaised && onexit.isRaiseEvent()) {
                     onexitEventRaised = true;
                     exctx.getInternalIOProcessor().addEvent(new TriggerEvent("exit.state." + es.getId(), TriggerEvent.CHANGE_EVENT));
                 }
             }
+            //处理对这些状态或者SCXML文档监听的监听器，这里默认是执行日志记录
             exctx.getNotificationRegistry().fireOnExit(es, es);
             exctx.getNotificationRegistry().fireOnExit(exctx.getStateMachine(), es);
 
+            //如果要退出的状态是TransitionalState,并且statesToInvoke里面包含es，
             if (es instanceof TransitionalState && !statesToInvoke.remove(es)) {
                 // check if invokers are active in this state
                 for (Invoke inv : ((TransitionalState) es).getInvokes()) {
                     exctx.cancelInvoker(inv);
                 }
             }
+            //最后一步，真正的退出这些状态
             exctx.getScInstance().getStateConfiguration().exitState(es);
         }
     }
@@ -905,12 +939,13 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
 
     /**
      * Executes the executable content for a specific executable in the micro step
-     *
+     *  执行可执行内容里面的action
      * @param exctx The execution context for this micro step
      * @param exec  the executable providing the execution content
      * @throws ModelException if a SCXML model error occurred during the execution.
      */
     public void executeContent(SCXMLExecutionContext exctx, Executable exec) throws ModelException {
+        //对于 onentry, onexit, transition里面的action，调用各自action的execute方法，传递actionexetioncontext
         try {
             for (Action action : exec.getActions()) {
                 action.execute(exctx.getActionExecutionContext());
@@ -919,9 +954,11 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
             exctx.getInternalIOProcessor().addEvent(new TriggerEvent(TriggerEvent.ERROR_EXECUTION, TriggerEvent.ERROR_EVENT));
             exctx.getErrorReporter().onError(ErrorConstants.EXPRESSION_ERROR, e.getMessage(), exec);
         }
+        //如果当前可执行内容 是transition的实例
         if (exec instanceof Transition) {
             Transition t = (Transition) exec;
-            if (t.getTargets().isEmpty()) {
+            //如果转移的目标是空的
+            if (t.getTargets().isEmpty()) { //
                 notifyOnTransition(exctx, t, t.getParent());
             } else {
                 for (TransitionTarget tt : t.getTargets()) {
@@ -933,7 +970,7 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
 
     /**
      * Notifies SCXMLListeners on the transition taken
-     *
+     * 通知SCXMLListeners 转移发生了
      * @param exctx  The execution context for this micro step
      * @param t      The Transition taken
      * @param target The target of the Transition
@@ -950,6 +987,8 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
      * This method corresponds to the Algorithm for SCXML processing enterStates() procedure, where the states to enter
      * already have been pre-computed in {@link #microStep(SCXMLExecutionContext, Step, Set)}.
      *
+     * 这个方法对应于SCXML中的enterStates() ,
+     *
      * @param exctx          The execution context for this micro step
      * @param step           the step
      * @param statesToInvoke the set of activated states which invokes need to be invoked at the end of the current
@@ -959,17 +998,23 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
     public void enterStates(final SCXMLExecutionContext exctx, final Step step,
                             final Set<TransitionalState> statesToInvoke)
             throws ModelException {
+        //如果进入集合是空，直接退出。
         if (step.getEntrySet().isEmpty()) {
             return;
         }
+        //得到文档顺序的进入集合
         ArrayList<EnterableState> entryList = new ArrayList<EnterableState>(step.getEntrySet());
         Collections.sort(entryList, DocumentOrder.documentOrderComparator);
+        //对于每一个进入状态
         for (EnterableState es : entryList) {
+            //放入到状态机配置对应的状态里面去
             exctx.getScInstance().getStateConfiguration().enterState(es);
+            //es是transitionalState ,并且es 有invoke元素
             if (es instanceof TransitionalState && !((TransitionalState) es).getInvokes().isEmpty()) {
                 statesToInvoke.add((TransitionalState) es);
             }
 
+            //抛出进入事件默认为假
             boolean onentryEventRaised = false;
             for (OnEntry onentry : es.getOnEntries()) {
                 executeContent(exctx, onentry);

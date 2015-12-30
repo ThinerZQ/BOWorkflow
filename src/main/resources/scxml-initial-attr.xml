@@ -33,7 +33,7 @@
 
     <state id="filling">
         <onentry>
-            <userTask id="fill" name="填写请假单" assignee="zhengqiang" cadidateUsers="" cadidateGroups="" dueDate=""
+            <userTask id="fill" name="填写请假单" assignee="caller" cadidateUsers="" cadidateGroups="" dueDate=""
                       instances="">
                 <param name="申请人" expr="applicant"></param>
                 <param name="原因" expr="reason"></param>

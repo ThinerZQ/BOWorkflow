@@ -21,22 +21,26 @@ import java.util.List;
 
 /**
  * An abstract base class for state elements in SCXML that can be transitioned out from, such as State or Parallel.
+ *
  */
 public abstract class TransitionalState extends EnterableState {
 
     /**
      * A list of outgoing Transitions from this state, by document order.
+     * 一系列的转移出口，文档顺序排列
      */
     private List<Transition> transitions;
 
     /**
      * Optional property holding the data model for this state.
+     * 状态元素的数据模型
      */
     private Datamodel datamodel;
 
     /**
      * List of history states owned by a given state (applies to non-leaf
      * states).
+     * 一系列的历史状态
      */
     private List<History> history;
 
@@ -51,6 +55,7 @@ public abstract class TransitionalState extends EnterableState {
 
     /**
      * The set of EnterableState children contained in this TransitionalState
+     * 一系列的孩子状态
      */
     private List<EnterableState> children;
 
@@ -175,7 +180,7 @@ public abstract class TransitionalState extends EnterableState {
     }
 
     /**
-     * Does this state have a history pseudo state.
+     * 当前状态是不是有你是伪状态
      *
      * @return boolean true if a given state contains at least one
      * history pseudo state
@@ -199,7 +204,7 @@ public abstract class TransitionalState extends EnterableState {
 
     /**
      * Get the Invoke children (may be empty).
-     *
+     * 得到调用的孩子，可能是空的。
      * @return Invoke Returns the invoke.
      */
     public final List<Invoke> getInvokes() {

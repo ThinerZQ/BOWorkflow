@@ -29,15 +29,14 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
- * <p>The SCXML &quot;engine&quot; that executes SCXML documents. The
- * particular semantics used by this engine for executing the SCXML are
- * encapsulated in the SCXMLSemantics implementation that it uses.</p>
- * <p/>
- * <p>The default implementation is
- * <code>SCXMLSemanticsImpl</code></p>
- * <p/>
- * <p>The executor uses SCXMLExecutionContext to manage the state and
- * provide all the services to the SCXMLSemantics implementation.</p>
+ *
+ * 执行SCXML文档的 SCXML 引擎
+ *
+ * 执行的语义封装在 SCXMLSementics implementation里面，默认实现是SCXMLSemanticsImpl类
+ *
+ * 引擎使用SCXMLExecutionContext来管理状态，来为SCXMLSemanticesImpl类提供所有的服务
+ *
+ *
  *
  * @see SCXMLSemantics
  */
@@ -45,38 +44,45 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
 
     /**
      * The Logger for the SCXMLExecutor.
+     * SCXMLExecutor的日志记录器
      */
     private Log log = LogFactory.getLog(SCXMLExecutor.class);
 
     /**
      * Parent SCXMLExecutor
+     *
+     * 父SCXMLExecutor
      */
     private SCXMLExecutor parentSCXMLExecutor;
 
     /**
      * Interpretation semantics.
+     * SCXML文档所使用的语义
      */
     private SCXMLSemantics semantics;
 
     /**
      * The state machine execution context
+     * 状态机执行上下文
      */
     private SCXMLExecutionContext exctx;
 
     /**
      * The external event queue
+     * 外部事件队列
      */
     private final Queue<TriggerEvent> externalEventQueue = new ConcurrentLinkedQueue<TriggerEvent>();
 
     /**
      * Convenience constructor.
+     * 简便的构造器
      */
     public SCXMLExecutor() {
         this(null, null, null, null);
     }
 
     /**
-     * Constructor.
+     * 构造器
      *
      * @param expEvaluator The expression evaluator
      * @param evtDisp      The event dispatcher
@@ -115,14 +121,14 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
     }
 
     /**
-     * @return the parent SCXMLExecutor (if any)
+     * @return 返回父亲的SCXMLExecutor
      */
     protected SCXMLExecutor getParentSCXMLExecutor() {
         return parentSCXMLExecutor;
     }
 
     /**
-     * Get the current state machine instance status.
+     * 得到当前状态机实例的当前状态
      *
      * @return The current Status
      */
@@ -136,6 +142,8 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
      * This will first (re)initialize the current state machine: clearing all variable contexts, histories and current
      * status, and clones the SCXML root datamodel into the root context.
      * </p>
+     * 使用指定的active 的configuration 初始化状态机
+     * 这将会初始化或者再次初始化当前的状态，清楚所有的变量和上下文，历史和上下文，并且赋值原来的数据模型到新的根上下文
      *
      * @param atomicStateIds The set of atomic state ids for the state machine
      * @throws ModelException when the state machine hasn't been properly configured yet, when an unknown or illegal
@@ -177,6 +185,10 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
      * Also the external event queue will be cleared.
      * </p>
      *
+     * 设置或者替换表达式求值器
+     * 如果状态机实例已经初始化过了，它应该再次初始化，清理所有存在的状态
+     * 外部事件队列也应该被清理
+     *
      * @param evaluator The evaluator to set
      * @throws ModelException if attempting to set a null value or the state machine instance failed to re-initialize
      */
@@ -185,7 +197,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
     }
 
     /**
-     * Get the expression evaluator in use.
+     * 得到当前的表达式求值器
      *
      * @return Evaluator The evaluator in use.
      */
@@ -195,7 +207,9 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
 
     /**
      * Get the root context for the state machine execution.
+     * 得到当前状态机执行的根上下文
      * <p>
+     *     根上下文能够被用来提供外部数据给状态机使用
      * The root context can be used for providing external data to the state machine
      * </p>
      *
@@ -207,6 +221,8 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
 
     /**
      * Get the global context for the state machine execution.
+     * 得到状态机执行的全局上下文
+     * 全局上下文是最顶层的上下文，，在状态机内部应该被当做  read-only状态
      * <p>
      * The global context is the top level context within the state machine itself and should be regarded and treated
      * "read-only" from external usage.
@@ -219,6 +235,10 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
     }
 
     /**
+     * 设置状态机执行的根上下文
+     *
+     * 应该被调用在引擎启动之前
+     *
      * Set the root context for the state machine execution.
      * <b>NOTE:</b> Should only be used before the executor is set in motion.
      *
@@ -228,10 +248,19 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
         exctx.getScInstance().setRootContext(rootContext);
     }
 
+    /**
+     * 设置是否要将状态上下文和全局上下文共享
+     * @param singleContext
+     * @throws ModelException
+     */
     public void setSingleContext(boolean singleContext) throws ModelException {
         getSCInstance().setSingleContext(singleContext);
     }
 
+    /**
+     * 返回是否共享了上下文
+     * @return
+     */
     public boolean isSingleContext() {
         return getSCInstance().isSingleContext();
     }
@@ -246,6 +275,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
      * manipulation of any {@link Datamodel}s associated with this state
      * machine definition.
      *
+     * 得到当前的状态机
      * @return Returns the stateMachine.
      */
     public SCXML getStateMachine() {
@@ -254,12 +284,15 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
 
     /**
      * Set or replace the state machine to be executed
+     * 设置或者替换被执行的状态机
      * <p>
+     *     如果状态机实例已经被初始化了，会再次初始化，清理所有的状态
      * If the state machine instance has been initialized before, it will be initialized again, destroying all existing
      * state!
      * </p>
      * <p>
      * Also the external event queue will be cleared.
+     * 外部事件队列也应该被清理
      * </p>
      *
      * @param stateMachine The state machine to set
@@ -272,6 +305,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
 
     /**
      * Get the environment specific error reporter.
+     * 得到指定的错误报告器
      *
      * @return Returns the errorReporter.
      */
@@ -281,6 +315,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
 
     /**
      * Set or replace the error reporter
+     * 设置或者替换错误报告器
      *
      * @param errorReporter The error reporter to set, if null a SimpleErrorReporter instance will be used instead
      */
@@ -290,7 +325,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
 
     /**
      * Get the event dispatcher.
-     *
+     *得到事件分发器
      * @return Returns the eventdispatcher.
      */
     public EventDispatcher getEventdispatcher() {
@@ -299,6 +334,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
 
     /**
      * Set or replace the event dispatch
+     * 设置或者替换事件分发器
      *
      * @param eventdispatcher The event dispatcher to set, if null a SimpleDispatcher instance will be used instead
      */
@@ -308,7 +344,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
 
     /**
      * Set if the SCXML configuration should be checked before execution (default = true)
-     *
+     *  设置是否状态机的配置应该被检查
      * @param checkLegalConfiguration flag to set
      */
     public void setCheckLegalConfiguration(boolean checkLegalConfiguration) {
@@ -324,7 +360,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
 
     /**
      * Get the notification registry.
-     *
+     * 得到通知注册
      * @return The notification registry.
      */
     public NotificationRegistry getNotificationRegistry() {
@@ -334,6 +370,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
     /**
      * Add a listener to the {@link Observable}.
      *
+     *  添加一个监听器
      * @param observable The {@link Observable} to attach the listener to.
      * @param listener   The SCXMLListener.
      */
@@ -343,7 +380,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
 
     /**
      * Remove this listener from the {@link Observable}.
-     *
+     * 移除监听器
      * @param observable The {@link Observable}.
      * @param listener   The SCXMLListener to be removed.
      */
@@ -354,7 +391,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
 
     /**
      * Register an Invoker for this target type.
-     *
+     * 注册调用者，
      * @param type         The target type (specified by "type" attribute of the invoke element).
      * @param invokerClass The Invoker class.
      */
@@ -365,6 +402,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
     /**
      * Remove the Invoker registered for this target type (if there is one registered).
      *
+     * 移除调用者注册器，
      * @param type The target type (specified by "type" attribute of the invoke element).
      */
     public void unregisterInvokerClass(final String type) {
@@ -408,7 +446,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
     }
 
     /**
-     * Initiate state machine execution.
+     * 初始化状态机的执行，启动状态机引擎
      *
      * @throws ModelException in case there is a fatal SCXML object
      *                        model problem.
@@ -419,7 +457,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
     }
 
     /**
-     * Clear all state and begin executing the state machine
+     * 开始执行状态机执行，清楚所有的外部事件
      *
      * @throws ModelException if the state machine instance failed to initialize
      */
@@ -434,7 +472,9 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
 
     /**
      * Add a new external event, which may be done concurrently, and even when the current SCInstance is detached.
+     * 添加一个外部事件，这个外部事件可能触发多个状态机的庄毅，设置当当前的SCInstance是被分离的，
      * <p>
+     *
      * No processing of the vent will be done, until the next triggerEvent methods is invoked.
      * </p>
      *
@@ -447,21 +487,21 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
     }
 
     /**
-     * @return Returns true if there are pending external events to be processed.
+     * @return 如果有外部事件等待处理，返回true
      */
     public boolean hasPendingEvents() {
         return !externalEventQueue.isEmpty();
     }
 
     /**
-     * @return Returns the current number of pending external events to be processed.
+     * @return 返回当前外部队列里面的事件数量
      */
     public int getPendingEvents() {
         return externalEventQueue.size();
     }
 
     /**
-     * Convenience method when only one event needs to be triggered.
+     * 当一个事件被触发的时候可以调用这个方法
      *
      * @param evt the external events which triggered during the last
      *            time quantum
@@ -477,6 +517,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
     /**
      * The worker method.
      * Re-evaluates current status whenever any events are triggered.
+     * 多个事件触发
      *
      * @param evts an array of external events which triggered during the last
      *             time quantum
@@ -495,6 +536,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
 
     /**
      * Trigger all pending and incoming events, until there are no more pending events
+     *  触发所有等待的和 incoming的事件，直到没有等待的事件
      *
      * @throws ModelException in case there is a fatal SCXML object model problem.
      */
@@ -505,13 +547,19 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
         }
     }
 
+    /**
+     * 事件步中调用  语义里面的东西，nextStep,
+     *
+     * @param event
+     * @throws ModelException
+     */
     protected void eventStep(TriggerEvent event) throws ModelException {
         semantics.nextStep(exctx, event);
         logState();
     }
 
     /**
-     * Get the state chart instance for this executor.
+     * 得到引擎的SCInstance
      *
      * @return The SCInstance for this executor.
      */
@@ -520,7 +568,7 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
     }
 
     /**
-     * Log the current set of active states.
+     *记录当前状态的活跃状态集合
      */
     protected void logState() {
 

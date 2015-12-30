@@ -19,6 +19,7 @@ package com.sysu.workflow.model;
 import java.io.Serializable;
 
 /**
+ * SCXML中的content元素
  * The class in this SCXML object model that corresponds to the
  * &lt;content&gt; SCXML element.
  */
@@ -30,11 +31,13 @@ public class Content implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * 表达式
      * The param expression, may be null.
      */
     private String expr;
 
     /**
+     * content内容
      * The body of this content, may be null.
      */
     private Object body;

@@ -17,6 +17,8 @@
 package com.sysu.workflow.model;
 
 /**
+ * SCXML对象模型中对应于 onexit元素，
+ * 是一个可选的属性
  * The class in this SCXML object model that corresponds to the
  * &lt;onexit&gt; SCXML element, which is an optional property
  * holding executable content to be run upon exiting the parent
@@ -30,6 +32,7 @@ public class OnExit extends Executable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * 一个表示器，在执行完这个OnExit之后是否要出了一个exit.state.id内部事件
      * An indicator whether to raise the non-standard "exit.state.id" internal event after executing this OnExit
      */
     private Boolean raiseEvent;

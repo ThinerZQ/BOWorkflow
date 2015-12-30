@@ -50,6 +50,7 @@ public final class NotificationRegistry {
 
     /**
      * Register this SCXMLListener for this Observable.
+     * 注册SCXMLListener 对于 可观察内容
      *
      * @param source The observable this listener wants to listen to
      * @param lst    The listener
@@ -67,6 +68,7 @@ public final class NotificationRegistry {
 
     /**
      * Deregister this SCXMLListener for this Observable.
+     * 移除SCXMLListener
      *
      * @param source The observable this listener wants to stop listening to
      * @param lst    The listener
@@ -86,7 +88,7 @@ public final class NotificationRegistry {
     /**
      * Inform all relevant listeners that a EnterableState has been
      * entered.
-     *
+     * 通知所有相关的监听器，一个EnterableState 进入了
      * @param source The Observable
      * @param state  The EnterableState that was entered
      */

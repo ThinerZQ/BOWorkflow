@@ -58,6 +58,7 @@ public class StateConfiguration implements Serializable {
 
     /**
      * Get the current atomic states (leaf only).
+     * 得到当前所有的原子状态集合
      *
      * @return Returns the atomic states - simple (leaf) states only.
      */
