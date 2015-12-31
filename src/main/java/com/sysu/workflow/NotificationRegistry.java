@@ -33,16 +33,21 @@ import java.util.Set;
  * The notification registry keeps track of all
  * <code>SCXMLListener</code>s attached and notifies relevant
  * listeners of the events that interest them.
+ *
+ * 注册SCXML的监听器，
+ * 通知注册跟踪所有SCXMLListener，通知所有的监听器，他们感兴趣的事件
  */
 public final class NotificationRegistry {
 
     /**
      * The Map of all listeners keyed by {@link Observable#getObservableId()}.
+     * 所有监听器的一个map,key是被监听元素的id
      */
     private final Map<Integer, Set<SCXMLListener>> regs;
 
     /**
      * Constructor.
+     * 构造函数
      */
     public NotificationRegistry() {
         this.regs = new HashMap<Integer, Set<SCXMLListener>>();
@@ -107,6 +112,7 @@ public final class NotificationRegistry {
     /**
      * Inform all relevant listeners that a EnterableState has been
      * exited.
+     * 通知所有相关的监听器一个EnterableState已经退出了
      *
      * @param source The Observable
      * @param state  The EnterableState that was exited
@@ -125,6 +131,7 @@ public final class NotificationRegistry {
 
     /**
      * Inform all relevant listeners of a transition that has occured.
+     * 通知所有的监听器，转移发生了
      *
      * @param source     The Observable
      * @param from       The source EnterableState
