@@ -54,6 +54,11 @@ import java.util.*;
  * parsed is well-formed and correct. If that assumption does not hold,
  * any subsequent behavior is undefined.</p>
  *
+ * SCXMLReader 提供了读写SCXML文档的能力，，
+ *
+ * SCXMLReader 假设SCXML文档是形式良好的，正确的。
+ *
+ *
  * @since 1.0
  */
 public final class SCXMLReader {
@@ -64,6 +69,8 @@ public final class SCXMLReader {
      * The SCXML namespace that this Reader is built for. Any document
      * that is intended to be parsed by this reader <b>must</b>
      * bind the SCXML elements to this namespace.
+     *
+     * 必须把scxml元素绑定到这个命名空间
      */
     private static final String XMLNS_SCXML =
             "http://www.w3.org/2005/07/scxml";
@@ -80,40 +87,53 @@ public final class SCXMLReader {
 
     /**
      * The version attribute value the SCXML element <em>must</em> have as stated by the spec: 3.2.1
+     * scxml元素版本号
      */
     private static final String SCXML_REQUIRED_VERSION = "1.0";
     /**
      * The default namespace for attributes.
+     * 属性的默认命名空间
      */
     private static final String XMLNS_DEFAULT = null;
 
     //---- ERROR MESSAGES ----//
+    //----错误消息 -------//
     /**
      * Null URL passed as argument.
+     *
+     * 空的URL
      */
     private static final String ERR_NULL_URL = "Cannot parse null URL";
 
     /**
+     * 空的路径
+     *
      * Null path passed as argument.
      */
     private static final String ERR_NULL_PATH = "Cannot parse null path";
 
     /**
+     * 空的输入流
+     *
      * Null InputStream passed as argument.
      */
     private static final String ERR_NULL_ISTR = "Cannot parse null InputStream";
 
     /**
+     * 空的Reader
      * Null Reader passed as argument.
      */
     private static final String ERR_NULL_READ = "Cannot parse null Reader";
 
     /**
+     * 空的源文档
+     *
      * Null Source passed as argument.
      */
     private static final String ERR_NULL_SRC = "Cannot parse null Source";
 
     /**
+     * 试图顶一个自定义Action ，没有扩展SCXML Action基类
      * Error message while attempting to define a custom action which does
      * not extend the Commons SCXML Action base class.
      */
@@ -122,6 +142,7 @@ public final class SCXMLReader {
 
     /**
      * Parser configuration error while trying to parse stream to DOM node(s).
+     * 解析器配置错误
      */
     private static final String ERR_PARSER_CFG = "ParserConfigurationException while trying"
             + " to parse stream into DOM node(s).";
@@ -130,6 +151,8 @@ public final class SCXMLReader {
      * Error message when the URI in a &lt;state&gt;'s &quot;src&quot;
      * attribute does not point to a valid SCXML document, and thus cannot be
      * parsed.
+     *
+     *
      */
     private static final String ERR_STATE_SRC =
             "Source attribute in <state src=\"{0}\"> cannot be parsed";
@@ -217,9 +240,11 @@ public final class SCXMLReader {
     private static final String ELEM_TRANSITION = "transition";
     private static final String ELEM_VAR = "var";
 
+
     //---- workflow扩展的元素 ----//
     private static final String ELEM_USERTASK = "userTask";
     private static final String ELEM_SERVICETASK = "serviceTask";
+    private static final String ELEM_SUBSTATEMACHINE ="subStateMachine";
 
 
     //---- 属性名 ----//
@@ -260,6 +285,7 @@ public final class SCXMLReader {
     private static final String ATTR_CANDIDATEGROUPS = "candidateGroups";
     private static final String ATTR_ASSIGNEE = "assignee";
     private static final String ATTR_DUEDATE = "dueDate";
+    private static final String ATTR_INSTANCES = "instances";
 
 
     //------------------------- 公有的方法 -------------------------//
@@ -1050,6 +1076,8 @@ public final class SCXMLReader {
     /**
      * Read the contents of this &lt;invoke&gt; element.
      *
+     * 读取invoke元素的内容
+     *
      * @param reader        The {@link XMLStreamReader} providing the SCXML document to parse.
      * @param configuration The {@link Configuration} to use while parsing.
      * @param parent        The parent {@link TransitionalState} for this invoke.
@@ -1420,19 +1448,22 @@ public final class SCXMLReader {
                     name = reader.getLocalName();
                     if (XMLNS_SCXML.equals(nsURI)) {
                         if (ELEM_USERTASK.equals(name)) {
-                            //read user task
-
+                            //读取用户任务
                             readUserTask(reader, configuration, executable, parent);
-
                         } else if (ELEM_SERVICETASK.equals(name)) {
-                            // read service task
+                            //读取服务任务
                             readServiceTask(reader, configuration, executable, parent);
-
+                        } else if (ELEM_SUBSTATEMACHINE.equals(name)){
+                            //读取子状态机
+                            readSubStateMachine(reader,configuration,executable,parent);
                         } else if (ELEM_RAISE.equals(name)) {
+                            //读取raise事件
                             readRaise(reader, configuration, executable, parent);
                         } else if (ELEM_FOREACH.equals(name)) {
+                            //读取foreach标签
                             readForeach(reader, configuration, executable, parent);
                         } else if (ELEM_IF.equals(name)) {
+                            //读取if标签
                             readIf(reader, configuration, executable, parent);
                         } else if (ELEM_LOG.equals(name)) {
                             readLog(reader, configuration, executable, parent);
@@ -1480,6 +1511,7 @@ public final class SCXMLReader {
             }
         }
     }
+
 
     /**
      * Read the contents of this &lt;raise&gt; element.
@@ -1986,6 +2018,15 @@ public final class SCXMLReader {
         }
     }
 
+    /**
+     *
+     * @param reader
+     * @param configuration
+     * @param executable
+     * @param parent
+     * @throws XMLStreamException
+     * @throws ModelException
+     */
     private static void readUserTask(final XMLStreamReader reader, final Configuration configuration,
                                      final Executable executable,
                                      final ActionsContainer parent)
@@ -2016,12 +2057,41 @@ public final class SCXMLReader {
 
     }
 
+    /**
+     *
+     * @param reader
+     * @param configuration
+     * @param executable
+     * @param parent
+     * @throws XMLStreamException
+     */
     private static void readServiceTask(final XMLStreamReader reader, final Configuration configuration,
                                         final Executable executable,
                                         final ActionsContainer parent)
             throws XMLStreamException {
 
 
+    }
+
+    /**
+     *
+     * @param reader
+     * @param configuration
+     * @param executable
+     * @param parent
+     */
+    private static void readSubStateMachine(XMLStreamReader reader, Configuration configuration, Executable executable, ActionsContainer parent) throws XMLStreamException {
+
+        SubStateMachine subStateMachine = new SubStateMachine();
+        subStateMachine.setSrc(readAV(reader, ATTR_SRC));
+        subStateMachine.setInstances(Integer.parseInt(readAV(reader, ATTR_INSTANCES)));
+
+        if (parent != null) {
+            parent.addAction(subStateMachine);
+        } else {
+            executable.addAction(subStateMachine);
+        }
+        skipToEndElement(reader);
     }
 
 

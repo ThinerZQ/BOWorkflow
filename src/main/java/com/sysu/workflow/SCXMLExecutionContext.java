@@ -3,6 +3,8 @@
  */
 package com.sysu.workflow;
 
+import com.sysu.workflow.engine.SCXMLInstanceManager;
+import com.sysu.workflow.engine.SCXMLInstanceTree;
 import com.sysu.workflow.env.SimpleDispatcher;
 import com.sysu.workflow.env.SimpleErrorReporter;
 import com.sysu.workflow.invoke.Invoker;
@@ -135,6 +137,13 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
      */
     private String sessionId;
 
+
+    /**
+     * 实例树 的扩展
+     */
+    private SCXMLInstanceTree instanceTree;
+
+
     /**
      * 构造器
      *
@@ -152,6 +161,7 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
         this.errorReporter = errorReporter != null ? errorReporter : new SimpleErrorReporter();
         this.notificationRegistry = new NotificationRegistry();
 
+
         this.scInstance = new SCInstance(this, this.evaluator, this.errorReporter);
         this.actionExecutionContext = new ActionExecutionContext(this);
 
@@ -164,7 +174,47 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
         initializeIOProcessors();
         registerInvokerClass(SCXML_INVOKER_TYPE_URI, SimpleSCXMLInvoker.class);
         registerInvokerClass(SCXML_INVOKER_TYPE, SimpleSCXMLInvoker.class);
+
+        //当由用户创建的时候初始化业务对象实例树
+
+
+
     }
+
+
+    /**
+     * 构造器
+     *
+     * @param scxmlExecutor   The SCXMLExecutor of this SCXMLExecutionContext
+     * @param evaluator       The evaluator
+     * @param eventDispatcher The event dispatcher, if null a SimpleDispatcher instance will be used
+     * @param errorReporter   The error reporter, if null a SimpleErrorReporter instance will be used
+     */
+    protected SCXMLExecutionContext(SCXMLExecutor scxmlExecutor, Evaluator evaluator,
+                                    EventDispatcher eventDispatcher, ErrorReporter errorReporter,SCXMLInstanceTree instanceTree) {
+        this.scxmlExecutor = scxmlExecutor;
+        this.externalIOProcessor = scxmlExecutor;
+        this.evaluator = evaluator;
+        this.eventdispatcher = eventDispatcher != null ? eventDispatcher : new SimpleDispatcher();
+        this.errorReporter = errorReporter != null ? errorReporter : new SimpleErrorReporter();
+        this.notificationRegistry = new NotificationRegistry();
+
+        this.scInstance = new SCInstance(this, this.evaluator, this.errorReporter);
+        this.actionExecutionContext = new ActionExecutionContext(this);
+
+
+        ioProcessors.put(SCXMLIOProcessor.DEFAULT_EVENT_PROCESSOR, getExternalIOProcessor());
+        ioProcessors.put(SCXMLIOProcessor.SCXML_EVENT_PROCESSOR, getExternalIOProcessor());
+        ioProcessors.put(SCXMLIOProcessor.INTERNAL_EVENT_PROCESSOR, getInternalIOProcessor());
+        if (scxmlExecutor.getParentSCXMLExecutor() != null) {
+            ioProcessors.put(SCXMLIOProcessor.PARENT_EVENT_PROCESSOR, scxmlExecutor.getParentSCXMLExecutor());
+        }
+        initializeIOProcessors();
+        registerInvokerClass(SCXML_INVOKER_TYPE_URI, SimpleSCXMLInvoker.class);
+        registerInvokerClass(SCXML_INVOKER_TYPE, SimpleSCXMLInvoker.class);
+        this.instanceTree = instanceTree;
+    }
+
 
     public SCXMLExecutor getSCXMLExecutor() {
         return scxmlExecutor;
@@ -235,6 +285,15 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
         scInstance.initialize();
         initializeIOProcessors();
         scInstance.setRunning(true);
+
+        //只有在这里 sessionId 才会固定
+        //似乎只能在这里初始化实例树，如果是通过  外界用户自己产生的会话，
+        if (this.instanceTree == null){
+            this.instanceTree = new SCXMLInstanceTree(getSessionId());
+            //在这里将Executor 添加到管理器里面
+            SCXMLInstanceManager.setSCXMLInstance(getSCXMLExecutor());
+        }
+
     }
 
     /**
@@ -578,5 +637,25 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
      */
     public boolean hasPendingInternalEvent() {
         return !internalEventQueue.isEmpty();
+    }
+
+    /**
+     * 得到   实例树
+     * @return
+     */
+    public SCXMLInstanceTree getInstanceTree() {
+        return instanceTree;
+    }
+
+    public void setInstanceTree(SCXMLInstanceTree instanceTree) {
+        this.instanceTree = instanceTree;
+    }
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 }

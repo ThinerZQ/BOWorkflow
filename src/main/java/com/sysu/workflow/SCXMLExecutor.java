@@ -16,6 +16,7 @@
  */
 package com.sysu.workflow;
 
+import com.sysu.workflow.engine.SCXMLInstanceTree;
 import com.sysu.workflow.invoke.Invoker;
 import com.sysu.workflow.model.*;
 import com.sysu.workflow.semantics.SCXMLSemanticsImpl;
@@ -106,6 +107,20 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
                          final SCXMLSemantics semantics) {
         this.semantics = semantics != null ? semantics : new SCXMLSemanticsImpl();
         this.exctx = new SCXMLExecutionContext(this, expEvaluator, evtDisp, errRep);
+    }
+
+    /**
+     * 构造器
+     *
+     * @param expEvaluator The expression evaluator
+     * @param evtDisp      The event dispatcher
+     * @param errRep       The error reporter
+     */
+    public SCXMLExecutor(final Evaluator expEvaluator,
+                         final EventDispatcher evtDisp, final ErrorReporter errRep, final SCXMLSemantics semantics,final SCXMLInstanceTree instanceTree  ) {
+
+        this.semantics = semantics != null ? semantics : new SCXMLSemanticsImpl();
+        this.exctx = new SCXMLExecutionContext(this, expEvaluator, evtDisp, errRep,instanceTree);
     }
 
     /**

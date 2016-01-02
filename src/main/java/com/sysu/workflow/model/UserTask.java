@@ -4,11 +4,8 @@ import com.sysu.workflow.ActionExecutionContext;
 import com.sysu.workflow.Context;
 import com.sysu.workflow.Evaluator;
 import com.sysu.workflow.SCXMLExpressionException;
-import com.sysu.workflow.identityservice.IdentityService;
-import com.sysu.workflow.identityservice.User;
-import com.sysu.workflow.taskservice.Task;
-import com.sysu.workflow.taskservice.TaskDispatcher;
-import com.sysu.workflow.taskservice.TaskService;
+import com.sysu.workflow.service.taskservice.Task;
+import com.sysu.workflow.service.taskservice.TaskDispatcher;
 
 import java.util.Date;
 

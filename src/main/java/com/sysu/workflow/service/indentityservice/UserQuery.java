@@ -1,4 +1,4 @@
-package com.sysu.workflow.identityservice;
+package com.sysu.workflow.service.indentityservice;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.sysu.workflow.identityservice;
+package com.sysu.workflow.service.indentityservice;
 
 /**
  * Created by zhengshouzi on 2015/12/16.

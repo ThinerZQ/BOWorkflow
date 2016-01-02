@@ -1,8 +1,8 @@
-package com.sysu.workflow.taskservice;
+package com.sysu.workflow.service.taskservice;
 
 
-import com.sysu.workflow.identityservice.Group;
-import com.sysu.workflow.identityservice.User;
+import com.sysu.workflow.service.indentityservice.Group;
+import com.sysu.workflow.service.indentityservice.User;
 
 import java.util.ArrayList;
 

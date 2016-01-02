@@ -53,7 +53,6 @@
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/env/jexl/package.html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/env/minimal/MinimalContext.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/env/minimal/MinimalEvaluator.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/env/package.html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/env/xpath/ContextVariables.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/env/xpath/XPathContext.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/env/xpath/XPathEvaluator.java" charset="UTF-8" />

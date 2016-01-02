@@ -16,6 +16,7 @@
  */
 package com.sysu.workflow;
 
+import com.sysu.workflow.engine.SCXMLInstanceTree;
 import com.sysu.workflow.env.SimpleContext;
 import com.sysu.workflow.model.*;
 import com.sysu.workflow.semantics.ErrorConstants;
@@ -124,6 +125,7 @@ public class SCInstance implements Serializable {
      */
     private boolean singleContext;
 
+
     /**
      * 构造函数
      *
@@ -139,6 +141,7 @@ public class SCInstance implements Serializable {
         this.stateConfiguration = new StateConfiguration();
         this.currentStatus = new Status(stateConfiguration);
     }
+
 
     /**
      * 初始化，或者再初始化状态机实例，清除所有的变量上下文，历史，当前状态信息，复制SCXML的数据模型到root Context

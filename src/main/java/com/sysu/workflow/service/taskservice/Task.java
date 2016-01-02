@@ -1,6 +1,4 @@
-package com.sysu.workflow.taskservice;
-
-import java.util.Date;
+package com.sysu.workflow.service.taskservice;
 
 /**
  * Created by zhengshouzi on 2015/12/16.

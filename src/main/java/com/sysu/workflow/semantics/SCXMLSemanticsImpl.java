@@ -100,10 +100,11 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
 
         // Execute Immediate Transitions，执行即时转移
 
+        //在执行完第一次的microstep 微步之后，在看有没有在运行中，如果有，就执行即时转移
         if (exctx.isRunning()) {
             macroStep(exctx, statesToInvoke);
         }
-
+        //最后判断是否停止运行了，如果停止了，就执行finalStep
         if (!exctx.isRunning()) {
             finalStep(exctx);
         }
@@ -276,8 +277,12 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
 
     /**
      * Perform a macro step in the execution of a state machine.
+     *
+     * 执行一大步，直到当前会话等待一个外部事件
+     *
      * <p/>
      * This macro step is corresponding to the Algorithm for SCXML processing mainEventLoop() procedure macro step
+     *
      * sub-flow, which are the first <em>3</em> steps of the described <em>4</em>, so everything up to the blocking
      * wait for an external event.
      * <p/>
@@ -289,17 +294,21 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
      */
     public void macroStep(final SCXMLExecutionContext exctx, final Set<TransitionalState> statesToInvoke)
             throws ModelException {
+        //循环一直等待
         do {
+            //这一大步是否结束了
             boolean macroStepDone = false;
+            //
             do {
+                //构造一大步的每一次Step
                 Step step = new Step(null);
                 selectTransitions(exctx, step);
-                if (step.getTransitList().isEmpty()) {
-                    TriggerEvent event = exctx.nextInternalEvent();
-                    if (event != null) {
-                        if (isCancelEvent(event)) {
+                if (step.getTransitList().isEmpty()) {   //如果转移列表是空的
+                    TriggerEvent event = exctx.nextInternalEvent();  //得到内部事件队列中的下一个内部事件
+                    if (event != null) {  //如果内部事件不是空的
+                        if (isCancelEvent(event)) {      //先判断这个内部事件是不是 《取消事件》
                             exctx.stopRunning();
-                        } else {
+                        } else {      //不是取消事件，设置系统变量，
                             setSystemEventVariable(exctx.getScInstance(), event, true);
                             step = new Step(event);
                             selectTransitions(exctx, step);
@@ -544,6 +553,7 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
 
     /**
      * This method corresponds to the Algorithm for SCXML processing selectTransitions() as well as the
+     * 选择转移，
      * selectEventlessTransitions() procedure, depending on the event (or null) in the provided step
      * <p/>
      *
@@ -552,6 +562,8 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
      * @throws ModelException if there is a fatal SCXML state error
      */
     public void selectTransitions(final SCXMLExecutionContext exctx, final Step step) throws ModelException {
+
+        //step里面的转移清理了
         step.getTransitList().clear();
         ArrayList<Transition> enabledTransitions = new ArrayList<Transition>();
 
@@ -1018,24 +1030,27 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
             boolean onentryEventRaised = false;
             for (OnEntry onentry : es.getOnEntries()) {
                 executeContent(exctx, onentry);
-                if (!onentryEventRaised && onentry.isRaiseEvent()) {
+                if (!onentryEventRaised && onentry.isRaiseEvent()) {   //如果onentry里面有raiseEvent元素
                     onentryEventRaised = true;
                     exctx.getInternalIOProcessor().addEvent(new TriggerEvent("entry.state." + es.getId(), TriggerEvent.CHANGE_EVENT));
                 }
             }
+            //通知
             exctx.getNotificationRegistry().fireOnEntry(es, es);
             exctx.getNotificationRegistry().fireOnEntry(exctx.getStateMachine(), es);
 
+            //如果当前状态是State的实例，并且.....，并且........
             if (es instanceof State && step.getDefaultEntrySet().contains(es) && ((State) es).getInitial() != null) {
-                executeContent(exctx, ((State) es).getInitial().getTransition());
+                executeContent(exctx, ((State) es).getInitial().getTransition());   //执行初始内容里面的转移
             }
+            //如果当前状态是  TransitionState
             if (es instanceof TransitionalState) {
                 SimpleTransition hTransition = step.getDefaultHistoryTransitions().get(es);
                 if (hTransition != null) {
                     executeContent(exctx, hTransition);
                 }
             }
-
+            //如果当前状态是 Final
             if (es instanceof Final) {
                 State parent = (State) es.getParent();
                 if (parent == null) {

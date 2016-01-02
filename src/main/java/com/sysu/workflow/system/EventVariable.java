@@ -20,6 +20,7 @@ import java.io.Serializable;
 
 /**
  * Event system variable holding a structure containing the current event's name and any data contained in the event
+ * 事件系统变量，保存了当前事件的结构，结构包括，事件的名字，和包含在事件里面的其他数据
  */
 public class EventVariable implements Serializable {
 

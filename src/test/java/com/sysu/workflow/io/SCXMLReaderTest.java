@@ -5,12 +5,14 @@ import com.sysu.workflow.Evaluator;
 import com.sysu.workflow.SCXMLExecutor;
 import com.sysu.workflow.SCXMLTestHelper;
 import com.sysu.workflow.TriggerEvent;
+import com.sysu.workflow.engine.SCXMLInstanceManager;
 import com.sysu.workflow.env.SimpleErrorReporter;
 import com.sysu.workflow.env.jexl.JexlEvaluator;
 import com.sysu.workflow.model.SCXML;
 import org.junit.*;
 
 import java.net.URL;
+import java.util.Map;
 
 
 /**
@@ -24,7 +26,7 @@ public class SCXMLReaderTest {
      */
     @Test
     public void testSCXMLReader() throws Exception {
-        URL url = SCXMLTestHelper.getResource("scxml-initial-attr.xml");
+        URL url = SCXMLTestHelper.getResource("subStateMachine.xml");
         SCXML scxml = new SCXMLReader().read(url);
 
         Assert.assertNotNull(scxml);
@@ -35,7 +37,7 @@ public class SCXMLReaderTest {
      */
     @Test
     public void testExecutor() throws Exception {
-        URL url = SCXMLTestHelper.getResource("scxml-initial-attr.xml");
+        URL url = SCXMLTestHelper.getResource("subStateMachine.xml");
         SCXML scxml = new SCXMLReader().read(url);
         //实例化数据模型解析器
         Evaluator evaluator = new JexlEvaluator();
@@ -47,8 +49,14 @@ public class SCXMLReaderTest {
 
         executor.go();
 
-        executor.triggerEvent(new TriggerEvent("to.end", TriggerEvent.SIGNAL_EVENT));
+        executor.triggerEvent(new TriggerEvent("decomposeVoteComplete", TriggerEvent.SIGNAL_EVENT));
 
+        //executor.triggerEvent(new TriggerEvent("approve",TriggerEvent.SIGNAL_EVENT));
+
+        Map<String,SCXMLExecutor> map = SCXMLInstanceManager.getRunningSCXMLInstanceExecutor();
+
+        //将多个实例之间的关系保存起来了，
+        Assert.assertEquals(4,map.size());
 
     }
 

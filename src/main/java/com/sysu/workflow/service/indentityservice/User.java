@@ -1,8 +1,8 @@
-package com.sysu.workflow.identityservice;
+package com.sysu.workflow.service.indentityservice;
 
 import com.sysu.workflow.model.IdentityException;
-import com.sysu.workflow.taskservice.Task;
-import com.sysu.workflow.taskservice.TaskService;
+import com.sysu.workflow.service.taskservice.Task;
+import com.sysu.workflow.service.taskservice.TaskService;
 
 /**
  * Created by zhengshouzi on 2015/12/14.

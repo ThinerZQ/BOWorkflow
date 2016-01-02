@@ -1,6 +1,5 @@
-package com.sysu.workflow.identityservice;
+package com.sysu.workflow.service.indentityservice;
 
-import com.sun.org.glassfish.external.statistics.annotations.Reset;
 import com.sysu.workflow.database.DBUtils;
 
 import java.sql.Connection;

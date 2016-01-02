@@ -1,6 +1,7 @@
 package com.sysu.workflow.engine;
 
 import com.sysu.workflow.SCXMLExecutor;
+import com.sysu.workflow.SCXMLSystemContext;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,24 +13,34 @@ import java.util.Map;
 public class SCXMLInstanceManager {
 
 
-    public Map<String, SCXMLExecutor> SCXMLInstanceMap = new HashMap<String, SCXMLExecutor>();
-    public Map<String ,SCXMLInstanceTree> SCXMLInstanceTreeMap   = new HashMap<String, SCXMLInstanceTree>();
+    private static Map<String, SCXMLExecutor> SCXMLInstanceExecutorMap = new HashMap<String, SCXMLExecutor>();
+    private static Map<String ,SCXMLInstanceTree> SCXMLInstanceTreeMap   = new HashMap<String, SCXMLInstanceTree>();
 
-    public void setSCXMLInstance(SCXMLExecutor scxmlExecutor) {
+
+    public static void setSCXMLInstance(SCXMLExecutor scxmlExecutor) {
         if (scxmlExecutor != null) {
-            SCXMLInstanceMap.put((String) scxmlExecutor.getRootContext().get("_sessionid"), scxmlExecutor);
+            SCXMLInstanceExecutorMap.put((String) scxmlExecutor.getGlobalContext().getSystemContext().get(SCXMLSystemContext.SESSIONID_KEY), scxmlExecutor);
         }
     }
-    public SCXMLExecutor getSCXMLExecutor(String sessionId){
-        return SCXMLInstanceMap.get(sessionId);
+    public static SCXMLExecutor getSCXMLExecutor(String sessionId){
+        return SCXMLInstanceExecutorMap.get(sessionId);
     }
 
-    public void setSCXMLInstanceTreeMap(SCXMLInstanceTree scxmlInstanceTree){
+
+    public static Map<String,SCXMLExecutor> getRunningSCXMLInstanceExecutor(){
+        return SCXMLInstanceExecutorMap;
+    }
+
+
+
+
+
+    public static void setSCXMLInstanceTreeMap(SCXMLInstanceTree scxmlInstanceTree){
         if (scxmlInstanceTree!=null){
             SCXMLInstanceTreeMap.put(scxmlInstanceTree.getRootSessionId(),scxmlInstanceTree);
         }
     }
-    public SCXMLInstanceTree getSCXMLInstanceTreeMap(String rootSessionId){
+    public static SCXMLInstanceTree getSCXMLInstanceTreeMap(String rootSessionId){
         return SCXMLInstanceTreeMap.get(rootSessionId);
     }
 

@@ -1,11 +1,4 @@
-package com.sysu.workflow.identityservice;
-
-import com.sysu.workflow.database.DBUtils;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
+package com.sysu.workflow.service.indentityservice;
 
 /**
  * Created by zhengshouzi on 2015/12/16.

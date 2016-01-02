@@ -1,7 +1,6 @@
-package com.sysu.workflow.taskservice;
+package com.sysu.workflow.service.taskservice;
 
 import com.sysu.workflow.database.DBUtils;
-import com.sysu.workflow.identityservice.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
