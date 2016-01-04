@@ -1,30 +1,16 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+
 package com.sysu.workflow.model;
 
 import com.sysu.workflow.*;
 import org.apache.commons.logging.Log;
+import sun.security.pkcs11.P11Util;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * The class in this SCXML object model that corresponds to the
- * &lt;send&gt; SCXML element.
+ *
+ *
  */
 public class Send extends NamelistHolder implements ContentContainer {
 
@@ -34,17 +20,17 @@ public class Send extends NamelistHolder implements ContentContainer {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The suffix in the delay string for milliseconds.
+     * 延时时间后缀：毫秒
      */
     private static final String MILLIS = "ms";
 
     /**
-     * The suffix in the delay string for seconds.
+     * 延时时间后缀：秒
      */
     private static final String SECONDS = "s";
 
     /**
-     * The suffix in the delay string for minutes.
+     * 延时时间后缀：分钟
      */
     private static final String MINUTES = "m";
 
@@ -70,6 +56,8 @@ public class Send extends NamelistHolder implements ContentContainer {
 
     /**
      * The target location of the event.
+     *
+     * 事件的目标位置
      */
     private String target;
 
@@ -81,6 +69,8 @@ public class Send extends NamelistHolder implements ContentContainer {
 
     /**
      * The type of the Event I/O Processor that the event should be dispatched to.
+     *
+     * 事件I/O 处理器类型，，scxml/ http
      */
     private String type;
 
@@ -91,6 +81,8 @@ public class Send extends NamelistHolder implements ContentContainer {
 
     /**
      * The delay the event is dispatched after.
+     * 事件的延时
+     *
      */
     private String delay;
 
@@ -100,22 +92,39 @@ public class Send extends NamelistHolder implements ContentContainer {
     private String delayexpr;
 
     /**
-     * The data containing information which may be used by the implementing platform to configure the event processor.
+     * The data containing information which may be used by the implementing platform to configure the event processor.、
+     * 平台相关的
      */
     private String hints;
 
     /**
      * The type of event being generated.
+     *
+     * 生成的事件
      */
     private String event;
 
     /**
      * An expression defining the type of event being generated.
+     * 类型表达式
      */
     private String eventexpr;
 
+
+    /**
+     * 我们消息发送机制 扩展的内容
+     */
+    private String messageMode;
+
+    private String targetName;
+
+    private String targetState;
+
+
+
     /**
      * The &lt;content/&gt; of this send
+     * 发送的内容
      */
     private Content content;
 
@@ -314,6 +323,31 @@ public class Send extends NamelistHolder implements ContentContainer {
         this.eventexpr = eventexpr;
     }
 
+
+    public String getMessageMode() {
+        return messageMode;
+    }
+
+    public void setMessageMode(String messageMode) {
+        this.messageMode = messageMode;
+    }
+
+    public String getTargetName() {
+        return targetName;
+    }
+
+    public void setTargetName(String targetName) {
+        this.targetName = targetName;
+    }
+
+    public String getTargetState() {
+        return targetState;
+    }
+
+    public void setTargetState(String targetState) {
+        this.targetState = targetState;
+    }
+
     /**
      * Returns the content
      *
@@ -345,16 +379,21 @@ public class Send extends NamelistHolder implements ContentContainer {
         Evaluator eval = exctx.getEvaluator();
         // Most attributes of <send> are expressions so need to be
         // evaluated before the EventDispatcher callback
+
+        //求出hint的值
         Object hintsValue = null;
         if (hints != null) {
             hintsValue = eval.eval(ctx, hints);
         }
+        //得到id
         if (id == null) {
             id = ctx.getSystemContext().generateSessionId();
             if (idlocation != null) {
                 eval.evalAssign(ctx, idlocation, id, Evaluator.AssignType.REPLACE_CHILDREN, null);
             }
         }
+
+
         String targetValue = target;
         if (targetValue == null && targetexpr != null) {
             targetValue = (String) getTextContentIfNodeResult(eval.eval(ctx, targetexpr));
@@ -379,6 +418,17 @@ public class Send extends NamelistHolder implements ContentContainer {
         } else if (!SCXMLIOProcessor.DEFAULT_EVENT_PROCESSOR.equals(typeValue) && typeValue.trim().equalsIgnoreCase(SCXMLIOProcessor.SCXML_EVENT_PROCESSOR)) {
             typeValue = SCXMLIOProcessor.DEFAULT_EVENT_PROCESSOR;
         }
+
+
+
+
+
+
+
+
+
+
+
         Object payload = null;
         Map<String, Object> payloadDataMap = new LinkedHashMap<String, Object>();
         addNamelistDataToPayload(exctx, payloadDataMap);
@@ -419,6 +469,7 @@ public class Send extends NamelistHolder implements ContentContainer {
                     + typeValue + "' with suggested delay of " + wait
                     + "ms");
         }
+
         exctx.getEventDispatcher().send(ioProcessors, id, targetValue, typeValue, eventValue,
                 payload, hintsValue, wait);
     }
@@ -462,5 +513,22 @@ public class Send extends NamelistHolder implements ContentContainer {
         }
         return wait;
     }
+
+
+
+}
+enum MessageMode{
+
+    BROADCAST("全局广播",1), TO_OFFSPRING("子孙广播",2),TO_CHILD("孩子广播",3),TO_SIBLING("兄弟广播",4),TO_ANCESTOR("祖先广播",5),MULTICAST("一组多播",6),TO_PARENT("父亲单播",7),UNICAST("任意单播",8);
+
+    private String name;
+    private int index;
+
+
+    MessageMode(String name,int index){
+        this.name=name;
+        this.index=index;
+    }
+
 }
 

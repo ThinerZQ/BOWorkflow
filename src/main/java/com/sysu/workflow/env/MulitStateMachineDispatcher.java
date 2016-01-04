@@ -1,4 +1,3 @@
-
 package com.sysu.workflow.env;
 
 import com.sysu.workflow.EventDispatcher;
@@ -12,13 +11,21 @@ import java.util.*;
 
 /**
  *
- * äº‹ä»¶æ´¾å‘å™¨ï¼Œèƒ½å¤Ÿè°ƒåº¦ä¸€èˆ¬äº‹ä»¶å’Œå»¶æ—¶äº‹ä»¶ï¼Œäº‹ä»¶ç±»å‹åªèƒ½æ˜¯scxmlç±»å‹ï¼Œåœ¨å®ç°ä¸­æ˜¯ç”¨äº† J2SE çš„ Timer
- * å…¶ä»–ç±»å‹ä¸èƒ½è¢«å¤„ç†ï¼Œ
+ * Created with IntelliJ IDEA
+ * Date: 2016/1/4
+ * Time: 20:29
+ * User: zhengshouzi
+ * GitHub: <a>https://github.com/ThinerZQ</a>
+ * Blog: <a>http://blog.csdn.net/c601097836</a>
+ * Email: 601097836@qq.com
  *
- * å¦‚æœæƒ³å¤„ç†å…¶ä»–ç±»å‹çš„æ¶ˆæ¯ï¼Œå¯ä»¥ç»§æ‰¿è¿™ä¸ªç±»ï¼Œé‡å†™ cancel å’Œ  sendæ–¹æ³•ï¼Œé‡åˆ°scxmlç±»å‹çš„è½¬å‘ï¼Œè°ƒç”¨çˆ¶ç±»çš„sendæ–¹æ³•ã€‚
+ * ÕâÊÇ¹¤×÷Á÷ÀïÃæ¶à¸ö×´Ì¬»úÖ®¼äÍ¨ĞÅµÄ µÄÏûÏ¢ÅÉ·¢Æ÷£¬
+ * ÊÂ¼şÅÉ·¢Æ÷£¬ÄÜ¹»µ÷¶ÈÒ»°ãÊÂ¼şºÍÑÓÊ±ÊÂ¼ş£¬ÊÂ¼şÀàĞÍÖ»ÄÜÊÇscxmlÀàĞÍ£¬ÔÚÊµÏÖÖĞÊÇÓÃÁË J2SE µÄ Timer
+ * ÆäËûÀàĞÍ²»ÄÜ±»´¦Àí£¬
  *
  */
-public class SimpleDispatcher implements EventDispatcher, Serializable {
+public class MulitStateMachineDispatcher extends SimpleDispatcher implements Serializable {
+
 
     /**
      * Serial version UID.
@@ -212,4 +219,3 @@ public class SimpleDispatcher implements EventDispatcher, Serializable {
         }
     }
 }
-

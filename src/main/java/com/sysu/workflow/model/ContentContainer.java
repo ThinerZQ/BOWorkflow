@@ -19,6 +19,8 @@ package com.sysu.workflow.model;
 /**
  * A <code>ContentContainer</code> represents an element in the SCXML
  * document that may have a (single) child &lt;content/&gt; element
+ *
+ * 内容包含接口
  */
 
 public interface ContentContainer {

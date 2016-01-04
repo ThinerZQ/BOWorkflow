@@ -1,19 +1,4 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+
 package com.sysu.workflow.semantics;
 
 import com.sysu.workflow.*;
@@ -145,6 +130,8 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
             exctx.stopRunning();
         } else {
             setSystemEventVariable(exctx.getScInstance(), event, false);
+
+
             processInvokes(exctx, event);
             Step step = new Step(event);
             selectTransitions(exctx, step);
@@ -835,6 +822,8 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
      * SCXML specification predefined types.
      * </p>
      *
+     * 设置系统事件变量，将外部发送的信息，保存到_event里面
+     *
      * @param scInstance the state machine instance holding the system context
      * @param event      The event being stored
      * @param internal   Flag indicating the event was received internally or externally
@@ -1091,6 +1080,8 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
 
     /**
      * Forward events to invoked activities, execute finalize handlers.
+     *
+     * 转发事件到被调用的活动，执行finalize处理器
      *
      * @param exctx provides the execution context
      * @param event The events to be forwarded
