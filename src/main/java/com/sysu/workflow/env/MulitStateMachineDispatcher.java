@@ -1,16 +1,21 @@
 package com.sysu.workflow.env;
 
 import com.sysu.workflow.EventDispatcher;
+import com.sysu.workflow.SCXMLExecutor;
 import com.sysu.workflow.SCXMLIOProcessor;
 import com.sysu.workflow.TriggerEvent;
+import com.sysu.workflow.engine.SCXMLInstanceManager;
+import com.sysu.workflow.engine.SCXMLInstanceTree;
+import com.sysu.workflow.model.MessageMode;
+import com.sysu.workflow.model.ModelException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import javax.swing.tree.TreeNode;
 import java.io.Serializable;
 import java.util.*;
 
 /**
- *
  * Created with IntelliJ IDEA
  * Date: 2016/1/4
  * Time: 20:29
@@ -18,11 +23,10 @@ import java.util.*;
  * GitHub: <a>https://github.com/ThinerZQ</a>
  * Blog: <a>http://blog.csdn.net/c601097836</a>
  * Email: 601097836@qq.com
- *
+ * <p/>
  * 这是工作流里面多个状态机之间通信的 的消息派发器，
  * 事件派发器，能够调度一般事件和延时事件，事件类型只能是scxml类型，在实现中是用了 J2SE 的 Timer
  * 其他类型不能被处理，
- *
  */
 public class MulitStateMachineDispatcher extends SimpleDispatcher implements Serializable {
 
@@ -146,15 +150,22 @@ public class MulitStateMachineDispatcher extends SimpleDispatcher implements Ser
         timers.remove(sendId);
     }
 
-    /**
-     * @see EventDispatcher#send(Map, String, String, String, String, Object, Object, long)
-     */
-    public void send(final Map<String, SCXMLIOProcessor> ioProcessors, final String id, final String target,
-                     final String type, final String event, final Object data, final Object hints, final long delay) {
+    @Override
+    public void send(Map<String, SCXMLIOProcessor> ioProcessors, String id, String target, String type, String event, Object data, Object hints, long delay) {
+        super.send(ioProcessors, id, target, type, event, data, hints, delay);
+    }
+
+    @Override
+    public void send(String currentSessionId, SCXMLInstanceTree scxmlInstanceTree, String id, String target, MessageMode messageMode, String targetName, String targetState, String type, String event, Object data, String hints, long delay) {
+
+        //记录日志
         if (log.isInfoEnabled()) {
             StringBuilder buf = new StringBuilder();
             buf.append("send ( id: ").append(id);
             buf.append(", target: ").append(target);
+            buf.append(", messageMode: ").append(messageMode);
+            buf.append(", targetName: ").append(targetName);
+            buf.append(", targetState: ").append(targetState);
             buf.append(", type: ").append(type);
             buf.append(", event: ").append(event);
             buf.append(", data: ").append(String.valueOf(data));
@@ -164,39 +175,26 @@ public class MulitStateMachineDispatcher extends SimpleDispatcher implements Ser
             log.info(buf.toString());
         }
 
-        // We only handle the "scxml" type (which is the default too) and optionally the #_internal target
+        //只处理 type ="scxml" 类型的事件
 
         if (type == null || type.equalsIgnoreCase(SCXMLIOProcessor.SCXML_EVENT_PROCESSOR) ||
                 type.equals(SCXMLIOProcessor.DEFAULT_EVENT_PROCESSOR)) {
 
-            SCXMLIOProcessor ioProcessor;
 
             boolean internal = false;
 
-            if (target == null) {
-                ioProcessor = ioProcessors.get(SCXMLIOProcessor.SCXML_EVENT_PROCESSOR);
-            } else if (ioProcessors.containsKey(target)) {
-                ioProcessor = ioProcessors.get(target);
-                internal = SCXMLIOProcessor.INTERNAL_EVENT_PROCESSOR.equals(target);
-            } else if (SCXMLIOProcessor.INTERNAL_EVENT_PROCESSOR.equals(target)) {
-                ioProcessor = ioProcessors.get(SCXMLIOProcessor.INTERNAL_EVENT_PROCESSOR);
-                internal = true;
-            } else {
-                // We know of no other target
-                if (log.isWarnEnabled()) {
-                    log.warn("<send>: Unavailable target - " + target);
-                }
-                ioProcessors.get(SCXMLIOProcessor.INTERNAL_EVENT_PROCESSOR).
-                        addEvent(new TriggerEvent(TriggerEvent.ERROR_EXECUTION, TriggerEvent.ERROR_EVENT));
-                return; // done
-            }
+
+            SCXMLInstanceTree.TreeNode currentTreeNode = scxmlInstanceTree.getNode(currentSessionId);
+
+            SCXMLIOProcessor ioProcessor = SCXMLInstanceManager.getSCXMLInstanceExecutor(currentSessionId);
+
 
             if (event == null) {
                 if (log.isWarnEnabled()) {
                     log.warn("<send>: Cannot send without event name");
                 }
-                ioProcessors.get(SCXMLIOProcessor.INTERNAL_EVENT_PROCESSOR).
-                        addEvent(new TriggerEvent(TriggerEvent.ERROR_EXECUTION, TriggerEvent.ERROR_EVENT));
+                ioProcessor.addEvent(new TriggerEvent(TriggerEvent.ERROR_EXECUTION, TriggerEvent.ERROR_EVENT));
+
             } else if (!internal && delay > 0L) {
                 // Need to schedule this one
                 Timer timer = new Timer(true);
@@ -210,12 +208,166 @@ public class MulitStateMachineDispatcher extends SimpleDispatcher implements Ser
             } else {
                 ioProcessor.addEvent(new TriggerEvent(event, TriggerEvent.SIGNAL_EVENT, data));
             }
+
+
+            //根据发送模式选择
+
+            switch (messageMode) {
+                case BROADCAST:
+                    sendBroadCast(scxmlInstanceTree, currentSessionId, targetName, targetState, event, data, hints, delay);
+                    break;
+                case MULTICAST:
+                    //多播，和target有关
+
+                    // sendMulticast(scxmlInstanceTree,currentSessionId,target,targetName)
+                    // TODO:
+                    break;
+                case TO_ANCESTOR:
+                    sendToAncestor(scxmlInstanceTree, currentSessionId, targetName, targetState, event, data, hints, delay);
+                    break;
+                case TO_CHILD:
+                    sendToChild(scxmlInstanceTree, currentSessionId, targetName, targetState, event, data, hints, delay);
+                    break;
+                case TO_OFFSPRING:
+                    sendToOffSpring(scxmlInstanceTree, currentSessionId, targetName, targetState, event, data, hints, delay);
+                    break;
+                case TO_PARENT:
+                    sendToParent(scxmlInstanceTree, currentSessionId, targetName, targetState, event, data, hints, delay);
+                    break;
+                case TO_SIBLING:
+                    //单播，和target格式有关系
+                    // TODO:
+                    break;
+                default:
+                    //默认
+                    System.out.println("不支持的消息模式");
+                    break;
+            }
+
+
         } else {
-            if (log.isWarnEnabled()) {
+            //处理不支持的类型的 I/O 处理器
+          /*  if (log.isWarnEnabled()) {
                 log.warn("<send>: Unsupported type - " + type);
             }
             ioProcessors.get(SCXMLIOProcessor.INTERNAL_EVENT_PROCESSOR).
-                    addEvent(new TriggerEvent(TriggerEvent.ERROR_EXECUTION, TriggerEvent.ERROR_EVENT));
+                    addEvent(new TriggerEvent(TriggerEvent.ERROR_EXECUTION, TriggerEvent.ERROR_EVENT));*/
+        }
+    }
+
+    private boolean sendToParent(SCXMLInstanceTree scxmlInstanceTree, String currentSessionId, String targetName, String targetState, String event, Object data, String hints, long delay) {
+        ArrayList<SCXMLInstanceTree.TreeNode> treeNodeArrayList;
+        SCXMLInstanceTree.TreeNode currentTreeNode = scxmlInstanceTree.getNode(currentSessionId);
+
+        treeNodeArrayList = scxmlInstanceTree.getParentTreeNode(currentTreeNode);
+
+
+        sendToTarget(treeNodeArrayList, targetState, event, data);
+
+        return true;
+    }
+
+    private boolean sendToOffSpring(SCXMLInstanceTree scxmlInstanceTree, String currentSessionId, String targetName, String targetState, String event, Object data, String hints, long delay) {
+
+        ArrayList<SCXMLInstanceTree.TreeNode> treeNodeArrayList;
+        SCXMLInstanceTree.TreeNode currentTreeNode = scxmlInstanceTree.getNode(currentSessionId);
+        if (targetName != null && !"".equals(targetName)) {
+            treeNodeArrayList = scxmlInstanceTree.getOffSpringTreeNodeByTargetName(currentTreeNode, targetName);
+
+        } else {
+            treeNodeArrayList = scxmlInstanceTree.getOffspringTreeNode(currentTreeNode);
+
+        }
+        sendToTarget(treeNodeArrayList, targetState, event, data);
+
+        return true;
+    }
+
+    private boolean sendToChild(SCXMLInstanceTree scxmlInstanceTree, String currentSessionId, String targetName, String targetState, String event, Object data, String hints, long delay) {
+
+
+        ArrayList<SCXMLInstanceTree.TreeNode> treeNodeArrayList;
+        SCXMLInstanceTree.TreeNode currentTreeNode = scxmlInstanceTree.getNode(currentSessionId);
+        if (targetName != null && !"".equals(targetName)) {
+            treeNodeArrayList = scxmlInstanceTree.getChildTreeNodeByTargetName(currentTreeNode, targetName);
+
+        } else {
+            treeNodeArrayList = scxmlInstanceTree.getChildTreeNode(currentTreeNode);
+
+        }
+        sendToTarget(treeNodeArrayList, targetState, event, data);
+
+        return true;
+    }
+
+    private boolean sendToAncestor(SCXMLInstanceTree scxmlInstanceTree, String currentSessionId, String targetName, String targetState, String event, Object data, String hints, long delay) {
+
+        //得到树中当前节点的所有祖先所有实例
+        ArrayList<SCXMLInstanceTree.TreeNode> treeNodeArrayList;
+        SCXMLInstanceTree.TreeNode currentTreeNode = scxmlInstanceTree.getNode(currentSessionId);
+        if (targetName != null && !"".equals(targetName)) {
+            treeNodeArrayList = scxmlInstanceTree.getAllAncestorTreeNodeByTargetName(currentTreeNode, targetName);
+
+        } else {
+            treeNodeArrayList = scxmlInstanceTree.getAllAncestorTreeNode(currentTreeNode);
+
+        }
+        sendToTarget(treeNodeArrayList, targetState, event, data);
+
+        return true;
+    }
+
+
+    private boolean sendBroadCast(SCXMLInstanceTree scxmlInstanceTree, String currentSessionId, String targetName, String targetState, String event, Object data, String hints, long delay) {
+
+        //得到树中所有实例
+        ArrayList<SCXMLInstanceTree.TreeNode> treeNodeArrayList;
+        if (targetName != null && !"".equals(targetName)) {
+            treeNodeArrayList = scxmlInstanceTree.getAllTreeNodeByTargetName(scxmlInstanceTree.getRoot(), targetName);
+
+        } else {
+            treeNodeArrayList = scxmlInstanceTree.getAllTreeNode(scxmlInstanceTree.getRoot());
+
+        }
+
+        sendToTarget(treeNodeArrayList, targetState, event, data);
+
+        return true;
+    }
+
+
+    private void sendToTarget(ArrayList<SCXMLInstanceTree.TreeNode> treeNodeArrayList, String targetState, String event, Object data) {
+        if (targetState != null && !"".equals(targetState)) {
+            //遍历所有的实例
+            for (SCXMLInstanceTree.TreeNode treeNode : treeNodeArrayList) {
+                //根据当前实例sessionId，求的实例的执行器
+                SCXMLExecutor scxmlExecutor = SCXMLInstanceManager.getSCXMLInstanceExecutor(treeNode.getSessionId());
+                if (scxmlExecutor != null) {
+                    if (scxmlExecutor.getStatus().isInState(targetState)) {
+                        try {
+                            scxmlExecutor.triggerEvent(new TriggerEvent(event, TriggerEvent.SIGNAL_EVENT, data));
+                        } catch (ModelException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } else {
+                    System.out.println("no this  scxml executor");
+                }
+
+            }
+        } else {
+            for (SCXMLInstanceTree.TreeNode treeNode : treeNodeArrayList) {
+                SCXMLExecutor scxmlExecutor = SCXMLInstanceManager.getSCXMLInstanceExecutor(treeNode.getSessionId());
+                if (scxmlExecutor != null) {
+                    try {
+                        scxmlExecutor.triggerEvent(new TriggerEvent(event, TriggerEvent.SIGNAL_EVENT, data));
+                    } catch (ModelException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    System.out.println("no this  scxml executor");
+                }
+            }
         }
     }
 }

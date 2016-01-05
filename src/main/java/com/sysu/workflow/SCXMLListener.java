@@ -8,7 +8,7 @@ import com.sysu.workflow.model.*;
  * 包括：SCXML(订阅所有的entry,exit,transition 通知)
  * State （订阅特别的 entry，exit 通知）
  * Transition （订阅特别的transitions 通知）
- *
+ * <p/>
  * Listener interface for observable entities in the SCXML model.
  * Observable entities include {@link SCXML}
  * instances (subscribe to all entry, exit and transition notifications),
@@ -37,7 +37,7 @@ public interface SCXMLListener {
 
     /**
      * Handle the transition.
-     *
+     * <p/>
      * 处理一个转移
      *
      * @param from       The source TransitionTarget

@@ -178,6 +178,7 @@ public class SCInstance implements Serializable {
     /**
      * Sets the I/O Processor for the internal event queue
      * 设置 内部的I/O处理器
+     *
      * @param internalIOProcessor the I/O Processor
      */
     protected void setInternalIOProcessor(SCXMLIOProcessor internalIOProcessor) {
@@ -210,6 +211,7 @@ public class SCInstance implements Serializable {
 
     /**
      * 得到当前求值器
+     *
      * @return Return the current evaluator
      */
     protected Evaluator getEvaluator() {
@@ -219,6 +221,7 @@ public class SCInstance implements Serializable {
     /**
      * Set or re-attach the error reporter
      * 设置再连接的错误报告器
+     *
      * @param errorReporter The error reporter for this state machine instance.
      * @throws ModelException if an attempt is made to set a null value for the error reporter
      */
@@ -354,6 +357,7 @@ public class SCInstance implements Serializable {
 
     /**
      * 返回当前状态
+     *
      * @return Returns the current status for this instance
      */
     public Status getCurrentStatus() {
@@ -362,6 +366,7 @@ public class SCInstance implements Serializable {
 
     /**
      * 返回是否在运行中
+     *
      * @return Returns if the state machine is running
      */
     public boolean isRunning() {
@@ -370,7 +375,8 @@ public class SCInstance implements Serializable {
 
     /**
      * Sets the running status of the state machine
-     *设置状态机的运行状态
+     * 设置状态机的运行状态
+     *
      * @param running flag indicating the running status of the state machine
      * @throws IllegalStateException Exception thrown if trying to set the state machine running when in a Final state
      */
@@ -383,7 +389,8 @@ public class SCInstance implements Serializable {
 
     /**
      * Get the root context.
-     *得到root 上下文
+     * 得到root 上下文
+     *
      * @return The root context.
      */
     public Context getRootContext() {
@@ -396,7 +403,8 @@ public class SCInstance implements Serializable {
 
     /**
      * Set or replace the root context.
-     *设置或者替换根上下文
+     * 设置或者替换根上下文
+     *
      * @param context The new root context.
      */
     protected void setRootContext(final Context context) {
@@ -411,7 +419,8 @@ public class SCInstance implements Serializable {
 
     /**
      * Get the unwrapped (modifiable) system context.
-     *得到未修改的系统上下文
+     * 得到未修改的系统上下文
+     *
      * @return The unwrapped system context.
      */
     public Context getSystemContext() {
@@ -433,6 +442,7 @@ public class SCInstance implements Serializable {
 
     /**
      * 返回全局上下文，上最顶层的上下文
+     *
      * @return Returns the global context, which is the top context <em>within</em> the state machine.
      */
     public Context getGlobalContext() {
@@ -448,7 +458,8 @@ public class SCInstance implements Serializable {
 
     /**
      * Get the context for an EnterableState or create one if not created before.
-     *得到一个EnterableState 的上下文，
+     * 得到一个EnterableState 的上下文，
+     *
      * @param state The EnterableState.
      * @return The context.
      */
@@ -480,7 +491,8 @@ public class SCInstance implements Serializable {
      * 返回一个EnterableState的上下文，如果有的话。
      * <p/>
      * <p>Note: used for testing purposes only</p>
-     *仅仅为了测试支持
+     * 仅仅为了测试支持
+     *
      * @param state The EnterableState
      * @return The context or null if not created yet.
      */
@@ -493,7 +505,8 @@ public class SCInstance implements Serializable {
      * 设置状态上下文
      * <p/>
      * <p>Note: used for testing purposes only</p>
-     *仅仅为了测试支持
+     * 仅仅为了测试支持
+     *
      * @param state   The EnterableState.
      * @param context The context.
      */
@@ -504,7 +517,8 @@ public class SCInstance implements Serializable {
 
     /**
      * Get the last configuration for this history.
-     *得到上一个配置，为了当前的历史
+     * 得到上一个配置，为了当前的历史
+     *
      * @param history The history.
      * @return Returns the lastConfiguration.
      */
@@ -518,7 +532,8 @@ public class SCInstance implements Serializable {
 
     /**
      * Set the last configuration for this history.
-     *设置当前历史的上一个配置
+     * 设置当前历史的上一个配置
+     *
      * @param history The history.
      * @param lc      The lastConfiguration to set.
      */
@@ -532,7 +547,8 @@ public class SCInstance implements Serializable {
      * 重置历史状态
      * <p/>
      * <p>Note: used for testing purposes only</p>
-     *  only test
+     * only test
+     *
      * @param history The history.
      */
     public void resetConfiguration(final History history) {

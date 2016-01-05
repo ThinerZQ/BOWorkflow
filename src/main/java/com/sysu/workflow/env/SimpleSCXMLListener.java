@@ -13,9 +13,8 @@ import java.io.Serializable;
 
 /**
  * Simple SCXML Listener that logs execution.
- *
+ * <p/>
  * 记录执行过程中日志，的SCXMLListener
- *
  */
 public class SimpleSCXMLListener implements SCXMLListener, Serializable {
 

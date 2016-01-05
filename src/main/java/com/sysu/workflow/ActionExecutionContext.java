@@ -15,13 +15,14 @@ public class ActionExecutionContext {
 
     /**
      * The SCXML execution context this action exection context belongs to
-     *  当前Action执行上下文所属的  SCXML执行上文
+     * 当前Action执行上下文所属的  SCXML执行上文
      */
     private final SCXMLExecutionContext exctx;
 
     /**
      * Constructor
-     *构造函数
+     * 构造函数
+     *
      * @param exctx The SCXML execution context this action execution context belongs to
      */
     public ActionExecutionContext(SCXMLExecutionContext exctx) {
@@ -46,6 +47,7 @@ public class ActionExecutionContext {
 
     /**
      * 根据某一个状态，返回状态对应的上下文
+     *
      * @param state an EnterableState
      * @return Returns the context for an EnterableState
      */

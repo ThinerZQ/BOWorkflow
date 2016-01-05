@@ -18,7 +18,7 @@ import java.util.Set;
  * The notification registry keeps track of all
  * <code>SCXMLListener</code>s attached and notifies relevant
  * listeners of the events that interest them.
- *
+ * <p/>
  * 注册SCXML的监听器，
  * 通知注册跟踪所有SCXMLListener，通知所有的监听器，他们感兴趣的事件
  */
@@ -79,6 +79,7 @@ public final class NotificationRegistry {
      * Inform all relevant listeners that a EnterableState has been
      * entered.
      * 通知所有相关的监听器，一个EnterableState 进入了
+     *
      * @param source The Observable
      * @param state  The EnterableState that was entered
      */

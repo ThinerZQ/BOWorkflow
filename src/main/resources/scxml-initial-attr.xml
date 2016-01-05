@@ -37,8 +37,6 @@
     </state>
 
 
-
-
     <!--这是一个复合状态：一个大状太-->
     <state id="approving">
         <initial>
@@ -71,7 +69,7 @@
         <final id="approveEnd"></final>
 
         <!--这个转移的事件“event.state.approving”是当当前复合状态到达 <final> 节点的时候框架自动生成的。-->
-        <transition event="done.state.approving" target="approved" />
+        <transition event="done.state.approving" target="approved"/>
         <!--这个转移事件，是只要任何一个经理拒绝了请求，就转向被拒绝状态-->
         <transition event="reject" target="rejected">
 
@@ -85,7 +83,7 @@
             </script>
         </onentry>
         <!--一个eventless（自动转移），执行完了<onentry>里面的事件就转移了-->
-        <transition target="archiving" ></transition>
+        <transition target="archiving"></transition>
     </state>
     <!--被拒绝状态，进入状态的时候，可以发送邮件给相应的用户-->
     <state id="rejected">

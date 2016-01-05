@@ -68,7 +68,7 @@ public class SubStateMachine extends Action{
 
             String subStateMachineSessionId = (String) executor.getGlobalContext().getSystemContext().get(SCXMLSystemContext.SESSIONID_KEY);
 
-            instanceTree.insert(currentSessionId,subStateMachineSessionId);
+            instanceTree.insert(currentSessionId,subStateMachineSessionId,executor.getStateMachine().getName());
 
             //将当前的Executor加入到  实例管理器里面
 

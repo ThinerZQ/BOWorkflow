@@ -25,8 +25,8 @@ public class TaskDao {
             preparedStatement.setString(4, task.getDueDate());
             preparedStatement.setInt(5, task.getAssigneeId());
             preparedStatement.setString(6, task.getAssignee());
-            preparedStatement.setString(7,task.getProcessId());
-            preparedStatement.setString(8,task.getStateId());
+            preparedStatement.setString(7, task.getProcessId());
+            preparedStatement.setString(8, task.getStateId());
 
             i = preparedStatement.executeUpdate();
 

@@ -1,5 +1,6 @@
 package com.sysu.workflow.engine;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 /**
@@ -8,12 +9,14 @@ import java.util.Stack;
  */
 public class SCXMLInstanceTree {
 
-    public TreeNode root=null;
-    public String rootSessionId =null;
+    private TreeNode root=null;
+    private String rootSessionId =null;
+    private String rootSessionName=null;
 
-    public SCXMLInstanceTree (String sessionId){
+    public SCXMLInstanceTree (String sessionId,String sessionName){
         this.rootSessionId = sessionId;
-        root = new TreeNode(sessionId,null,null);
+        this.rootSessionName = sessionName;
+        root = new TreeNode(sessionId,sessionName,null,null);
     }
 
     /**
@@ -23,12 +26,12 @@ public class SCXMLInstanceTree {
      */
 
 
-    public void insert(String insertLocation,String insertSessionId){
+    public void insert(String insertLocation,String insertSessionId,String insertSessionName){
 
         if (isContainNode(insertLocation)){
             TreeNode node = getNode(insertLocation);
 
-            TreeNode newNode = new TreeNode(insertSessionId,null,null);
+            TreeNode newNode = new TreeNode(insertSessionId,insertSessionName,null,null);
 
             if (node.getLeftChild()==null){
                 node.setLeftChild(newNode);
@@ -43,6 +46,7 @@ public class SCXMLInstanceTree {
             }
         }
     }
+
 
     /**
      * 以root为根的树中是否包含sessionId
@@ -137,21 +141,124 @@ public class SCXMLInstanceTree {
     }
 
     /**
+     * 采用深度优先的方式遍历节点
+     *
+     * 得到以 tempRoot为根的所有 节点
+     * @param tempRoot 当前节点
+     * @return
+     */
+    public ArrayList<TreeNode> getAllTreeNode(TreeNode tempRoot){
+
+        return  getAllTreeNodeByTargetName(tempRoot,null);
+
+    }
+    /**
+     * 采用深度优先的方式遍历节点
+     *
+     * 得到以 tempRoot为根的所有 节点
+     * @param tempRoot 当前节点
+     * @return
+     */
+    public ArrayList<TreeNode> getAllTreeNodeByTargetName(TreeNode tempRoot,String targetName){
+
+        ArrayList<TreeNode> treeNodeArrayList = new ArrayList<TreeNode>();
+
+        Stack<TreeNode> nodeStack = new Stack<TreeNode>();
+        nodeStack.push(tempRoot);
+        TreeNode node = null;
+
+        while (!nodeStack.empty()){
+            node = nodeStack.pop();
+            if (targetName!=null && targetName.equals(node.getSessionName())){
+                treeNodeArrayList.add(node);
+            }else if (targetName ==null){
+                treeNodeArrayList.add(node);
+            }
+            //System.out.print(node.getSessionId());
+            if (node.getRightBrother()!=null){
+                nodeStack.push(node.getRightBrother());
+            }
+            if (node.getLeftChild()!=null){
+                nodeStack.push(node.getLeftChild());
+            }
+        }
+        //需要将tempRoot给移除了
+        treeNodeArrayList.remove(tempRoot);
+
+        return treeNodeArrayList;
+
+    }
+
+    public ArrayList<TreeNode> getAllAncestorTreeNodeByTargetName(TreeNode currentTreeNode, String targetName) {
+        ArrayList<TreeNode> treeNodeArrayList = new ArrayList<TreeNode>();
+
+        // TODO:
+        //根据当前节点查找祖先
+
+        return treeNodeArrayList;
+    }
+
+    public ArrayList<TreeNode> getAllAncestorTreeNode(TreeNode currentTreeNode) {
+
+
+
+        return getAllAncestorTreeNodeByTargetName(currentTreeNode,null);
+    }
+
+    public ArrayList<TreeNode> getChildTreeNodeByTargetName(TreeNode currentTreeNode, String targetName) {
+        ArrayList<TreeNode> treeNodeArrayList = new ArrayList<TreeNode>();
+
+
+        //根据当前节点查找祖先
+        // TODO:
+        return treeNodeArrayList;
+    }
+    public ArrayList<TreeNode> getChildTreeNode(TreeNode currentTreeNode) {
+        return getChildTreeNodeByTargetName(currentTreeNode,null);
+    }
+
+    public ArrayList<TreeNode> getOffSpringTreeNodeByTargetName(TreeNode currentTreeNode, String targetName) {
+        ArrayList<TreeNode> treeNodeArrayList = new ArrayList<TreeNode>();
+
+
+        //根据当前节点查找祖先
+        // TODO:
+        return treeNodeArrayList;
+    }
+
+    public ArrayList<TreeNode> getOffspringTreeNode(TreeNode currentTreeNode) {
+        return getOffSpringTreeNodeByTargetName(currentTreeNode,null);
+    }
+
+    public ArrayList<TreeNode> getParentTreeNode(TreeNode currentTreeNode) {
+        ArrayList<TreeNode> treeNodeArrayList = new ArrayList<TreeNode>();
+
+
+        //根据当前节点查找祖先
+        // TODO:
+        return treeNodeArrayList;
+    }
+
+    /**
      * 表示树上节点的私有内部类
      */
-    private class TreeNode{
+    public class TreeNode{
 
         private String sessionId;
+        private String sessionName;
         private TreeNode leftChild;
         private TreeNode rightBrother;
+        // TODO: 添加上父亲的引用
+        private TreeNode parent;
 
 
         public TreeNode(String sessionId) {
             this.sessionId = sessionId;
         }
 
-        public TreeNode(String sessionId, TreeNode leftChild, TreeNode rightBrother) {
+        public TreeNode(String sessionId,String sessionName, TreeNode leftChild, TreeNode rightBrother) {
             this.sessionId = sessionId;
+            this.sessionName = sessionName;
             this.leftChild = leftChild;
             this.rightBrother = rightBrother;
         }
@@ -181,6 +288,22 @@ public class SCXMLInstanceTree {
 
         public void setRightBrother(TreeNode rightBrother) {
             this.rightBrother = rightBrother;
+        }
+
+        public String getSessionName() {
+            return sessionName;
+        }
+
+        public void setSessionName(String sessionName) {
+            this.sessionName = sessionName;
+        }
+
+        public TreeNode getParent() {
+            return parent;
+        }
+
+        public void setParent(TreeNode parent) {
+            this.parent = parent;
         }
     }
 

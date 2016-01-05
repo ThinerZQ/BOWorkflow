@@ -2,6 +2,8 @@
 package com.sysu.workflow.model;
 
 import com.sysu.workflow.*;
+import com.sysu.workflow.env.MulitStateMachineDispatcher;
+import com.sysu.workflow.env.SimpleDispatcher;
 import org.apache.commons.logging.Log;
 import sun.security.pkcs11.P11Util;
 
@@ -470,8 +472,19 @@ public class Send extends NamelistHolder implements ContentContainer {
                     + "ms");
         }
 
-        exctx.getEventDispatcher().send(ioProcessors, id, targetValue, typeValue, eventValue,
-                payload, hintsValue, wait);
+        if (exctx.getEventDispatcher() instanceof SimpleDispatcher){
+
+            exctx.getEventDispatcher().send(ioProcessors, id, targetValue, typeValue, eventValue,
+                    payload, hintsValue, wait);
+
+        }else if (exctx.getEventDispatcher() instanceof MulitStateMachineDispatcher){
+
+        }else{
+
+            System.out.println("没有这种消息转发器");
+        }
+
+
     }
 
     /**
@@ -515,20 +528,6 @@ public class Send extends NamelistHolder implements ContentContainer {
     }
 
 
-
-}
-enum MessageMode{
-
-    BROADCAST("全局广播",1), TO_OFFSPRING("子孙广播",2),TO_CHILD("孩子广播",3),TO_SIBLING("兄弟广播",4),TO_ANCESTOR("祖先广播",5),MULTICAST("一组多播",6),TO_PARENT("父亲单播",7),UNICAST("任意单播",8);
-
-    private String name;
-    private int index;
-
-
-    MessageMode(String name,int index){
-        this.name=name;
-        this.index=index;
-    }
 
 }
 

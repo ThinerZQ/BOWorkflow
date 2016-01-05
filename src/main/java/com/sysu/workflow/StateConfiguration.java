@@ -36,6 +36,7 @@ public class StateConfiguration implements Serializable {
     /**
      * Get the active states
      * 得到活跃中的状态
+     *
      * @return active states including simple states and their
      * complex ancestors up to the root.
      */
@@ -74,8 +75,9 @@ public class StateConfiguration implements Serializable {
     /**
      * Exit an active state
      * If the state is atomic also remove it from current states
-     *
+     * <p/>
      * 退出一个活跃的状态，
+     *
      * @param state state to exit
      */
     public void exitState(final EnterableState state) {

@@ -21,9 +21,8 @@ import java.util.*;
  * 状态机通过micro和macro 步骤执行
  * SCXMLExecutionContext provides all the services and internal data used during the interpretation of an SCXML
  * statemachine across micro and macro steps
- *
+ * <p/>
  * update by zhengshouzi on 2015/12/29.
- *
  */
 public class SCXMLExecutionContext implements SCXMLIOProcessor {
 
@@ -100,7 +99,7 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
 
     /**
      * 调用的类的Map,通过调用的目标类型指定key
-     *
+     * <p/>
      * The Invoker classes map, keyed by invoke target types (specified using "type" attribute).
      */
     private final Map<String, Class<? extends Invoker>> invokerClasses = new HashMap<String, Class<? extends Invoker>>();
@@ -176,7 +175,6 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
         //当由用户创建的时候初始化业务对象实例树
 
 
-
     }
 
 
@@ -189,7 +187,7 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
      * @param errorReporter   The error reporter, if null a SimpleErrorReporter instance will be used
      */
     protected SCXMLExecutionContext(SCXMLExecutor scxmlExecutor, Evaluator evaluator,
-                                    EventDispatcher eventDispatcher, ErrorReporter errorReporter,SCXMLInstanceTree instanceTree) {
+                                    EventDispatcher eventDispatcher, ErrorReporter errorReporter, SCXMLInstanceTree instanceTree) {
         this.scxmlExecutor = scxmlExecutor;
         this.externalIOProcessor = scxmlExecutor;
         this.evaluator = evaluator;
@@ -250,7 +248,8 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
 
     /**
      * Set if the SCXML configuration should be checked before execution (default = true)
-     *设置是否是合法的配置
+     * 设置是否是合法的配置
+     *
      * @param checkLegalConfiguration flag to set
      */
     public void setCheckLegalConfiguration(boolean checkLegalConfiguration) {
@@ -268,8 +267,8 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
     /**
      * Initialize method which will cancel all current active Invokers, clear the internal event queue and mark the
      * state machine process as running (again).
-     *       初始化方法
-     *       取消所有当前活跃的Invokers,请你内部事件队列，启动状态机过程
+     * 初始化方法
+     * 取消所有当前活跃的Invokers,请你内部事件队列，启动状态机过程
      *
      * @throws ModelException if the state machine instance failed to initialize.
      */
@@ -286,8 +285,8 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
 
         //只有在这里 sessionId 才会固定
         //似乎只能在这里初始化实例树，如果是通过  外界用户自己产生的会话，
-        if (this.instanceTree == null){
-            this.instanceTree = new SCXMLInstanceTree(getSessionId());
+        if (this.instanceTree == null) {
+            this.instanceTree = new SCXMLInstanceTree(getSessionId(), getScInstance().getStateMachine().getName());
             //在这里将Executor 添加到管理器里面
             SCXMLInstanceManager.setSCXMLInstance(getSCXMLExecutor());
         }
@@ -316,7 +315,7 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
      * If the state machine instance has been initialized before, it will be initialized again, destroying all existing
      * state!
      * </p>
-     *
+     * <p/>
      * 设置或者替换被执行的状态机
      * 如果状态机已经初始化过了，这个方法将会再次初始化，清理掉之前所有存在的状态
      *
@@ -333,7 +332,7 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
     /**
      * The SCXML specification section "C.1.1 _ioprocessors Value" states that the SCXMLEventProcessor <em>must</em>
      * maintain a 'location' field inside its entry in the _ioprocessors environment variable.
-     *
+     * <p/>
      * 返回SCXMLEventProcessor的位置
      *
      * @return the 'location' of the SCXMLEventProcessor
@@ -344,6 +343,7 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
 
     /**
      * 返回SCInstance实例
+     *
      * @return Returns the SCInstance
      */
     public SCInstance getScInstance() {
@@ -352,6 +352,7 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
 
     /**
      * 返回求值器
+     *
      * @return Returns The evaluator.
      */
     public Evaluator getEvaluator() {
@@ -365,7 +366,7 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
      * state!
      * </p>
      * 设置或者替换求值器，
-     *  如果状态机实例之前被初始化过了，将会再次被初始化，清理掉所有之前的状态
+     * 如果状态机实例之前被初始化过了，将会再次被初始化，清理掉所有之前的状态
      *
      * @param evaluator The evaluator to set
      * @throws ModelException if attempting to set a null value or the state machine instance failed to re-initialize
@@ -387,7 +388,8 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
 
     /**
      * Set or replace the error reporter
-     *  设置或者替换错误报告
+     * 设置或者替换错误报告
+     *
      * @param errorReporter The error reporter to set, if null a SimpleErrorReporter instance will be used instead
      */
     protected void setErrorReporter(ErrorReporter errorReporter) {
@@ -428,7 +430,6 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
     /**
      * Initialize the _ioprocessors environment variable, which only can be done when the evaluator is available
      * 初始化 _ioprocessor环境变量，，只有在求值器不为空的情况下可用
-     *
      */
     protected void initializeIOProcessors() {
         if (scInstance.getEvaluator() != null) {
@@ -505,7 +506,8 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
 
     /**
      * Remove the Invoker registered for this target type (if there is one registered).
-     *移除调用者
+     * 移除调用者
+     *
      * @param type The target type (specified by "type" attribute of the invoke element).
      */
     protected void unregisterInvokerClass(final String type) {
@@ -514,13 +516,13 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
 
     /**
      * Create a new {@link Invoker}
-     *
+     * <p/>
      * 创建一个新的调用者
      *
      * @param type The type of the target being invoked.
      * @return An {@link Invoker} for the specified type, if an
      * invoker class is registered against that type,
-     *
+     * <p/>
      * <code>null</code> otherwise.
      * @throws InvokerException When a suitable {@link Invoker} cannot be instantiated.
      */
@@ -543,7 +545,7 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
      * May return <code>null</code>. A non-null {@link Invoker} will be
      * returned if and only if the {@link Invoke} parent TransitionalState is
      * currently active and contains the &lt;invoke&gt; child.
-     *
+     * <p/>
      * 得到调用者
      *
      * @param invoke The <code>Invoke</code>.
@@ -555,7 +557,7 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
 
     /**
      * Register the active {@link Invoker} for a {@link Invoke}
-     *
+     * <p/>
      * 注册调用者
      *
      * @param invoke  The Invoke.
@@ -613,7 +615,8 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
 
     /**
      * Add an event to the internal event queue
-     *添加一个事件到内部事件队列
+     * 添加一个事件到内部事件队列
+     *
      * @param event The event
      */
 
@@ -639,6 +642,7 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
 
     /**
      * 得到   实例树
+     *
      * @return
      */
     public SCXMLInstanceTree getInstanceTree() {

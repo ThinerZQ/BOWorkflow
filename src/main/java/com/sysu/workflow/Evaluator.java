@@ -4,9 +4,8 @@ package com.sysu.workflow;
 /**
  * Interface for a component that may be used by the SCXML engines to
  * evaluate the expressions within the SCXML document.
- *
+ * <p/>
  * 一个可能被SCXML engine使用的组件的借口，这个组件被用来求职SCXML文档中的表达式
- *
  */
 public interface Evaluator {
 
@@ -107,8 +106,9 @@ public interface Evaluator {
     /**
      * Evaluate a location that returns a data assignable reference or list of references.
      * Manifests as "location" attributes of &lt;assign&gt; element.
-     *
+     * <p/>
      * 解析一个位置，返回一个可赋值的引用，或者一个可赋值的引用的列表，  location属性所在的地方
+     *
      * @param ctx  variable context
      * @param expr expression
      * @return The location result.
@@ -135,6 +135,7 @@ public interface Evaluator {
      * Evaluate a script.
      * Manifests as &lt;script&gt; element.
      * 对一个script求值
+     *
      * @param ctx    variable context
      * @param script The script
      * @return The result of the script execution.

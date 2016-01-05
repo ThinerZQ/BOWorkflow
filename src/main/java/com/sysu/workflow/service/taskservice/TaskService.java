@@ -15,7 +15,7 @@ public class TaskService {
     private TaskDao taskDao = null;
 
     public boolean insertInToWorkItem(User user, Task task) {
-        if (taskDao==null){
+        if (taskDao == null) {
             taskDao = new TaskDao();
         }
         task.setAssigneeId(user.getId());

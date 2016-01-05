@@ -49,11 +49,12 @@ public class SCXMLReaderTest {
 
         executor.go();
 
+
         executor.triggerEvent(new TriggerEvent("decomposeVoteComplete", TriggerEvent.SIGNAL_EVENT));
 
         //executor.triggerEvent(new TriggerEvent("approve",TriggerEvent.SIGNAL_EVENT));
 
-        Map<String,SCXMLExecutor> map = SCXMLInstanceManager.getRunningSCXMLInstanceExecutor();
+        Map<String,SCXMLExecutor> map = SCXMLInstanceManager.getRunningSCXMLInstanceExecutorMap();
 
         //将多个实例之间的关系保存起来了，
         Assert.assertEquals(4,map.size());

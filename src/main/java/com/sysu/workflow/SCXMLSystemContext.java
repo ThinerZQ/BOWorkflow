@@ -8,7 +8,7 @@ import java.util.*;
  * The SCXMLSystemContext is used as a read only Context wrapper
  * SCXML系统上下文，被用来作为一个只读的上下文包装器
  * 提供SCXML只读的系统变量，这些系统变量被注入通过  unwrapped 方法 getContext()
- *
+ * <p/>
  * and provides the SCXML (read only) system variables which are injected via the unwrapped {@link #getContext()}.
  *
  * @see <a href="http://www.w3.org/TR/scxml/#SystemVariables">http://www.w3.org/TR/scxml/#SystemVariables</a>
@@ -38,7 +38,6 @@ public class SCXMLSystemContext implements Context, Serializable {
     public static final String INITIATORID_KEY = "_initiator";
 
     /**
-     *
      * The Commons SCXML internal {@link #getPlatformVariables() platform variable key} holding the current SCXML
      * status instance
      **/
@@ -62,7 +61,6 @@ public class SCXMLSystemContext implements Context, Serializable {
     /**
      * The auto-generated next sessionId prefixed ID下一个回话ID，的前缀
      *
-     *
      * @see #generateSessionId()
      */
     private long nextSessionSequenceId;
@@ -70,6 +68,7 @@ public class SCXMLSystemContext implements Context, Serializable {
     /**
      * Initialize or replace systemContext
      * 初始化或者替换系统上下文
+     *
      * @param systemContext the system context to set
      * @throws NullPointerException if systemContext == null
      */

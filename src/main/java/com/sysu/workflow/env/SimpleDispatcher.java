@@ -4,6 +4,8 @@ package com.sysu.workflow.env;
 import com.sysu.workflow.EventDispatcher;
 import com.sysu.workflow.SCXMLIOProcessor;
 import com.sysu.workflow.TriggerEvent;
+import com.sysu.workflow.engine.SCXMLInstanceTree;
+import com.sysu.workflow.model.MessageMode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -11,12 +13,10 @@ import java.io.Serializable;
 import java.util.*;
 
 /**
- *
  * 事件派发器，能够调度一般事件和延时事件，事件类型只能是scxml类型，在实现中是用了 J2SE 的 Timer
  * 其他类型不能被处理，
- *
+ * <p/>
  * 如果想处理其他类型的消息，可以继承这个类，重写 cancel 和  send方法，遇到scxml类型的转发，调用父类的send方法。
- *
  */
 public class SimpleDispatcher implements EventDispatcher, Serializable {
 
@@ -210,6 +210,10 @@ public class SimpleDispatcher implements EventDispatcher, Serializable {
             ioProcessors.get(SCXMLIOProcessor.INTERNAL_EVENT_PROCESSOR).
                     addEvent(new TriggerEvent(TriggerEvent.ERROR_EXECUTION, TriggerEvent.ERROR_EVENT));
         }
+    }
+
+    public void send(String currentSessionId, SCXMLInstanceTree scxmlInstanceTree, String id, String target, MessageMode messageMode, String targetName, String targetState, String type, String event, Object data, String hints, long delay) {
+        // Do nothing
     }
 }
 

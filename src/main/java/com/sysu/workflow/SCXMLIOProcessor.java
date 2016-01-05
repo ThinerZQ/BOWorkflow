@@ -5,7 +5,7 @@ import com.sysu.workflow.invoke.Invoker;
 
 /**
  * SCXML I/O处理器提供了一个接口，对于内部事件或者外部系统或者一个被调用的孩子
- *
+ * <p/>
  * The SCXML I/O Processor provides the interface for either an internal process or an external system or invoked child
  * SCXML process ({@link Invoker}) to send events into the SCXML processor queue.
  */
@@ -48,7 +48,6 @@ public interface SCXMLIOProcessor {
     String PARENT_EVENT_PROCESSOR = EVENT_PROCESSOR_ALIAS_PREFIX + "parent";
 
     /**
-     *
      * 发送一个事件到SCXML 处理器队列
      *
      * @param event the event to send

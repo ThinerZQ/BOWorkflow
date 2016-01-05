@@ -19,7 +19,6 @@
     </datamodel>
 
 
-
     <state id="judging">
         <datamodel>
             <data id="complexCount" expr="0"></data>
@@ -33,21 +32,20 @@
             </userTask>
         </onentry>
         <transition event="judgeComplete">
-           <if expr="_event.data_flag eq simple">
-               <assigne location="simpleCount" expr="simpleCount +1"></assigne>
-           </if>
+            <if expr="_event.data_flag eq simple">
+                <assigne location="simpleCount" expr="simpleCount +1"></assigne>
+            </if>
             <else>
                 <assigne location="complexCount" expr="complexCount +1"></assigne>
             </else>
         </transition>
         <transition cond="simpleCount + complexCount eq judgeCount and simpleCount > complexCount" target="solving">
-                <!-- 写入数据库哪一个被判断是简单的 -->
+            <!-- 写入数据库哪一个被判断是简单的 -->
         </transition>
         <transition cond="simpleCount + complexCount eq judgeCount and simpleCount < complexCount" target="decomposing">
             <!-- 写入数据库哪一个被判断是复杂的的 -->
         </transition>
     </state>
-
 
 
     <state id="decomposing">
@@ -69,8 +67,6 @@
         </transition>
         <transition cond="counted eq decomposeCount" target="decomposeVoting"></transition>
     </state>
-
-
 
 
     <state id="decomposeVoting">
@@ -100,8 +96,6 @@
     </state>
 
 
-
-
     <state id="solving">
         <datamodel>
             <data id="counted" expr="0"></data>
@@ -118,8 +112,6 @@
         </transition>
         <transition cond="counted eq solveCount" target="solveVoting"></transition>
     </state>
-
-
 
 
     <state id="solveVoting">

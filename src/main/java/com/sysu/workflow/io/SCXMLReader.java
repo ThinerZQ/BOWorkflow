@@ -38,11 +38,10 @@ import java.util.*;
  * <p><b>NOTE:</b> The SCXMLReader assumes that the SCXML document to be
  * parsed is well-formed and correct. If that assumption does not hold,
  * any subsequent behavior is undefined.</p>
- *
+ * <p/>
  * SCXMLReader 提供了读写SCXML文档的能力，，
- *
+ * <p/>
  * SCXMLReader 假设SCXML文档是形式良好的，正确的。
- *
  *
  * @since 1.0
  */
@@ -54,7 +53,7 @@ public final class SCXMLReader {
      * The SCXML namespace that this Reader is built for. Any document
      * that is intended to be parsed by this reader <b>must</b>
      * bind the SCXML elements to this namespace.
-     *
+     * <p/>
      * 必须把scxml元素绑定到这个命名空间
      */
     private static final String XMLNS_SCXML =
@@ -85,21 +84,21 @@ public final class SCXMLReader {
     //----错误消息 -------//
     /**
      * Null URL passed as argument.
-     *
+     * <p/>
      * 空的URL
      */
     private static final String ERR_NULL_URL = "Cannot parse null URL";
 
     /**
      * 空的路径
-     *
+     * <p/>
      * Null path passed as argument.
      */
     private static final String ERR_NULL_PATH = "Cannot parse null path";
 
     /**
      * 空的输入流
-     *
+     * <p/>
      * Null InputStream passed as argument.
      */
     private static final String ERR_NULL_ISTR = "Cannot parse null InputStream";
@@ -112,7 +111,7 @@ public final class SCXMLReader {
 
     /**
      * 空的源文档
-     *
+     * <p/>
      * Null Source passed as argument.
      */
     private static final String ERR_NULL_SRC = "Cannot parse null Source";
@@ -136,8 +135,6 @@ public final class SCXMLReader {
      * Error message when the URI in a &lt;state&gt;'s &quot;src&quot;
      * attribute does not point to a valid SCXML document, and thus cannot be
      * parsed.
-     *
-     *
      */
     private static final String ERR_STATE_SRC =
             "Source attribute in <state src=\"{0}\"> cannot be parsed";
@@ -229,7 +226,7 @@ public final class SCXMLReader {
     //---- workflow扩展的元素 ----//
     private static final String ELEM_USERTASK = "userTask";
     private static final String ELEM_SERVICETASK = "serviceTask";
-    private static final String ELEM_SUBSTATEMACHINE ="subStateMachine";
+    private static final String ELEM_SUBSTATEMACHINE = "subStateMachine";
 
 
     //---- 属性名 ----//
@@ -1060,7 +1057,7 @@ public final class SCXMLReader {
 
     /**
      * Read the contents of this &lt;invoke&gt; element.
-     *
+     * <p/>
      * 读取invoke元素的内容
      *
      * @param reader        The {@link XMLStreamReader} providing the SCXML document to parse.
@@ -1438,9 +1435,9 @@ public final class SCXMLReader {
                         } else if (ELEM_SERVICETASK.equals(name)) {
                             //读取服务任务
                             readServiceTask(reader, configuration, executable, parent);
-                        } else if (ELEM_SUBSTATEMACHINE.equals(name)){
+                        } else if (ELEM_SUBSTATEMACHINE.equals(name)) {
                             //读取子状态机
-                            readSubStateMachine(reader,configuration,executable,parent);
+                            readSubStateMachine(reader, configuration, executable, parent);
                         } else if (ELEM_RAISE.equals(name)) {
                             //读取raise事件
                             readRaise(reader, configuration, executable, parent);
@@ -2007,7 +2004,6 @@ public final class SCXMLReader {
     }
 
     /**
-     *
      * @param reader
      * @param configuration
      * @param executable
@@ -2021,7 +2017,7 @@ public final class SCXMLReader {
             throws XMLStreamException, ModelException {
 
         UserTask userTask = new UserTask();
-        userTask.setName(readAV(reader,ATTR_NAME));
+        userTask.setName(readAV(reader, ATTR_NAME));
         userTask.setAssignee(readAV(reader, ATTR_ASSIGNEE));
         String candidateUser = readAV(reader, ATTR_CANDIDATEUSERS);
 
@@ -2046,7 +2042,6 @@ public final class SCXMLReader {
     }
 
     /**
-     *
      * @param reader
      * @param configuration
      * @param executable
@@ -2062,7 +2057,6 @@ public final class SCXMLReader {
     }
 
     /**
-     *
      * @param reader
      * @param configuration
      * @param executable

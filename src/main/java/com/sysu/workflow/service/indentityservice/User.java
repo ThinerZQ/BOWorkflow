@@ -18,15 +18,14 @@ public class User {
     private String gender;
 
 
-    public boolean addIntoWorkItem(Task task) throws IdentityException{
-        if (this.realName!=null){
+    public boolean addIntoWorkItem(Task task) throws IdentityException {
+        if (this.realName != null) {
             TaskService taskService = new TaskService();
-            return taskService.insertInToWorkItem(this,task);
-        }else {
+            return taskService.insertInToWorkItem(this, task);
+        } else {
             throw new IdentityException("没有这个用户");
         }
     }
-
 
 
     public User(String realName) {

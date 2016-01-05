@@ -41,23 +41,19 @@
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/env/groovy/GroovyEvaluator.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/env/groovy/GroovyExtendableScriptCache.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/env/groovy/GroovySCXMLScript.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/env/groovy/package.html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/env/javascript/JSBindings.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/env/javascript/JSContext.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/env/javascript/JSEvaluator.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/env/javascript/JSFunctions.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/env/javascript/package.html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/env/jexl/JexlBuiltin.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/env/jexl/JexlContext.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/env/jexl/JexlEvaluator.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/env/jexl/package.html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/env/minimal/MinimalContext.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/env/minimal/MinimalEvaluator.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/env/xpath/ContextVariables.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/env/xpath/XPathContext.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/env/xpath/XPathEvaluator.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/env/xpath/XPathFunctions.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/env/xpath/package.html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/invoke/AsyncTrigger.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/invoke/Invoker.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/invoke/InvokerException.java" charset="UTF-8" />
@@ -117,7 +113,6 @@
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/system/EventVariable.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/test/StandaloneJexlExpressions.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/test/StandaloneUtils.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/test/package.html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources/scxml-initial-attr.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/test/java/com/sysu/workflow/SCXMLTestHelper.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/test/java/com/sysu/workflow/io/SCXMLReaderTest.java" charset="UTF-8" />

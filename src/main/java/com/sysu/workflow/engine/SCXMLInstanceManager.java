@@ -22,12 +22,12 @@ public class SCXMLInstanceManager {
             SCXMLInstanceExecutorMap.put((String) scxmlExecutor.getGlobalContext().getSystemContext().get(SCXMLSystemContext.SESSIONID_KEY), scxmlExecutor);
         }
     }
-    public static SCXMLExecutor getSCXMLExecutor(String sessionId){
+    public static SCXMLExecutor getSCXMLInstanceExecutor(String sessionId){
         return SCXMLInstanceExecutorMap.get(sessionId);
     }
 
 
-    public static Map<String,SCXMLExecutor> getRunningSCXMLInstanceExecutor(){
+    public static Map<String,SCXMLExecutor> getRunningSCXMLInstanceExecutorMap(){
         return SCXMLInstanceExecutorMap;
     }
 
