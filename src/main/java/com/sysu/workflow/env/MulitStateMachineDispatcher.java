@@ -206,7 +206,7 @@ public class MulitStateMachineDispatcher extends SimpleDispatcher implements Ser
                             + id + "'");
                 }
             } else {
-                ioProcessor.addEvent(new TriggerEvent(event, TriggerEvent.SIGNAL_EVENT, data));
+                //ioProcessor.addEvent(new TriggerEvent(event, TriggerEvent.SIGNAL_EVENT, data));
             }
 
 

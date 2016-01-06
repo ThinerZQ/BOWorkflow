@@ -6,6 +6,7 @@ import com.sysu.workflow.SCXMLExecutor;
 import com.sysu.workflow.SCXMLTestHelper;
 import com.sysu.workflow.TriggerEvent;
 import com.sysu.workflow.engine.SCXMLInstanceManager;
+import com.sysu.workflow.env.MulitStateMachineDispatcher;
 import com.sysu.workflow.env.SimpleErrorReporter;
 import com.sysu.workflow.env.jexl.JexlEvaluator;
 import com.sysu.workflow.model.SCXML;
@@ -42,8 +43,9 @@ public class SCXMLReaderTest {
         //实例化数据模型解析器
         Evaluator evaluator = new JexlEvaluator();
 
+
         //实例化引擎
-        SCXMLExecutor executor = new SCXMLExecutor(evaluator, null, new SimpleErrorReporter());
+        SCXMLExecutor executor = new SCXMLExecutor(evaluator, new MulitStateMachineDispatcher(), new SimpleErrorReporter());
 
         executor.setStateMachine(scxml);
 

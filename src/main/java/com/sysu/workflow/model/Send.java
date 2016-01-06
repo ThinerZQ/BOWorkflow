@@ -479,19 +479,20 @@ public class Send extends NamelistHolder implements ContentContainer {
                     + typeValue + "' with suggested delay of " + wait
                     + "ms");
         }
+        if (exctx.getEventDispatcher() instanceof MulitStateMachineDispatcher){
 
-        if (exctx.getEventDispatcher() instanceof SimpleDispatcher){
+            SCXMLInstanceTree scxmlInstanceTree = null;
+
+            SCXMLExecutionContext currentExecutionContext = (SCXMLExecutionContext) exctx.getInternalIOProcessor();
+
+            scxmlInstanceTree=currentExecutionContext.getInstanceTree();
+
+            exctx.getEventDispatcher().send((String) ctx.getSystemContext().get(SCXMLSystemContext.SESSIONID_KEY), scxmlInstanceTree, id, targetValue, messageModeValue, targetNameValue, targetStateValue, typeValue, eventValue, payloadDataMap, hintsValue, wait);
+        }else if (exctx.getEventDispatcher() instanceof SimpleDispatcher){
 
             exctx.getEventDispatcher().send(ioProcessors, id, targetValue, typeValue, eventValue,
                     payload, hintsValue, wait);
 
-        }else if (exctx.getEventDispatcher() instanceof MulitStateMachineDispatcher){
-
-            SCXMLInstanceTree scxmlInstanceTree = null;
-            if (ctx instanceof SCXMLExecutionContext){
-               scxmlInstanceTree=((SCXMLExecutionContext) ctx).getInstanceTree();
-            }
-            exctx.getEventDispatcher().send((String)ctx.getSystemContext().get(SCXMLSystemContext.SESSIONID_KEY),scxmlInstanceTree,id,targetValue,messageModeValue,targetNameValue,targetStateValue,typeValue,eventValue,payloadDataMap,hintsValue,wait);
         }else{
 
             System.out.println("没有这种消息转发器");
