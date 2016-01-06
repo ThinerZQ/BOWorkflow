@@ -212,7 +212,7 @@ public class SimpleDispatcher implements EventDispatcher, Serializable {
         }
     }
 
-    public void send(String currentSessionId, SCXMLInstanceTree scxmlInstanceTree, String id, String target, MessageMode messageMode, String targetName, String targetState, String type, String event, Object data, String hints, long delay) {
+    public void send(String currentSessionId, SCXMLInstanceTree scxmlInstanceTree, String id, String target, MessageMode messageMode, String targetName, String targetState, String type, String event, Object data, Object hints, long delay) {
         // Do nothing
     }
 }

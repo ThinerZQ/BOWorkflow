@@ -11,15 +11,14 @@ package com.sysu.workflow.model;
  */
 public enum MessageMode{
 
-    BROADCAST("全局广播",1), TO_OFFSPRING("子孙广播",2),TO_CHILD("孩子广播",3),TO_SIBLING("兄弟广播",4),TO_ANCESTOR("祖先广播",5),MULTICAST("一组多播",6),TO_PARENT("父亲单播",7),UNICAST("任意单播",8);
+    BROADCAST("Broadcast"), TO_OFFSPRING("To_Offspring"),TO_CHILD("To_Child"),TO_SIBLING("To_Sibling"),TO_ANCESTOR("To_Ancestor"),MULTICAST("Multicast"),TO_PARENT("To_Parent"),UNICAST("Unicast");
 
     private String name;
-    private int index;
 
 
-    MessageMode(String name,int index){
+
+    MessageMode(String name){
         this.name=name;
-        this.index=index;
     }
 
 }

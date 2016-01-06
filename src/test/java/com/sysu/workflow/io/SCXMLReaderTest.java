@@ -50,9 +50,9 @@ public class SCXMLReaderTest {
         executor.go();
 
 
-        executor.triggerEvent(new TriggerEvent("decomposeVoteComplete", TriggerEvent.SIGNAL_EVENT));
+        executor.triggerEvent(new TriggerEvent("start", TriggerEvent.SIGNAL_EVENT));
 
-        //executor.triggerEvent(new TriggerEvent("approve",TriggerEvent.SIGNAL_EVENT));
+        executor.triggerEvent(new TriggerEvent("decomposeVoteComplete",TriggerEvent.SIGNAL_EVENT));
 
         Map<String,SCXMLExecutor> map = SCXMLInstanceManager.getRunningSCXMLInstanceExecutorMap();
 

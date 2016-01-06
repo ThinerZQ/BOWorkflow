@@ -58,7 +58,7 @@ public interface EventDispatcher {
      * @param hints             一颗平台可用的信息
      * @param delay             延迟时间
      */
-    void send(String currentSessionId, SCXMLInstanceTree scxmlInstanceTree, String id, String target, MessageMode messageMode, String targetName, String targetState, String type, String event, Object data, String hints, long delay);
+    void send(String currentSessionId, SCXMLInstanceTree scxmlInstanceTree, String id, String target, MessageMode messageMode, String targetName, String targetState, String type, String event, Object data, Object hints, long delay);
 
 }
 

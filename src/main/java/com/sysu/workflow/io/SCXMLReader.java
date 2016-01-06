@@ -268,6 +268,12 @@ public final class SCXMLReader {
     private static final String ATTR_ASSIGNEE = "assignee";
     private static final String ATTR_DUEDATE = "dueDate";
     private static final String ATTR_INSTANCES = "instances";
+    private static final String ATTR_MESSAGEMODE="messageMode";
+
+    private static final String ATTR_TARGETNAME="targetName";
+
+    private static final String ATTR_TARGETSTATE="targetState";
+
 
 
     //------------------------- 公有的方法 -------------------------//
@@ -1767,6 +1773,10 @@ public final class SCXMLReader {
             }
         }
         readNamespaces(configuration, send);
+
+        send.setMessageMode(readAV(reader,ATTR_MESSAGEMODE));
+        send.setTargetName(readAV(reader,ATTR_TARGETNAME));
+        send.setTargetState(readAV(reader,ATTR_TARGETSTATE));
 
         loop:
         while (reader.hasNext()) {

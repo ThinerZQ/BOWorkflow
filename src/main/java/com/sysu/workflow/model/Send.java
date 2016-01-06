@@ -2,6 +2,7 @@
 package com.sysu.workflow.model;
 
 import com.sysu.workflow.*;
+import com.sysu.workflow.engine.SCXMLInstanceTree;
 import com.sysu.workflow.env.MulitStateMachineDispatcher;
 import com.sysu.workflow.env.SimpleDispatcher;
 import org.apache.commons.logging.Log;
@@ -422,6 +423,13 @@ public class Send extends NamelistHolder implements ContentContainer {
         }
 
 
+        MessageMode messageModeValue = MessageMode.valueOf(messageMode);
+        String targetNameValue = targetName;
+        String targetStateValue = targetState;
+
+
+
+
 
 
 
@@ -479,6 +487,11 @@ public class Send extends NamelistHolder implements ContentContainer {
 
         }else if (exctx.getEventDispatcher() instanceof MulitStateMachineDispatcher){
 
+            SCXMLInstanceTree scxmlInstanceTree = null;
+            if (ctx instanceof SCXMLExecutionContext){
+               scxmlInstanceTree=((SCXMLExecutionContext) ctx).getInstanceTree();
+            }
+            exctx.getEventDispatcher().send((String)ctx.getSystemContext().get(SCXMLSystemContext.SESSIONID_KEY),scxmlInstanceTree,id,targetValue,messageModeValue,targetNameValue,targetStateValue,typeValue,eventValue,payloadDataMap,hintsValue,wait);
         }else{
 
             System.out.println("没有这种消息转发器");

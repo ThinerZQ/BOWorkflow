@@ -156,7 +156,7 @@ public class MulitStateMachineDispatcher extends SimpleDispatcher implements Ser
     }
 
     @Override
-    public void send(String currentSessionId, SCXMLInstanceTree scxmlInstanceTree, String id, String target, MessageMode messageMode, String targetName, String targetState, String type, String event, Object data, String hints, long delay) {
+    public void send(String currentSessionId, SCXMLInstanceTree scxmlInstanceTree, String id, String target, MessageMode messageMode, String targetName, String targetState, String type, String event, Object data, Object hints, long delay) {
 
         //记录日志
         if (log.isInfoEnabled()) {
@@ -255,7 +255,7 @@ public class MulitStateMachineDispatcher extends SimpleDispatcher implements Ser
         }
     }
 
-    private boolean sendToParent(SCXMLInstanceTree scxmlInstanceTree, String currentSessionId, String targetName, String targetState, String event, Object data, String hints, long delay) {
+    private boolean sendToParent(SCXMLInstanceTree scxmlInstanceTree, String currentSessionId, String targetName, String targetState, String event, Object data, Object hints, long delay) {
         ArrayList<SCXMLInstanceTree.TreeNode> treeNodeArrayList;
         SCXMLInstanceTree.TreeNode currentTreeNode = scxmlInstanceTree.getNode(currentSessionId);
 
@@ -267,7 +267,7 @@ public class MulitStateMachineDispatcher extends SimpleDispatcher implements Ser
         return true;
     }
 
-    private boolean sendToOffSpring(SCXMLInstanceTree scxmlInstanceTree, String currentSessionId, String targetName, String targetState, String event, Object data, String hints, long delay) {
+    private boolean sendToOffSpring(SCXMLInstanceTree scxmlInstanceTree, String currentSessionId, String targetName, String targetState, String event, Object data, Object hints, long delay) {
 
         ArrayList<SCXMLInstanceTree.TreeNode> treeNodeArrayList;
         SCXMLInstanceTree.TreeNode currentTreeNode = scxmlInstanceTree.getNode(currentSessionId);
@@ -283,7 +283,7 @@ public class MulitStateMachineDispatcher extends SimpleDispatcher implements Ser
         return true;
     }
 
-    private boolean sendToChild(SCXMLInstanceTree scxmlInstanceTree, String currentSessionId, String targetName, String targetState, String event, Object data, String hints, long delay) {
+    private boolean sendToChild(SCXMLInstanceTree scxmlInstanceTree, String currentSessionId, String targetName, String targetState, String event, Object data, Object hints, long delay) {
 
 
         ArrayList<SCXMLInstanceTree.TreeNode> treeNodeArrayList;
@@ -300,7 +300,7 @@ public class MulitStateMachineDispatcher extends SimpleDispatcher implements Ser
         return true;
     }
 
-    private boolean sendToAncestor(SCXMLInstanceTree scxmlInstanceTree, String currentSessionId, String targetName, String targetState, String event, Object data, String hints, long delay) {
+    private boolean sendToAncestor(SCXMLInstanceTree scxmlInstanceTree, String currentSessionId, String targetName, String targetState, String event, Object data, Object hints, long delay) {
 
         //得到树中当前节点的所有祖先所有实例
         ArrayList<SCXMLInstanceTree.TreeNode> treeNodeArrayList;
@@ -318,7 +318,7 @@ public class MulitStateMachineDispatcher extends SimpleDispatcher implements Ser
     }
 
 
-    private boolean sendBroadCast(SCXMLInstanceTree scxmlInstanceTree, String currentSessionId, String targetName, String targetState, String event, Object data, String hints, long delay) {
+    private boolean sendBroadCast(SCXMLInstanceTree scxmlInstanceTree, String currentSessionId, String targetName, String targetState, String event, Object data, Object hints, long delay) {
 
         //得到树中所有实例
         ArrayList<SCXMLInstanceTree.TreeNode> treeNodeArrayList;
