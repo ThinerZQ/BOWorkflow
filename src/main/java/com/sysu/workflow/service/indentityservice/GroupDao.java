@@ -10,16 +10,16 @@ import java.sql.PreparedStatement;
  */
 public class GroupDao {
 
-    public boolean addGroup(Group group) {
+    public boolean addGroup(GroupEntity groupEntity) {
         int i=0;
         try {
 
             Connection connection = DBUtils.getMysqlConnection();
-            String sql = "INSERT INTO group VALUES(?,?)";
+            String sql = "INSERT INTO  t_group VALUES(?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-           // preparedStatement.setInt(1, 1);
-            preparedStatement.setString(1,group.getGroupName());
+            preparedStatement.setInt(1, 0);
+            preparedStatement.setString(2,groupEntity.getGroupName());
 
             i = preparedStatement.executeUpdate();
 
@@ -30,7 +30,7 @@ public class GroupDao {
         return i==1?true:false;
     }
 
-    public Group findGroup(Group group) {
+    public GroupEntity findGroup(GroupEntity group) {
        /* ArrayList<User> arrayList = new ArrayList<User>();
         try {
             Connection connection = DBUtils.getMysqlConnection();

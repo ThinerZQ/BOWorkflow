@@ -6,10 +6,12 @@ import com.sysu.workflow.PathResolver;
 import com.sysu.workflow.env.SimpleErrorHandler;
 import com.sysu.workflow.env.URLResolver;
 import com.sysu.workflow.model.*;
+import groovy.util.IFileNameFinder;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
+import javax.print.DocFlavor;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.*;
@@ -264,10 +266,15 @@ public final class SCXMLReader {
 
     //---- workflow扩展的属性 ----//
     private static final String ATTR_CANDIDATEUSERS = "candidateUsers";
+    private static final String ATTR_CANDIDATEUSERSEXPR = "candidateUsersExpr";
     private static final String ATTR_CANDIDATEGROUPS = "candidateGroups";
+    private static final String ATTR_CANDIDATEGROUPSEXPR = "candidateGroupsExpr";
     private static final String ATTR_ASSIGNEE = "assignee";
+    private static final String ATTR_ASSIGNEEEXPR = "assigneeExpr";
     private static final String ATTR_DUEDATE = "dueDate";
     private static final String ATTR_INSTANCES = "instances";
+    private static final String ATTR_INSTANCESEXPR = "instancesExpr";
+
     private static final String ATTR_MESSAGEMODE="messageMode";
 
     private static final String ATTR_TARGETNAME="targetName";
@@ -2027,18 +2034,63 @@ public final class SCXMLReader {
             throws XMLStreamException, ModelException {
 
         UserTask userTask = new UserTask();
+        userTask.setId(readAV(reader,ATTR_ID));
         userTask.setName(readAV(reader, ATTR_NAME));
         userTask.setAssignee(readAV(reader, ATTR_ASSIGNEE));
-        String candidateUser = readAV(reader, ATTR_CANDIDATEUSERS);
 
+        String attrValue = readAV(reader,ATTR_ASSIGNEEEXPR);
+        //判断参与者是否冲突
+        if (attrValue!=null){
+            if (userTask.getAssignee() != null) {
+                reportConflictingAttribute(reader, configuration, ELEM_USERTASK, ATTR_ASSIGNEE, ATTR_ASSIGNEEEXPR);
+            } else {
+                userTask.setAssigneeExpr(attrValue);
+            }
+        }
+
+        String candidateUser = readAV(reader, ATTR_CANDIDATEUSERS);
+        String candidateUserExpr = readAV(reader,ATTR_CANDIDATEUSERSEXPR);
         if (userTask.getAssignee() != null) {
             if (candidateUser != null) {
                 reportConflictingAttribute(reader, configuration, ELEM_USERTASK, ATTR_ASSIGNEE, ATTR_CANDIDATEUSERS);
-            } else {
-                userTask.setCandidateUsers(candidateUser);
+            } else if (candidateUserExpr!=null){
+                reportConflictingAttribute(reader,configuration,ELEM_USERTASK,ATTR_ASSIGNEE,ATTR_CANDIDATEUSERSEXPR);
+            }
+        }else{
+            userTask.setCandidateUsers(candidateUser);
+            if (candidateUserExpr!=null){
+                if (userTask.getCandidateUsers()!=null){
+                    reportConflictingAttribute(reader,configuration,ELEM_USERTASK,ATTR_CANDIDATEUSERS,ATTR_CANDIDATEUSERSEXPR);
+                }else {
+                    userTask.setCandidateUsersExpr(candidateUserExpr);
+                }
+            }
+
+        }
+        //判断 组是否冲突
+        userTask.setCandidateGroups(readAV(reader, ATTR_CANDIDATEGROUPS));
+        String candidateGroupExpr = readAV(reader,ATTR_CANDIDATEGROUPS);
+       if (candidateGroupExpr!=null){
+           if (userTask.getCandidateGroups() != null) {
+               reportConflictingAttribute(reader, configuration, ELEM_USERTASK, ATTR_ASSIGNEE, ATTR_ASSIGNEEEXPR);
+           } else {
+               userTask.setCandidateGroupsExpr(candidateGroupExpr);
+           }
+       }
+        //读取instances
+        userTask.setInstances(readAV(reader, ATTR_INSTANCES));
+        attrValue = readAV(reader,ATTR_INSTANCESEXPR);
+        if (attrValue!=null){
+            if (!userTask.getInstances().equals("1")){
+                reportConflictingAttribute(reader, configuration, ELEM_USERTASK, ATTR_INSTANCES, ATTR_INSTANCESEXPR);
+            }else {
+                userTask.setInstancesExpr(attrValue);
             }
         }
-        userTask.setCandidateGroups(readAV(reader, ATTR_CANDIDATEGROUPS));
+
+        //TODO:读取截止日期
+
+
         readNamespaces(configuration, userTask);
         userTask.setParent(executable);
 

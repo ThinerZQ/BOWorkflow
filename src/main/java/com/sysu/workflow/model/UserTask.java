@@ -1,12 +1,10 @@
 package com.sysu.workflow.model;
 
-import com.sysu.workflow.ActionExecutionContext;
-import com.sysu.workflow.Context;
-import com.sysu.workflow.Evaluator;
-import com.sysu.workflow.SCXMLExpressionException;
-import com.sysu.workflow.service.taskservice.Task;
+import com.sysu.workflow.*;
+import com.sysu.workflow.service.indentityservice.WorkItemEntity;
 import com.sysu.workflow.service.taskservice.TaskDispatcher;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -22,10 +20,15 @@ public class UserTask extends Action {
     private String id;
     private String name;
     private String assignee;
+    private String assigneeExpr;
     private String candidateUsers;
+    private String candidateUsersExpr;
     private String candidateGroups;
+    private String candidateGroupsExpr;
     private String dueDate;
-    private int instances = 1;
+    private String instances="1";
+    private String instancesExpr="1";
+
 
     public UserTask() {
         super();
@@ -83,12 +86,44 @@ public class UserTask extends Action {
         this.dueDate = dueDate;
     }
 
-    public int getInstances() {
+    public String getInstances() {
         return instances;
     }
 
-    public void setInstances(int instances) {
+    public void setInstances(String instances) {
         this.instances = instances;
+    }
+
+    public String getAssigneeExpr() {
+        return assigneeExpr;
+    }
+
+    public void setAssigneeExpr(String assigneeExpr) {
+        this.assigneeExpr = assigneeExpr;
+    }
+
+    public String getCandidateUsersExpr() {
+        return candidateUsersExpr;
+    }
+
+    public void setCandidateUsersExpr(String candidateUsersExpr) {
+        this.candidateUsersExpr = candidateUsersExpr;
+    }
+
+    public String getCandidateGroupsExpr() {
+        return candidateGroupsExpr;
+    }
+
+    public void setCandidateGroupsExpr(String candidateGroupsExpr) {
+        this.candidateGroupsExpr = candidateGroupsExpr;
+    }
+
+    public String getInstancesExpr() {
+        return instancesExpr;
+    }
+
+    public void setInstancesExpr(String instancesExpr) {
+        this.instancesExpr = instancesExpr;
     }
 
     @Override
@@ -102,23 +137,66 @@ public class UserTask extends Action {
         ctx.setLocal(getNamespacesKey(), getNamespaces());
         Evaluator eval = exctx.getEvaluator();
 
+        //求出各个属性表达式的值
+        String assigneeValue = getAssignee();
+        if (assigneeValue==null && getAssigneeExpr()!=null){
+          assigneeValue = (String)getTextContentIfNodeResult(eval.eval(ctx,getAssigneeExpr()));
+            if (assigneeValue == null || assigneeValue.trim().length()==0
+                    && exctx.getAppLog().isWarnEnabled()){
+                exctx.getAppLog().warn("<userTask>: target expression \"" + assigneeExpr
+                        + "\" evaluated to null or empty String");
+            }
+        }
+        String candidateUsersValue = getCandidateUsers();
+        if (candidateUsersValue==null && getCandidateUsersExpr()!=null){
+            candidateUsersValue = (String)getTextContentIfNodeResult(eval.eval(ctx,getCandidateUsersExpr()));
+            if (candidateUsersValue == null || candidateUsersValue.trim().length()==0
+                    && exctx.getAppLog().isWarnEnabled()){
+                exctx.getAppLog().warn("<userTask>: target expression \"" + candidateUsersExpr
+                        + "\" evaluated to null or empty String");
+            }
+        }
+        String candidateGroupValue = getCandidateGroups();
+        if (candidateGroupValue==null && getCandidateGroupsExpr()!=null){
+            candidateGroupValue = (String)getTextContentIfNodeResult(eval.eval(ctx,getCandidateGroupsExpr()));
+            if (candidateGroupValue == null || candidateGroupValue.trim().length()==0
+                    && exctx.getAppLog().isWarnEnabled()){
+                exctx.getAppLog().warn("<userTask>: target expression \"" + candidateGroupsExpr
+                        + "\" evaluated to null or empty String");
+            }
+        }
+        String instancesValue = getCandidateGroups();
+        if (instancesValue==null && getInstancesExpr()!=null){
+            instancesValue = (String)getTextContentIfNodeResult(eval.eval(ctx,getInstancesExpr()));
+            if (instancesValue == null || instancesValue.trim().length()==0
+                    && exctx.getAppLog().isWarnEnabled()){
+                exctx.getAppLog().warn("<userTask>: target expression \"" + instancesExpr
+                        + "\" evaluated to null or empty String");
+            }
+        }
 
-        //求出属性表达式的值
 
-        Task task = new Task(getName());
+        //组装，插入到workitem里面
+        ArrayList<WorkItemEntity> workItemEntityArrayList = new ArrayList<WorkItemEntity>();
 
-        task.setAssignee(getAssignee())
-                .setDueDate(getDueDate())
-                .setProcessId((String)ctx.getSystemContext().get("_sessionid"))
-                .setStateId(parentState.getId())
-                .setCreateDate(new Date().toLocaleString());
+        if (assigneeValue!=null){
+            WorkItemEntity workItemEntity = new WorkItemEntity();
 
+            workItemEntity.setItemName(getName())
+                    .setItemCreateTimee(new Date().toLocaleString())
+                    .setItemDueTime(getDueDate())
+                    .setItemProcessId((String)ctx.getSystemContext().get(SCXMLSystemContext.SESSIONID_KEY))
+                    .setItemStateId(parentState.getId());
 
-        boolean flag = false;
+            workItemEntityArrayList.add(workItemEntity);
 
-        TaskDispatcher.newInstance().dispatchUserTask(task);
+            TaskDispatcher.newInstance().dispatchUserTask(workItemEntity,assigneeValue);
 
-
+        }else if (candidateUsersValue!=null){
+            //分配到候选人
+        }else if (candidateGroupValue!=null){
+            //分配到组
+        }
 
     }
 }

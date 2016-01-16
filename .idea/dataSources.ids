@@ -16,166 +16,45 @@
     <schema name="" catalog="myweb"/>
     <schema name="" catalog="performance_schema"/>
     <schema name="" catalog="test"/>
-    <table name="decomposetask" schema="" catalog="crowdsourcing" type="TABLE">
-      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
-      <column name="best" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="completeTime" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
-      <column name="deadlineTime" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
-      <column name="price" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="releaseTime" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
-      <column name="step" sqlType="TINYINT" precision="3" scale="0" nullable="true" jdbcType="-6"/>
-      <column name="task_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
-      <column name="user_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="FK_35fyiq7a7ps4ua595vinoe8pb" columns="task_id" ref-table="task" ref-schema="" ref-catalog="crowdsourcing" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="FK_s53bqc9ky1tsy1dbcw7f5crmj" columns="user_id" ref-table="user" ref-schema="" ref-catalog="crowdsourcing" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <exported-key name="FK_kvomro9mxxtqggsou6uhkks0v" table="decomposetask_task" schema="" catalog="crowdsourcing" columns="decomposetask_id"/>
-      <exported-key name="FK_3hymjv1a93kpyl8qi35f4fj28" table="votetask_decomposetask" schema="" catalog="crowdsourcing" columns="decomposetask_id"/>
-      <index name="FK_35fyiq7a7ps4ua595vinoe8pb" unique="false" columns="task_id"/>
-      <index name="FK_s53bqc9ky1tsy1dbcw7f5crmj" unique="false" columns="user_id"/>
+    <table name="t_group" schema="" catalog="crowdsourcing" type="TABLE">
+      <column name="groupId" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="groupName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="groupId"/>
+      <exported-key name="FK300645B6E713BB51" table="t_user_group" schema="" catalog="crowdsourcing" columns="group_id"/>
     </table>
-    <table name="decomposetask_task" schema="" catalog="crowdsourcing" type="TABLE">
-      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
-      <column name="whichStep" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
-      <column name="decomposetask_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
-      <column name="task_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="FK_kvomro9mxxtqggsou6uhkks0v" columns="decomposetask_id" ref-table="decomposetask" ref-schema="" ref-catalog="crowdsourcing" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="FK_ppaiocmfdgr79t5gl7r7he654" columns="task_id" ref-table="task" ref-schema="" ref-catalog="crowdsourcing" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <index name="FK_kvomro9mxxtqggsou6uhkks0v" unique="false" columns="decomposetask_id"/>
-      <index name="FK_ppaiocmfdgr79t5gl7r7he654" unique="false" columns="task_id"/>
-    </table>
-    <table name="description" schema="" catalog="crowdsourcing" type="TABLE">
-      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
-      <column name="description" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="task_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="FK_45fd0stxbot5pi8lu62tu6k0i" columns="task_id" ref-table="task" ref-schema="" ref-catalog="crowdsourcing" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <index name="FK_45fd0stxbot5pi8lu62tu6k0i" unique="false" columns="task_id"/>
-    </table>
-    <table name="judgetask" schema="" catalog="crowdsourcing" type="TABLE">
-      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
-      <column name="completeTime" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
-      <column name="deadlineTime" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
-      <column name="price" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="releaseTime" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
-      <column name="simple" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="task_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
-      <column name="user_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="FK_fcewa5rr0tmmka87wqug4ofjh" columns="user_id" ref-table="user" ref-schema="" ref-catalog="crowdsourcing" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="FK_fwbc0a1jw7i8bmepm4p4rn159" columns="task_id" ref-table="task" ref-schema="" ref-catalog="crowdsourcing" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <index name="FK_fcewa5rr0tmmka87wqug4ofjh" unique="false" columns="user_id"/>
-      <index name="FK_fwbc0a1jw7i8bmepm4p4rn159" unique="false" columns="task_id"/>
-    </table>
-    <table name="mergetask" schema="" catalog="crowdsourcing" type="TABLE">
-      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
-      <column name="completeTime" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
-      <column name="deadlineTime" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
-      <column name="finalResult" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="price" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="releaseTime" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
-      <column name="task_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="FK_16d0kfircfg2ebw1gyqk2p8qp" columns="task_id" ref-table="task" ref-schema="" ref-catalog="crowdsourcing" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <index name="FK_16d0kfircfg2ebw1gyqk2p8qp" unique="false" columns="task_id"/>
-    </table>
-    <table name="qualification" schema="" catalog="crowdsourcing" type="TABLE">
-      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
-      <column name="qualification" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="task_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="FK_o9tx9uwvgc2e7fo8qo7f16nyi" columns="task_id" ref-table="task" ref-schema="" ref-catalog="crowdsourcing" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <index name="FK_o9tx9uwvgc2e7fo8qo7f16nyi" unique="false" columns="task_id"/>
-    </table>
-    <table name="solvetask" schema="" catalog="crowdsourcing" type="TABLE">
-      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
-      <column name="best" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="completeTime" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
-      <column name="deadlineTime" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
-      <column name="price" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="releaseTime" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
-      <column name="result" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="task_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
-      <column name="user_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="FK_9odr93t3ufsjifh4ebn9n8en3" columns="user_id" ref-table="user" ref-schema="" ref-catalog="crowdsourcing" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="FK_ci1focaeae6novucs6x9vwsp9" columns="task_id" ref-table="task" ref-schema="" ref-catalog="crowdsourcing" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <exported-key name="FK_i9h2w92gawj1d3sp7pyl0w4um" table="votetask_solvetask" schema="" catalog="crowdsourcing" columns="solvetask_id"/>
-      <index name="FK_9odr93t3ufsjifh4ebn9n8en3" unique="false" columns="user_id"/>
-      <index name="FK_ci1focaeae6novucs6x9vwsp9" unique="false" columns="task_id"/>
-    </table>
-    <table name="task" schema="" catalog="crowdsourcing" type="TABLE">
-      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
-      <column name="completeTime" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
-      <column name="deadlineTime" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
-      <column name="price" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="releaseTime" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
-      <column name="taskType" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="title" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="user_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="FK_4fmjedju7b35tb5cr71n3ntb0" columns="user_id" ref-table="user" ref-schema="" ref-catalog="crowdsourcing" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <exported-key name="FK_35fyiq7a7ps4ua595vinoe8pb" table="decomposetask" schema="" catalog="crowdsourcing" columns="task_id"/>
-      <exported-key name="FK_ppaiocmfdgr79t5gl7r7he654" table="decomposetask_task" schema="" catalog="crowdsourcing" columns="task_id"/>
-      <exported-key name="FK_45fd0stxbot5pi8lu62tu6k0i" table="description" schema="" catalog="crowdsourcing" columns="task_id"/>
-      <exported-key name="FK_fwbc0a1jw7i8bmepm4p4rn159" table="judgetask" schema="" catalog="crowdsourcing" columns="task_id"/>
-      <exported-key name="FK_16d0kfircfg2ebw1gyqk2p8qp" table="mergetask" schema="" catalog="crowdsourcing" columns="task_id"/>
-      <exported-key name="FK_o9tx9uwvgc2e7fo8qo7f16nyi" table="qualification" schema="" catalog="crowdsourcing" columns="task_id"/>
-      <exported-key name="FK_ci1focaeae6novucs6x9vwsp9" table="solvetask" schema="" catalog="crowdsourcing" columns="task_id"/>
-      <exported-key name="FK_oupfpcqmiomystaokk4mgbuct" table="votetask" schema="" catalog="crowdsourcing" columns="task_id"/>
-      <index name="FK_4fmjedju7b35tb5cr71n3ntb0" unique="false" columns="user_id"/>
-    </table>
-    <table name="user" schema="" catalog="crowdsourcing" type="TABLE">
-      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
-      <column name="activateCode" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="email" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="password" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="registerDate" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
-      <column name="status" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+    <table name="t_user" schema="" catalog="crowdsourcing" type="TABLE">
+      <column name="userId" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="userActivateCode" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="userAge" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="userEmail" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="userGender" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="userName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <exported-key name="FK_s53bqc9ky1tsy1dbcw7f5crmj" table="decomposetask" schema="" catalog="crowdsourcing" columns="user_id"/>
-      <exported-key name="FK_fcewa5rr0tmmka87wqug4ofjh" table="judgetask" schema="" catalog="crowdsourcing" columns="user_id"/>
-      <exported-key name="FK_9odr93t3ufsjifh4ebn9n8en3" table="solvetask" schema="" catalog="crowdsourcing" columns="user_id"/>
-      <exported-key name="FK_4fmjedju7b35tb5cr71n3ntb0" table="task" schema="" catalog="crowdsourcing" columns="user_id"/>
-      <exported-key name="FK_p4elp4wapjsie448f2n8d0qoa" table="votetask" schema="" catalog="crowdsourcing" columns="user_id"/>
+      <column name="userPassword" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="userRealName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="userRegisterDate" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="userStatus" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="userId"/>
+      <exported-key name="FK300645B65C7CD5E9" table="t_user_group" schema="" catalog="crowdsourcing" columns="user_id"/>
     </table>
-    <table name="votetask" schema="" catalog="crowdsourcing" type="TABLE">
-      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
-      <column name="completeTime" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
-      <column name="deadlineTime" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
-      <column name="price" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="releaseTime" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
-      <column name="task_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
-      <column name="user_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="FK_oupfpcqmiomystaokk4mgbuct" columns="task_id" ref-table="task" ref-schema="" ref-catalog="crowdsourcing" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="FK_p4elp4wapjsie448f2n8d0qoa" columns="user_id" ref-table="user" ref-schema="" ref-catalog="crowdsourcing" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <exported-key name="FK_oy76ssl1oo9c5sqh8eblw4cw3" table="votetask_decomposetask" schema="" catalog="crowdsourcing" columns="votetask_id"/>
-      <exported-key name="FK_i0m6sr0oo89bd1imkaei4ib0n" table="votetask_solvetask" schema="" catalog="crowdsourcing" columns="votetask_id"/>
-      <index name="FK_oupfpcqmiomystaokk4mgbuct" unique="false" columns="task_id"/>
-      <index name="FK_p4elp4wapjsie448f2n8d0qoa" unique="false" columns="user_id"/>
+    <table name="t_user_group" schema="" catalog="crowdsourcing" type="TABLE">
+      <column name="group_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="group_id,user_id"/>
+      <foreign-key name="FK300645B6E713BB51" columns="group_id" ref-table="t_group" ref-schema="" ref-catalog="crowdsourcing" ref-columns="groupId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK300645B65C7CD5E9" columns="user_id" ref-table="t_user" ref-schema="" ref-catalog="crowdsourcing" ref-columns="userId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FK300645B65C7CD5E9" unique="false" columns="user_id"/>
+      <index name="FK300645B6E713BB51" unique="false" columns="group_id"/>
     </table>
-    <table name="votetask_decomposetask" schema="" catalog="crowdsourcing" type="TABLE">
-      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
-      <column name="decomposetask_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
-      <column name="votetask_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="FK_3hymjv1a93kpyl8qi35f4fj28" columns="decomposetask_id" ref-table="decomposetask" ref-schema="" ref-catalog="crowdsourcing" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="FK_oy76ssl1oo9c5sqh8eblw4cw3" columns="votetask_id" ref-table="votetask" ref-schema="" ref-catalog="crowdsourcing" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <index name="FK_3hymjv1a93kpyl8qi35f4fj28" unique="false" columns="decomposetask_id"/>
-      <index name="FK_oy76ssl1oo9c5sqh8eblw4cw3" unique="false" columns="votetask_id"/>
-    </table>
-    <table name="votetask_solvetask" schema="" catalog="crowdsourcing" type="TABLE">
-      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
-      <column name="solvetask_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
-      <column name="votetask_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="FK_i0m6sr0oo89bd1imkaei4ib0n" columns="votetask_id" ref-table="votetask" ref-schema="" ref-catalog="crowdsourcing" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="FK_i9h2w92gawj1d3sp7pyl0w4um" columns="solvetask_id" ref-table="solvetask" ref-schema="" ref-catalog="crowdsourcing" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <index name="FK_i0m6sr0oo89bd1imkaei4ib0n" unique="false" columns="votetask_id"/>
-      <index name="FK_i9h2w92gawj1d3sp7pyl0w4um" unique="false" columns="solvetask_id"/>
+    <table name="t_workitem" schema="" catalog="crowdsourcing" type="TABLE">
+      <column name="itemId" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="itemAssigineeId" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="itemAssigneeName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="itemCreateTimee" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="itemDueTime" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="itemName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="itemProcessId" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="itemStateId" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="itemId"/>
     </table>
     <table name="user" schema="" catalog="dbflow" type="TABLE">
       <column name="ID" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>

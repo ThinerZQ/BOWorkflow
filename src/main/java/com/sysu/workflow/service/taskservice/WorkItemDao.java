@@ -1,6 +1,7 @@
 package com.sysu.workflow.service.taskservice;
 
 import com.sysu.workflow.database.DBUtils;
+import com.sysu.workflow.service.indentityservice.WorkItemEntity;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,11 +9,10 @@ import java.sql.PreparedStatement;
 /**
  * Created by zhengshouzi on 2015/12/16.
  */
-public class TaskDao {
+public class WorkItemDao {
 
-    public boolean saveWorkItem(Task task) {
+    public boolean insertIntoWorkItem(WorkItemEntity workItemEntity) {
         int i = 0;
-
         try {
             Connection connection = DBUtils.getMysqlConnection();
             String sql = "INSERT INTO workitem VALUES(?,?,?,?,?,?,?,?)";
@@ -20,13 +20,13 @@ public class TaskDao {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             preparedStatement.setInt(1, 0);
-            preparedStatement.setString(2, task.getName());
-            preparedStatement.setString(3, task.getCreateDate());
-            preparedStatement.setString(4, task.getDueDate());
-            preparedStatement.setInt(5, task.getAssigneeId());
-            preparedStatement.setString(6, task.getAssignee());
-            preparedStatement.setString(7, task.getProcessId());
-            preparedStatement.setString(8, task.getStateId());
+            preparedStatement.setString(2, workItemEntity.getItemName());
+            preparedStatement.setString(3, workItemEntity.getItemCreateTimee());
+            preparedStatement.setString(4, workItemEntity.getItemDueTime());
+            preparedStatement.setInt(5, Integer.parseInt(workItemEntity.getItemAssigineeId()));
+            preparedStatement.setString(6, workItemEntity.getItemAssigneeName());
+            preparedStatement.setString(7, workItemEntity.getItemProcessId());
+            preparedStatement.setString(8, workItemEntity.getItemStateId());
 
             i = preparedStatement.executeUpdate();
 

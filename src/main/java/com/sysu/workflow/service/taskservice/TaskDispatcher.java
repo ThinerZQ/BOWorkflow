@@ -1,7 +1,10 @@
 package com.sysu.workflow.service.taskservice;
 
 import com.sysu.workflow.service.indentityservice.IdentityService;
-import com.sysu.workflow.service.indentityservice.User;
+import com.sysu.workflow.service.indentityservice.UserEntity;
+import com.sysu.workflow.service.indentityservice.WorkItemEntity;
+
+import java.util.ArrayList;
 
 /**
  * 任务分派器
@@ -16,21 +19,30 @@ public class TaskDispatcher {
     }
 
 
-    public void dispatchUserTask(Task task) {
 
-        TaskService taskService = new TaskService();
+    public void dispatchUserTask(ArrayList<WorkItemEntity> workItemEntityArrayList) {
+
+
+    }
+    public void dispatchUserTask(WorkItemEntity workItemEntity,String assignee) {
+
         IdentityService identityService = new IdentityService();
+        WorkItemDao workItemDao = new WorkItemDao();
 
         boolean flag = false;
         try {
 
             //找到这个人
-            User user = identityService.createUserQuery().userRealName(task.getAssignee()).SingleResult();
+            UserEntity user = identityService.createUserQuery().userRealName(assignee).SingleResult();
 
-            flag = user.addIntoWorkItem(task);
+            workItemEntity.setItemAssigneeName(user.getUserName()).setItemAssigineeId(String.valueOf(user.getUserId()));
+
+
+            flag = workItemDao.insertIntoWorkItem(workItemEntity);
 
             //如果flag不是true，表示插入工作项表失败，抛出 error.execute异常
 
+            //TODO:抛出异常
         } catch (Exception e) {
             e.printStackTrace();
         }

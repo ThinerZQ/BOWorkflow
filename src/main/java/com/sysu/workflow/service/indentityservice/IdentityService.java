@@ -8,16 +8,23 @@ public class IdentityService {
     UserDao userDao = null;
     GroupDao groupDao = null;
 
-    public User newUser(String realname) {
-        return new User(realname);
+    public UserEntity newUser(String realname) {
+        return new UserEntity(realname);
     }
 
-    public boolean saveUser(User user) {
+    public boolean saveUser(UserEntity userEntity) {
         if (userDao == null) {
             userDao = new UserDao();
         }
-        return userDao.addUsers(user);
+        return userDao.addUsers(userEntity);
     }
+    public boolean checkUser(UserEntity userEntity) {
+        if (userDao == null) {
+            userDao = new UserDao();
+        }
+        return userDao.checkUser(userEntity);
+    }
+
 
     public boolean delete() {
         return false;
@@ -32,11 +39,11 @@ public class IdentityService {
         return new UserQuery();
     }
 
-    public Group newGroup(String name) {
-        return new Group(name);
+    public GroupEntity newGroup(String name) {
+        return new GroupEntity(name);
     }
 
-    public boolean saveGroup(Group group) {
+    public boolean saveGroup(GroupEntity group) {
         if (groupDao == null) {
             groupDao = new GroupDao();
         }

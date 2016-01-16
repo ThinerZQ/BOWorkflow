@@ -7,7 +7,7 @@
 <hibernate-configuration>
     <session-factory>
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="connection.url">jdbc:mysql://localhost:3306/boworkflow</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/crowdsourcing</property>
         <property name="connection.username">root</property>
         <property name="connection.password">zhengqiang</property>
         <property name="connection.pool_size">1</property>
@@ -17,6 +17,13 @@
         <property name="hbm2ddl.auto">update</property>
 
 
+        <mapping class="com.sysu.workflow.service.indentityservice.GroupEntity"/>
+        <mapping class="com.sysu.workflow.service.indentityservice.UserEntity"/>
+        <mapping class="com.sysu.workflow.service.indentityservice.WorkItemEntity"/>
 
     </session-factory>
+
+
+
 </hibernate-configuration>
+
