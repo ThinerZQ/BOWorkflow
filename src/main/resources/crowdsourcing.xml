@@ -4,7 +4,7 @@
        datamodel="jexl"
        initial="judging">
 
-    <!-- 请假单需要的数据-->
+    <!-- 任务需要的数据-->
     <datamodel>
         <data id="deployee" expr=""></data>
         <data id="taskName" expr=""></data>
@@ -25,12 +25,12 @@
             <data id="simpleCount" expr="0"></data>
         </datamodel>
         <onentry>
-            <userTask id="judge" name="判断任务" assignee="zhengqiang" cadidateUsers="" cadidateGroups="" dueDate=""
+            <userTask id="judge" name="判断任务" assignee="" cadidateUsers="" cadidateGroups="judge" dueDate=""
                       instances="judgeCount">
                 <param name="任务名字" expr="taskName"></param>
                 <param name="任务描述" expr="taskDescription"></param>
             </userTask>
-            <send event="judgeComplete" type="scxml" messageMode="TO_"></send>
+
         </onentry>
         <transition event="judgeComplete">
             <if expr="_event.data_flag eq simple">

@@ -4,18 +4,18 @@ package com.sysu.workflow.service.indentityservice;
  * Created by zhengshouzi on 2015/12/16.
  */
 public class Group {
-    private String name;
+    private String groupName;
 
 
     public Group(String name) {
-        this.name = name;
+        this.groupName = name;
     }
 
-    public String getName() {
-        return name;
+    public String getGroupName() {
+        return groupName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 }

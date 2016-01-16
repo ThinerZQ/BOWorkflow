@@ -1,25 +1,25 @@
 package com.sysu.workflow.service.indentityservice;
 
+import com.sysu.workflow.database.DBUtils;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
 /**
  * Created by zhengshouzi on 2015/12/16.
  */
 public class GroupDao {
 
     public boolean addGroup(Group group) {
-       /* int i=0;
+        int i=0;
         try {
 
             Connection connection = DBUtils.getMysqlConnection();
-            String sql = "INSERT INTO groupVALUES(?,?,?,?,?,?)";
+            String sql = "INSERT INTO group VALUES(?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.setInt(1, 1);
-            preparedStatement.setString(1,user.getUsername());
-            preparedStatement.setString(2,user.getRealName());
-            preparedStatement.setString(3,user.getPassword());
-            preparedStatement.setInt(4, user.getAge());
-            preparedStatement.setString(5, user.getGender());
-            preparedStatement.setString(6,user.getEmail());
+           // preparedStatement.setInt(1, 1);
+            preparedStatement.setString(1,group.getGroupName());
 
             i = preparedStatement.executeUpdate();
 
@@ -27,8 +27,7 @@ public class GroupDao {
         }catch (Exception e) {
             e.printStackTrace();
         }
-        return i==1?true:false;*/
-        return false;
+        return i==1?true:false;
     }
 
     public Group findGroup(Group group) {
