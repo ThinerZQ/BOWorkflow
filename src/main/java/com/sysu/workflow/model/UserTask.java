@@ -167,7 +167,7 @@ public class UserTask extends Action {
         }
         String instancesValue = getCandidateGroups();
         if (instancesValue==null && getInstancesExpr()!=null){
-            instancesValue = (String)getTextContentIfNodeResult(eval.eval(ctx,getInstancesExpr()));
+            instancesValue = String.valueOf(getTextContentIfNodeResult(eval.eval(ctx,getInstancesExpr())));
             if (instancesValue == null || instancesValue.trim().length()==0
                     && exctx.getAppLog().isWarnEnabled()){
                 exctx.getAppLog().warn("<userTask>: target expression \"" + instancesExpr

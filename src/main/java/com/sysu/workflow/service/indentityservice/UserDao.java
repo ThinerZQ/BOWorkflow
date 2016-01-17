@@ -84,7 +84,7 @@ public class UserDao {
         ArrayList<UserEntity> arrayList = new ArrayList<UserEntity>();
         try {
             Connection connection = DBUtils.getMysqlConnection();
-            String sql = "SELECT * from user where userRealName=?";
+            String sql = "SELECT * from t_user where userRealName=?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
 

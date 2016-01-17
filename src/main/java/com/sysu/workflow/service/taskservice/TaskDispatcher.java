@@ -35,10 +35,12 @@ public class TaskDispatcher {
             //找到这个人
             UserEntity user = identityService.createUserQuery().userRealName(assignee).SingleResult();
 
-            workItemEntity.setItemAssigneeName(user.getUserName()).setItemAssigineeId(String.valueOf(user.getUserId()));
-
-
-            flag = workItemDao.insertIntoWorkItem(workItemEntity);
+            if (user!=null){
+                workItemEntity.setItemAssigneeName(user.getUserName()).setItemAssigineeId(String.valueOf(user.getUserId()));
+                flag = workItemDao.insertIntoWorkItem(workItemEntity);
+            }else{
+                //抛出异常
+            }
 
             //如果flag不是true，表示插入工作项表失败，抛出 error.execute异常
 
