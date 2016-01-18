@@ -1,17 +1,22 @@
 package com.sysu.workflow.service.indentityservice;
 
 import com.sysu.workflow.database.DBUtils;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by zhengshouzi on 2015/12/15.
  */
-public class UserDao {
+public class UserDao{
 
     /**
      * 查找用户
@@ -19,93 +24,78 @@ public class UserDao {
      * @return
      */
     public boolean addUsers(UserEntity userEntity) {
-        int i = 0;
+
+        Session session = null;
         try {
+            session =DBUtils.getSessionFactory().getCurrentSession();
+            session.beginTransaction();
 
-            Connection connection = DBUtils.getMysqlConnection();
-            String sql = "INSERT INTO t_user VALUES(?,?,?,?,?,?,?,?,?,?)";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            session.save(userEntity);
 
-            //不知道为什么不能自增，把自增列设置为 （1,0）就能自增了
-            preparedStatement.setInt(1, 0);
-            preparedStatement.setString(2,userEntity.getUserActivateCode());
-            preparedStatement.setString(3, userEntity.getUserAge());
-            preparedStatement.setString(4, userEntity.getUserEmail());
-            preparedStatement.setString(5, userEntity.getUserGender());
-            preparedStatement.setString(6, userEntity.getUserName());
-            preparedStatement.setString(7, userEntity.getUserPassword());
-            preparedStatement.setString(8, userEntity.getUserRealName());
-            preparedStatement.setTimestamp(9, new Timestamp(userEntity.getUserRegisterDate().getTime()));
-            preparedStatement.setString(10, userEntity.getUserStatus());
-
-            i = preparedStatement.executeUpdate();
-
-            DBUtils.closeAll(connection, preparedStatement, null);
-        } catch (Exception e) {
+            session.getTransaction().commit();
+        }catch (Exception e){
             e.printStackTrace();
+        }finally {
+            DBUtils.closeSession(session);
         }
-        return i == 1 ? true : false;
+        return true;
     }
-
-
     /**
-     * 检查用户是否存在
-     * @param userEntity
+     *
+     * @param userEmail
+     * @param userPassword
      * @return
      */
-    public boolean checkUser(UserEntity userEntity) {
-        int i = 0;
+    public boolean checkUser(String userEmail,String userPassword) {
+
+        Session session = null;
+        UserEntity userEntity = null;
         try {
+            session =DBUtils.getSessionFactory().getCurrentSession();
+            session.beginTransaction();
+            Criteria criteria = session.createCriteria(UserEntity.class);
 
-            Connection connection = DBUtils.getMysqlConnection();
-            String sql = "SELECT * FROM t_user WHERE userEmail=? and userPassword=?";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            Criterion userEmailCriterion = Restrictions.eq("userEmail", userEmail);
+            Criterion userPasswordCriterion = Restrictions.eq("userPassword", userPassword);
+            criteria.add(userEmailCriterion);
+            criteria.add(userPasswordCriterion);
 
-            //不知道为什么不能自增，把自增列设置为 （1,0）就能自增了
-            preparedStatement.setString(1, userEntity.getUserEmail());
+            List<UserEntity> userEntityList = criteria.list();
 
-            preparedStatement.setString(2, userEntity.getUserPassword());
-
-            ResultSet rs  = preparedStatement.executeQuery();
-
-            while (rs.next()){
-                i=1;
+            if (userEntityList.size() == 1) {
+                userEntity = userEntityList.get(0);
             }
-
-
-            DBUtils.closeAll(connection, preparedStatement, null);
-        } catch (Exception e) {
+            session.getTransaction().commit();
+        }catch (Exception e){
             e.printStackTrace();
+        }finally {
+            DBUtils.closeSession(session);
         }
-        return i == 1 ? true : false;
+        return userEntity!=null? true:false;
+
     }
-
     public ArrayList<UserEntity> findUser(UserEntity userEntity) {
-        ArrayList<UserEntity> arrayList = new ArrayList<UserEntity>();
-        try {
-            Connection connection = DBUtils.getMysqlConnection();
-            String sql = "SELECT * from t_user where userRealName=?";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-
-
-            preparedStatement.setString(1, userEntity.getUserRealName());
-
-            ResultSet rs = preparedStatement.executeQuery();
-            while (rs.next()) {
-              /*  User u = new User();
-                u.setId(rs.getInt("userId"));
-                u.setRealName(rs.getString("userRealName"));
-                u.setUsername(rs.getString("userName"));
-                u.setPassword(rs.getString("userPassword"));
-                u.setAge(rs.getInt("userAge"));
-                u.setGender(rs.getString("userGender"));
-                u.setEmail(rs.getString("userEmail"));
-                arrayList.add(u);*/
-            }
-            DBUtils.closeAll(connection, preparedStatement, null);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return arrayList;
+        return null;
+    }
+    public ArrayList<UserEntity> findUserByUserName(String userName) {
+     return null;
+    }
+    public ArrayList<UserEntity> findUserByUserId(String userId) {
+       return null;
+    }
+    public ArrayList<UserEntity> findUserByUserEmail(String userEmail) {
+        return null;
+    }
+    public ArrayList<UserEntity> findUserByUserRealName(String userRealName) {
+        return null;
+    }
+    public boolean updateUser(UserEntity userEntity){
+        return false;
+    }
+    public boolean deleteUser(UserEntity userEntity){
+        return false;
+    }
+    public boolean deleteUserById(String userId){
+        return false;
     }
 }

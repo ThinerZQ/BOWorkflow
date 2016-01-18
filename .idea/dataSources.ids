@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component name="dataSourceStorage">
-  <data-source name="MySQL - DBWorkflow@localhost" uuid="46695a2d-39be-4539-b65d-afa17961ab59">
+  <data-source name="MySQL - crowdsourcing@localhost" uuid="46695a2d-39be-4539-b65d-afa17961ab59">
     <database-info product="MySQL" version="5.5.9" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
       <extra-name-characters>#@</extra-name-characters>
       <identifier-quote-string>`</identifier-quote-string>
@@ -21,6 +21,29 @@
       <column name="groupName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <primary-key name="PRIMARY" columns="groupId"/>
       <exported-key name="FK300645B6E713BB51" table="t_user_group" schema="" catalog="crowdsourcing" columns="group_id"/>
+      <exported-key name="FKB8C9C50F8A7BBD25" table="t_workitem" schema="" catalog="crowdsourcing" columns="itemCandidateGroup"/>
+    </table>
+    <table name="t_processinstance" schema="" catalog="crowdsourcing" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="processinstanceCreateTime" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="processinstanceCurrentState" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="processinstanceId" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="processinstanceName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+    </table>
+    <table name="t_task" schema="" catalog="crowdsourcing" type="TABLE">
+      <column name="taskId" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="taskCompleteTime" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="taskDeadlineTime" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="taskDescription" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="taskName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="taskPrice" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="taskReleaseTime" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="taskType" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="taskId"/>
+      <foreign-key name="FKCB6316705C7CD5E9" columns="user_id" ref-table="t_user" ref-schema="" ref-catalog="crowdsourcing" ref-columns="userId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FKCB6316705C7CD5E9" unique="false" columns="user_id"/>
     </table>
     <table name="t_user" schema="" catalog="crowdsourcing" type="TABLE">
       <column name="userId" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
@@ -34,7 +57,9 @@
       <column name="userRegisterDate" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
       <column name="userStatus" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <primary-key name="PRIMARY" columns="userId"/>
+      <exported-key name="FKCB6316705C7CD5E9" table="t_task" schema="" catalog="crowdsourcing" columns="user_id"/>
       <exported-key name="FK300645B65C7CD5E9" table="t_user_group" schema="" catalog="crowdsourcing" columns="user_id"/>
+      <exported-key name="FKB8C9C50F70D0ADBC" table="t_workitem" schema="" catalog="crowdsourcing" columns="itemAssignee"/>
     </table>
     <table name="t_user_group" schema="" catalog="crowdsourcing" type="TABLE">
       <column name="group_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
@@ -47,14 +72,18 @@
     </table>
     <table name="t_workitem" schema="" catalog="crowdsourcing" type="TABLE">
       <column name="itemId" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
-      <column name="itemAssigineeId" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="itemAssigneeName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="itemCreateTimee" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="itemDueTime" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="itemName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="itemProcessId" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="itemStateId" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="itemAssignee" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="itemCandidateGroup" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="itemId"/>
+      <foreign-key name="FKB8C9C50F8A7BBD25" columns="itemCandidateGroup" ref-table="t_group" ref-schema="" ref-catalog="crowdsourcing" ref-columns="groupId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FKB8C9C50F70D0ADBC" columns="itemAssignee" ref-table="t_user" ref-schema="" ref-catalog="crowdsourcing" ref-columns="userId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FKB8C9C50F70D0ADBC" unique="false" columns="itemAssignee"/>
+      <index name="FKB8C9C50F8A7BBD25" unique="false" columns="itemCandidateGroup"/>
     </table>
     <table name="user" schema="" catalog="dbflow" type="TABLE">
       <column name="ID" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>

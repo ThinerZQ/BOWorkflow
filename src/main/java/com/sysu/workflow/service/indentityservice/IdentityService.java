@@ -11,6 +11,9 @@ public class IdentityService {
     public UserEntity newUser(String realname) {
         return new UserEntity(realname);
     }
+    public UserEntity newUser(){
+        return new UserEntity();
+    }
 
     public boolean saveUser(UserEntity userEntity) {
         if (userDao == null) {
@@ -22,7 +25,7 @@ public class IdentityService {
         if (userDao == null) {
             userDao = new UserDao();
         }
-        return userDao.checkUser(userEntity);
+        return userDao.checkUser(userEntity.userEmail,userEntity.userPassword);
     }
 
 
@@ -38,7 +41,10 @@ public class IdentityService {
 
         return new UserQuery();
     }
+    public static GroupQuery createGroupQuery() {
 
+        return new GroupQuery();
+    }
     public GroupEntity newGroup(String name) {
         return new GroupEntity(name);
     }

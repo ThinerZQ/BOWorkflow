@@ -11,6 +11,8 @@ import com.sysu.workflow.invoke.SimpleSCXMLInvoker;
 import com.sysu.workflow.model.Invoke;
 import com.sysu.workflow.model.ModelException;
 import com.sysu.workflow.model.SCXML;
+import com.sysu.workflow.service.processservice.ProcessInstanceEntity;
+import com.sysu.workflow.service.processservice.RuntimeService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -283,13 +285,29 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
         initializeIOProcessors();
         scInstance.setRunning(true);
 
-        //只有在这里 sessionId 才会固定
-        //似乎只能在这里初始化实例树，如果是通过  外界用户自己产生的会话，
-        if (this.instanceTree == null) {
-            this.instanceTree = new SCXMLInstanceTree(getSessionId(), getScInstance().getStateMachine().getName());
-            //在这里将Executor 添加到管理器里面
-            SCXMLInstanceManager.setSCXMLInstance(getSCXMLExecutor());
+        try {
+            //保存过程实例到数据库
+            RuntimeService runtimeService = new RuntimeService();
+
+            ProcessInstanceEntity processInstanceEntity =runtimeService.newProcessInstance(getSessionId(), getScInstance().getStateMachine().getName(), new Date().toLocaleString());
+
+            boolean flag = runtimeService.saveProcessInstance(processInstanceEntity);
+
+            //如果保存到数据库里面了，将实例挂到树上，
+            if (flag) {
+                //只有在这里 sessionId 才会固定
+                //似乎只能在这里初始化实例树，如果是通过  外界用户自己产生的会话，
+                if (this.instanceTree == null) {
+                    this.instanceTree = new SCXMLInstanceTree(getSessionId(), getScInstance().getStateMachine().getName());
+                    //在这里将Executor 添加到管理器里面
+                    SCXMLInstanceManager.setSCXMLInstance(getSCXMLExecutor());
+                }
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
 
     }
 

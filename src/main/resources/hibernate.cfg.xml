@@ -19,7 +19,8 @@
 
         <mapping class="com.sysu.workflow.service.indentityservice.GroupEntity"/>
         <mapping class="com.sysu.workflow.service.indentityservice.UserEntity"/>
-        <mapping class="com.sysu.workflow.service.indentityservice.WorkItemEntity"/>
+        <mapping class="com.sysu.workflow.service.taskservice.WorkItemEntity"/>
+        <mapping class="com.sysu.workflow.service.processservice.ProcessInstanceEntity"/>
 
     </session-factory>
 

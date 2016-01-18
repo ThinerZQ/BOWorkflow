@@ -1,8 +1,10 @@
 package com.sysu.workflow.service.indentityservice;
 
+import com.sysu.workflow.service.taskservice.WorkItemEntity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -28,7 +30,11 @@ public class GroupEntity {
     @ManyToMany
     @JoinTable(name="t_user_group",joinColumns={@JoinColumn(name="group_id")},
             inverseJoinColumns={@JoinColumn(name="user_id")})
-    private Set<UserEntity> userEntitySet;
+    private Set<UserEntity> userEntitySet = new HashSet<UserEntity>();
+
+
+    @OneToMany(mappedBy="itemCandidateCroupEntity",fetch=FetchType.LAZY,cascade={CascadeType.MERGE,CascadeType.REMOVE})
+    public Set<WorkItemEntity> workItemEntitySet = new HashSet<WorkItemEntity>();
 
     public GroupEntity(String name) {
         this.groupName = name;

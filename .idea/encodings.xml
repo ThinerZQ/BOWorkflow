@@ -106,6 +106,7 @@
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/model/TransitionTarget.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/model/TransitionType.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/model/TransitionalState.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/model/UserException.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/model/Var.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/semantics/ErrorConstants.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/semantics/SCXMLSemanticsImpl.java" charset="UTF-8" />

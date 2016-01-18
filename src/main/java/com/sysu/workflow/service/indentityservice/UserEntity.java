@@ -1,10 +1,11 @@
 package com.sysu.workflow.service.indentityservice;
 
+import com.sysu.workflow.service.taskservice.WorkItemEntity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -38,8 +39,12 @@ public class UserEntity {
     @Temporal(TemporalType.TIMESTAMP)
     public Date userRegisterDate;
 
-    @ManyToMany(mappedBy = "userEntitySet")
+    @ManyToMany(mappedBy = "userEntitySet",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     public Set<GroupEntity> groupEntitySet;
+
+    @OneToMany(mappedBy="itemAssigneeEntity",fetch=FetchType.LAZY,cascade={CascadeType.MERGE,CascadeType.REMOVE})
+    public Set<WorkItemEntity> workItemEntitySet = new HashSet<WorkItemEntity>();
+
 
     public UserEntity(String realname) {
         this.userRealName = realname;
@@ -132,8 +137,9 @@ public class UserEntity {
         return userRegisterDate;
     }
 
-    public void setUserRegisterDate(Date userRegisterDate) {
+    public UserEntity setUserRegisterDate(Date userRegisterDate) {
         this.userRegisterDate = userRegisterDate;
+        return this;
     }
 
     public Set<GroupEntity> getGroupEntitySet() {

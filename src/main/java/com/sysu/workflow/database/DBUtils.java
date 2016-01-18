@@ -1,11 +1,34 @@
 package com.sysu.workflow.database;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
 import java.sql.*;
 
 /**
  * Created by zhengshouzi on 2015/12/12.
  */
 public class DBUtils {
+
+    private static SessionFactory sessionFactory = null;
+
+    public static SessionFactory  getSessionFactory(){
+        if (sessionFactory ==null){
+            sessionFactory = new Configuration().configure().buildSessionFactory();
+        }
+
+        return sessionFactory;
+    }
+    public static void closeSession(Session session ){
+        if (session!= null){
+           if (session.isOpen()){
+               session.close();
+           }
+
+        }
+    }
+
 
 
     public static Connection getH2InMemeConnection() {

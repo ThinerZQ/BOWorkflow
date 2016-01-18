@@ -1,7 +1,10 @@
 package com.sysu.workflow.model;
 
 import com.sysu.workflow.*;
-import com.sysu.workflow.service.indentityservice.WorkItemEntity;
+import com.sysu.workflow.service.indentityservice.GroupEntity;
+import com.sysu.workflow.service.indentityservice.IdentityService;
+import com.sysu.workflow.service.indentityservice.UserEntity;
+import com.sysu.workflow.service.taskservice.WorkItemEntity;
 import com.sysu.workflow.service.taskservice.TaskDispatcher;
 
 import java.util.ArrayList;
@@ -178,24 +181,41 @@ public class UserTask extends Action {
 
         //组装，插入到workitem里面
         ArrayList<WorkItemEntity> workItemEntityArrayList = new ArrayList<WorkItemEntity>();
+        IdentityService identityService = new IdentityService();
 
         if (assigneeValue!=null){
             WorkItemEntity workItemEntity = new WorkItemEntity();
-
             workItemEntity.setItemName(getName())
                     .setItemCreateTimee(new Date().toLocaleString())
                     .setItemDueTime(getDueDate())
                     .setItemProcessId((String)ctx.getSystemContext().get(SCXMLSystemContext.SESSIONID_KEY))
                     .setItemStateId(parentState.getId());
+            //找到这个人
+            UserEntity userEntity = identityService.createUserQuery().userRealName(assigneeValue).SingleResult();
 
-            workItemEntityArrayList.add(workItemEntity);
+            try {
+                TaskDispatcher.newInstance().dispatchUserTask(workItemEntity,userEntity);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
 
-            TaskDispatcher.newInstance().dispatchUserTask(workItemEntity,assigneeValue);
+
+
 
         }else if (candidateUsersValue!=null){
             //分配到候选人
         }else if (candidateGroupValue!=null){
             //分配到组
+            WorkItemEntity workItemEntity = new WorkItemEntity();
+            workItemEntity.setItemName(getName())
+                    .setItemCreateTimee(new Date().toLocaleString())
+                    .setItemDueTime(getDueDate())
+                    .setItemProcessId((String)ctx.getSystemContext().get(SCXMLSystemContext.SESSIONID_KEY))
+                    .setItemStateId(parentState.getId());
+            //找到这个组
+            GroupEntity groupEntity = identityService.createGroupQuery().groupName(candidateGroupValue).SingleResult();
+
+            TaskDispatcher.newInstance().dispatchGroupTask(workItemEntity,groupEntity);
         }
 
     }

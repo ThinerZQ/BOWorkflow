@@ -1,5 +1,6 @@
 package com.sysu.workflow.database;
 
+import com.sysu.workflow.service.indentityservice.GroupEntity;
 import com.sysu.workflow.service.indentityservice.IdentityService;
 import com.sysu.workflow.service.indentityservice.UserEntity;
 import org.hibernate.cfg.Configuration;
@@ -8,7 +9,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -37,28 +37,7 @@ public class TableTest {
         schema.setFormat(true).create(true, true);
 
     }
-    @Test
-    public void testAddUser1() {
-        UserEntity userEntity = identityService.newUser("zhengqiang");
 
-        userEntity.setUserPassword("193746")
-                .setUserName("ThinerZQ")
-                .setUserAge("23")
-                .setUserEmail("601097836@qq.com")
-                .setUserGender("man")
-                .setUserStatus("1")
-                .setUserRegisterDate(new Date());
-        identityService.saveUser(userEntity);
-    }
-    @Test
-    public void testCheckUser() {
-        UserEntity userEntity = new UserEntity();
-        userEntity.setUserEmail("601097836@qq.com");
-        userEntity.setUserPassword("193746");
-
-
-        Assert.assertEquals(true, identityService.checkUser(userEntity));
-    }
 
     public void testAddUser2() {
 

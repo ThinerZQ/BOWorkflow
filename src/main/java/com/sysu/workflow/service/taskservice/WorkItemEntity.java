@@ -1,5 +1,7 @@
-package com.sysu.workflow.service.indentityservice;
+package com.sysu.workflow.service.taskservice;
 
+import com.sysu.workflow.service.indentityservice.GroupEntity;
+import com.sysu.workflow.service.indentityservice.UserEntity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -29,10 +31,17 @@ public class WorkItemEntity {
     public String itemCreateTimee;
     @Basic
     public String itemDueTime;
-    @Basic
-    public String itemAssigineeId;
-    @Basic
-    public String itemAssigneeName;
+
+    @ManyToOne(cascade={CascadeType.MERGE})
+    @JoinColumn(name = "itemAssignee")
+    private UserEntity itemAssigneeEntity;
+
+
+    @ManyToOne(cascade={CascadeType.MERGE})
+    @JoinColumn(name = "itemCandidateGroup")
+    private GroupEntity itemCandidateCroupEntity;
+
+
     @Basic
     public String itemStateId;
     @Basic
@@ -74,23 +83,7 @@ public class WorkItemEntity {
         return this;
     }
 
-    public String getItemAssigineeId() {
-        return itemAssigineeId;
-    }
 
-    public WorkItemEntity setItemAssigineeId(String itemAssigineeId) {
-        this.itemAssigineeId = itemAssigineeId;
-        return this;
-    }
-
-    public String getItemAssigneeName() {
-        return itemAssigneeName;
-    }
-
-    public WorkItemEntity setItemAssigneeName(String itemAssigneeName) {
-        this.itemAssigneeName = itemAssigneeName;
-        return this;
-    }
 
     public String getItemStateId() {
         return itemStateId;
@@ -108,5 +101,21 @@ public class WorkItemEntity {
     public WorkItemEntity setItemProcessId(String itemProcessId) {
         this.itemProcessId = itemProcessId;
         return this;
+    }
+
+    public UserEntity getItemAssigneeEntity() {
+        return itemAssigneeEntity;
+    }
+
+    public void setItemAssigneeEntity(UserEntity itemAssigneeEntity) {
+        this.itemAssigneeEntity = itemAssigneeEntity;
+    }
+
+    public GroupEntity getItemCandidateCroupEntity() {
+        return itemCandidateCroupEntity;
+    }
+
+    public void setItemCandidateCroupEntity(GroupEntity itemCandidateCroupEntity) {
+        this.itemCandidateCroupEntity = itemCandidateCroupEntity;
     }
 }

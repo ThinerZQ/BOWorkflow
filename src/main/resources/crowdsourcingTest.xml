@@ -25,12 +25,11 @@
             <data id="simpleCount" expr="0"></data>
         </datamodel>
         <onentry>
-            <userTask id="judge" name="判断任务" assignee="zhengqiang" cadidateUsers="" cadidateGroups="" dueDate=""
-                      instances="judgeCount">
+            <userTask id="judge" name="判断任务" cadidateGroups="judger" instances="judgeCount">
                 <param name="任务名字" expr="taskName"></param>
                 <param name="任务描述" expr="taskDescription"></param>
             </userTask>
-            <send event="judgeComplete" type="scxml" messageMode="TO_"></send>
+            <send event="judgeComplete" type="scxml"></send>
         </onentry>
         <transition event="judgeComplete">
 
@@ -45,7 +44,7 @@
             <data id="step" expr="0"></data>
         </datamodel>
         <onentry>
-            <userTask id="decompose" name="分解任务" assignee="zhengqiang" cadidateUsers="" cadidateGroups="" dueDate=""
+            <userTask id="decompose" name="分解任务" cadidateGroups="decomposer"
                       instances="decomposeCount">
                 <param name="任务名字" expr="taskName"></param>
                 <param name="任务描述" expr="taskDescription"></param>
@@ -53,7 +52,7 @@
         </onentry>
 
         <transition event="decomposeComplete">
-            <assigne location="counted" expr="counted + 1"></assigne>
+            <assign location="counted" expr="counted + 1"></assign>
             <!-- 写入数据库: 谁分解成了什么 -->
         </transition>
         <transition cond="counted eq decomposeCount" target="decomposeVoting"></transition>
@@ -71,7 +70,7 @@
             </userTask>
         </onentry>
         <transition event="decomposeVoteComplete">
-            <assigne location="counted" expr="counted + 1"></assigne>
+            <assign location="counted" expr="counted + 1"></assign>
         </transition>
         <transition cond="counted eq decomposeVoteCount" target="end">
 

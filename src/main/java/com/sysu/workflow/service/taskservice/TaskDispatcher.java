@@ -1,8 +1,8 @@
 package com.sysu.workflow.service.taskservice;
 
-import com.sysu.workflow.service.indentityservice.IdentityService;
+import com.sysu.workflow.model.UserException;
+import com.sysu.workflow.service.indentityservice.GroupEntity;
 import com.sysu.workflow.service.indentityservice.UserEntity;
-import com.sysu.workflow.service.indentityservice.WorkItemEntity;
 
 import java.util.ArrayList;
 
@@ -24,19 +24,37 @@ public class TaskDispatcher {
 
 
     }
-    public void dispatchUserTask(WorkItemEntity workItemEntity,String assignee) {
+    public void dispatchUserTask(WorkItemEntity workItemEntity,UserEntity userEntity) throws UserException {
 
-        IdentityService identityService = new IdentityService();
         WorkItemDao workItemDao = new WorkItemDao();
 
         boolean flag = false;
         try {
 
-            //找到这个人
-            UserEntity user = identityService.createUserQuery().userRealName(assignee).SingleResult();
+            if (userEntity!=null){
+                workItemEntity.setItemAssigneeEntity(userEntity);
+                flag = workItemDao.insertIntoWorkItem(workItemEntity);
+            }else{
+                //抛出异常
+                throw new UserException("没有用户："+userEntity.getUserRealName());
+            }
 
-            if (user!=null){
-                workItemEntity.setItemAssigneeName(user.getUserName()).setItemAssigineeId(String.valueOf(user.getUserId()));
+            //如果flag不是true，表示插入工作项表失败，抛出 error.execute异常
+
+            //TODO:抛出异常
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void dispatchGroupTask(WorkItemEntity workItemEntity,GroupEntity groupEntity) {
+
+        WorkItemDao workItemDao = new WorkItemDao();
+
+        boolean flag = false;
+        try {
+
+            if (groupEntity!=null){
+                workItemEntity.setItemCandidateCroupEntity(groupEntity);
                 flag = workItemDao.insertIntoWorkItem(workItemEntity);
             }else{
                 //抛出异常
