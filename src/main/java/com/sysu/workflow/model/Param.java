@@ -32,6 +32,12 @@ public class Param implements NamespacePrefixesHolder, Serializable {
     private String expr;
 
     /**
+     * 当Param 作为表单参数的时候，
+     * 判断参数是什么类型
+     */
+    private String type;
+
+    /**
      * The current XML namespaces in the SCXML document for this action node,
      * preserved for deferred XPath evaluation.
      */
@@ -117,5 +123,12 @@ public class Param implements NamespacePrefixesHolder, Serializable {
         this.namespaces = namespaces;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }
 

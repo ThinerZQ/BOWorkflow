@@ -1,10 +1,12 @@
 package com.sysu.workflow.service.indentityservice;
 
-import com.sysu.workflow.service.taskservice.WorkItemEntity;
+import com.sysu.workflow.entity.WorkflowEntity;
+import com.sysu.workflow.service.taskservice.GroupWorkItemEntity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -18,23 +20,23 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "t_group")
-public class GroupEntity {
+public class GroupEntity implements WorkflowEntity {
     @Id
     @GeneratedValue(generator = "generator")
     @GenericGenerator(name = "generator", strategy = "identity")
-    public int groupId;
+    private long groupId;
 
     @Basic
-    public String groupName;
+    private String groupName;
 
     @ManyToMany
-    @JoinTable(name="t_user_group",joinColumns={@JoinColumn(name="group_id")},
-            inverseJoinColumns={@JoinColumn(name="user_id")})
+    @JoinTable(name = "t_user_group", joinColumns = {@JoinColumn(name = "groupEntity")},
+            inverseJoinColumns = {@JoinColumn(name = "userEntity")})
     private Set<UserEntity> userEntitySet = new HashSet<UserEntity>();
 
 
-    @OneToMany(mappedBy="itemCandidateCroupEntity",fetch=FetchType.LAZY,cascade={CascadeType.MERGE,CascadeType.REMOVE})
-    public Set<WorkItemEntity> workItemEntitySet = new HashSet<WorkItemEntity>();
+    @OneToMany(mappedBy = "itemCandidateGroupEntity", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.REMOVE})
+    private Set<GroupWorkItemEntity> workItemEntitySet = new HashSet<GroupWorkItemEntity>();
 
     public GroupEntity(String name) {
         this.groupName = name;
@@ -43,11 +45,11 @@ public class GroupEntity {
     public GroupEntity() {
     }
 
-    public int getGroupId() {
+    public long getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(int groupId) {
+    public void setGroupId(long groupId) {
         this.groupId = groupId;
     }
 
@@ -68,4 +70,7 @@ public class GroupEntity {
     }
 
 
+    public Map<String, Object> getNotNullPropertyMap() {
+        return null;
+    }
 }

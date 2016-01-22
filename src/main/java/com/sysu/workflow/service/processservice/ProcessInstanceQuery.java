@@ -15,6 +15,14 @@ public class ProcessInstanceQuery {
     private ProcessInstanceEntity processInstanceEntity = null;
     private ProcessInstanceDao processInstanceDao = null;
 
+    public ProcessInstanceQuery(ProcessInstanceEntity processInstanceEntity) {
+        this.processInstanceEntity = processInstanceEntity;
+    }
+
+    public ProcessInstanceQuery() {
+        processInstanceEntity = new ProcessInstanceEntity();
+    }
+
     public ProcessInstanceQuery processInstanceId(String  id) {
         processInstanceEntity.setProcessinstanceId(id);
         return this;
@@ -34,12 +42,11 @@ public class ProcessInstanceQuery {
         return size >= 1 ? arrayList.get(0) : null;
     }
 
-    public ProcessInstanceQuery(ProcessInstanceEntity processInstanceEntity) {
-        this.processInstanceEntity = processInstanceEntity;
-    }
-
-    public ProcessInstanceQuery() {
-        processInstanceEntity = new ProcessInstanceEntity();
+    public ArrayList<ProcessInstanceEntity> getAllProcessInstance() {
+        if (processInstanceDao == null) {
+            processInstanceDao = new ProcessInstanceDao();
+        }
+        return processInstanceDao.getAllProcessInstance();
     }
 
 }

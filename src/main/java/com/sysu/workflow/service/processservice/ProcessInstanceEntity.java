@@ -1,10 +1,10 @@
 package com.sysu.workflow.service.processservice;
 
-import com.sysu.workflow.service.indentityservice.GroupEntity;
-import com.sysu.workflow.service.indentityservice.UserEntity;
+import com.sysu.workflow.entity.WorkflowEntity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA
@@ -19,21 +19,30 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "t_processinstance")
-public class ProcessInstanceEntity {
+public class ProcessInstanceEntity implements WorkflowEntity {
 
     @Id
     @GeneratedValue(generator = "generator")
     @GenericGenerator(name = "generator", strategy = "identity")
-    public long id;
+    private long id;
     @Basic
-    public String processinstanceId;
+    private String processinstanceId;
     @Basic
-    public String processinstanceName;
+    private String processinstanceName;
     @Basic
-    public String processinstanceCreateTime;
+    private String processinstanceCreateTime;
     @Basic
-    public String processinstanceCurrentState;
+    private String processinstanceCurrentState;
 
+
+    public ProcessInstanceEntity(String processinstanceId, String processinstanceName, String processinstanceCreateTime) {
+        this.processinstanceId = processinstanceId;
+        this.processinstanceName = processinstanceName;
+        this.processinstanceCreateTime = processinstanceCreateTime;
+    }
+
+    public ProcessInstanceEntity() {
+    }
 
     public String getProcessinstanceName() {
         return processinstanceName;
@@ -75,13 +84,7 @@ public class ProcessInstanceEntity {
         this.processinstanceId = processinstanceId;
     }
 
-    public ProcessInstanceEntity(String processinstanceId, String processinstanceName, String processinstanceCreateTime) {
-        this.processinstanceId = processinstanceId;
-        this.processinstanceName = processinstanceName;
-        this.processinstanceCreateTime = processinstanceCreateTime;
+    public Map<String, Object> getNotNullPropertyMap() {
+        return null;
     }
-
-    public ProcessInstanceEntity() {
-    }
-
 }

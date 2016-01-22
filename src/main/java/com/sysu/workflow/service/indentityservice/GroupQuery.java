@@ -15,6 +15,14 @@ public class GroupQuery {
     private GroupEntity group = null;
     private GroupDao groupDao = null;
 
+    public GroupQuery(GroupEntity group) {
+        this.group = group;
+    }
+
+    public GroupQuery() {
+        group = new GroupEntity();
+    }
+
     public GroupQuery groupName(String groupName) {
         group.setGroupName(groupName);
         return this;
@@ -29,16 +37,8 @@ public class GroupQuery {
         if (groupDao == null) {
             groupDao = new GroupDao();
         }
-        GroupEntity groupEntity = groupDao.findGroup(group);
-
-        return  groupEntity!=null ? groupEntity : null;
-    }
-
-    public GroupQuery(GroupEntity group) {
-        this.group = group;
-    }
-
-    public GroupQuery() {
-        group = new GroupEntity();
+        ArrayList<GroupEntity> groupEntityArrayList = groupDao.findGroup(group);
+        int size = groupEntityArrayList.size();
+        return size >= 1 ? groupEntityArrayList.get(0) : null;
     }
 }

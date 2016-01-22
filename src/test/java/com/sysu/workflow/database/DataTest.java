@@ -1,15 +1,5 @@
 package com.sysu.workflow.database;
 
-import com.sysu.workflow.service.indentityservice.GroupEntity;
-import com.sysu.workflow.service.indentityservice.IdentityService;
-import com.sysu.workflow.service.indentityservice.UserEntity;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * Created with IntelliJ IDEA
  * Date: 2016/1/18
@@ -20,7 +10,7 @@ import java.util.Set;
  * Email: 601097836@qq.com
  */
 public class DataTest{
-    private IdentityService identityService =null;
+    /*private IdentityService identityService =null;
 
     @Before
     public void before(){
@@ -137,5 +127,5 @@ public class DataTest{
     @Test
     public void testAddGroup() {
 
-    }
+    }*/
 }

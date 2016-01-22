@@ -6,7 +6,6 @@ import com.sysu.workflow.engine.SCXMLInstanceTree;
 import com.sysu.workflow.env.MulitStateMachineDispatcher;
 import com.sysu.workflow.env.SimpleDispatcher;
 import org.apache.commons.logging.Log;
-import sun.security.pkcs11.P11Util;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -293,21 +292,21 @@ public class Send extends NamelistHolder implements ContentContainer {
     }
 
     /**
-     * Get the event to send.
-     *
-     * @param event The event to set.
-     */
-    public final void setEvent(final String event) {
-        this.event = event;
-    }
-
-    /**
      * Set the event to send.
      *
      * @return String Returns the event.
      */
     public final String getEvent() {
         return event;
+    }
+
+    /**
+     * Get the event to send.
+     *
+     * @param event The event to set.
+     */
+    public final void setEvent(final String event) {
+        this.event = event;
     }
 
     /**
@@ -421,9 +420,10 @@ public class Send extends NamelistHolder implements ContentContainer {
         } else if (!SCXMLIOProcessor.DEFAULT_EVENT_PROCESSOR.equals(typeValue) && typeValue.trim().equalsIgnoreCase(SCXMLIOProcessor.SCXML_EVENT_PROCESSOR)) {
             typeValue = SCXMLIOProcessor.DEFAULT_EVENT_PROCESSOR;
         }
-
-
-        MessageMode messageModeValue = MessageMode.valueOf(messageMode);
+        MessageMode messageModeValue = null;
+        if (messageMode != null) {
+            messageModeValue = MessageMode.valueOf(messageMode);
+        }
         String targetNameValue = targetName;
         String targetStateValue = targetState;
 
@@ -481,13 +481,20 @@ public class Send extends NamelistHolder implements ContentContainer {
         }
         if (exctx.getEventDispatcher() instanceof MulitStateMachineDispatcher){
 
-            SCXMLInstanceTree scxmlInstanceTree = null;
+            SCXMLInstanceTree scxmlInstanceTree;
 
             SCXMLExecutionContext currentExecutionContext = (SCXMLExecutionContext) exctx.getInternalIOProcessor();
 
             scxmlInstanceTree=currentExecutionContext.getInstanceTree();
 
-            exctx.getEventDispatcher().send((String) ctx.getSystemContext().get(SCXMLSystemContext.SESSIONID_KEY), scxmlInstanceTree, id, targetValue, messageModeValue, targetNameValue, targetStateValue, typeValue, eventValue, payloadDataMap, hintsValue, wait);
+            if (messageModeValue != null) {
+                exctx.getEventDispatcher().send((String) ctx.getSystemContext().get(SCXMLSystemContext.SESSIONID_KEY), scxmlInstanceTree, id, targetValue, messageModeValue, targetNameValue, targetStateValue, typeValue, eventValue, payloadDataMap, hintsValue, wait);
+            } else {
+                exctx.getEventDispatcher().send(ioProcessors, id, targetValue, typeValue, eventValue,
+                        payload, hintsValue, wait);
+            }
+
+
         }else if (exctx.getEventDispatcher() instanceof SimpleDispatcher){
 
             exctx.getEventDispatcher().send(ioProcessors, id, targetValue, typeValue, eventValue,

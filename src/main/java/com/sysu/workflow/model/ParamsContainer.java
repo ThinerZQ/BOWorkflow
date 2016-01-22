@@ -65,4 +65,34 @@ public abstract class ParamsContainer extends PayloadProvider {
             }
         }
     }
+
+    protected void addParamsToForm(ActionExecutionContext exctx, Map<String, Object> payload)
+            throws ModelException, SCXMLExpressionException {
+        if (!paramsList.isEmpty()) {
+            EnterableState parentState = getParentEnterableState();
+            Context ctx = exctx.getContext(parentState);
+            try {
+                ctx.setLocal(getNamespacesKey(), getNamespaces());
+                Evaluator evaluator = exctx.getEvaluator();
+                Object paramValue = null;
+                String paramType = "output";
+                for (Param p : paramsList) {
+                    if (p.getExpr() != null) {
+                        paramValue = evaluator.eval(ctx, p.getExpr());
+                    } else if (p.getLocation() != null) {
+                        paramValue = evaluator.eval(ctx, p.getLocation());
+                    }
+
+                    addToPayload(p.getName(), paramValue, payload);
+                    if (p.getType() != null) {
+                        paramType = p.getType();
+                    }
+                    Object[] paramObject = new Object[]{payload.get(p.getName()), paramType};
+                    payload.put(p.getName(), paramObject);
+                }
+            } finally {
+                ctx.setLocal(getNamespacesKey(), null);
+            }
+        }
+    }
 }

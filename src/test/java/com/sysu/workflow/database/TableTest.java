@@ -1,16 +1,5 @@
 package com.sysu.workflow.database;
 
-import com.sysu.workflow.service.indentityservice.GroupEntity;
-import com.sysu.workflow.service.indentityservice.IdentityService;
-import com.sysu.workflow.service.indentityservice.UserEntity;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.tool.hbm2ddl.SchemaExport;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.Date;
-
 /**
  * Created with IntelliJ IDEA
  * Date: 2016/1/16
@@ -22,7 +11,7 @@ import java.util.Date;
  */
 public class TableTest {
 
-    private IdentityService identityService =null;
+   /* private IdentityService identityService =null;
 
     @Before
     public void before(){
@@ -41,6 +30,6 @@ public class TableTest {
 
     public void testAddUser2() {
 
-    }
+    }*/
 
 }

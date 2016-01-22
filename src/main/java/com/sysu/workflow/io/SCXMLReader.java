@@ -6,12 +6,10 @@ import com.sysu.workflow.PathResolver;
 import com.sysu.workflow.env.SimpleErrorHandler;
 import com.sysu.workflow.env.URLResolver;
 import com.sysu.workflow.model.*;
-import groovy.util.IFileNameFinder;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
-import javax.print.DocFlavor;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.*;
@@ -229,6 +227,7 @@ public final class SCXMLReader {
     private static final String ELEM_USERTASK = "userTask";
     private static final String ELEM_SERVICETASK = "serviceTask";
     private static final String ELEM_SUBSTATEMACHINE = "subStateMachine";
+    private static final String ELEM_FORM = "form";
 
 
     //---- 属性名 ----//
@@ -287,6 +286,16 @@ public final class SCXMLReader {
     /*
      * Public methods
      */
+
+    /**
+     * Discourage instantiation since this is a utility class.
+     */
+   /* private SCXMLReader() {
+        super();
+    }*/
+    public SCXMLReader() {
+
+    }
 
     /**
      * 按照提供的路径解析xml文档
@@ -472,6 +481,8 @@ public final class SCXMLReader {
         return read(scxmlSource, new Configuration());
     }
 
+    //---------------------- 私有的工具方法 ----------------------//
+
     /**
      * Parse the SCXML document supplied by the given {@link Source} with the given {@link Configuration}.
      *
@@ -497,8 +508,6 @@ public final class SCXMLReader {
         }
         return scxml;
     }
-
-    //---------------------- 私有的工具方法 ----------------------//
 
     /**
      * 通过给定的 {@link URL} 和 {@link Configuration}, but do not
@@ -534,7 +543,6 @@ public final class SCXMLReader {
 
         return readDocument(reader, configuration);
     }
-
 
     /**
      * 私有的方法用来阅读整个文档，通过{@link XMLStreamReader}.
@@ -1139,6 +1147,7 @@ public final class SCXMLReader {
 
         Param param = new Param();
         param.setName(readRequiredAV(reader, ELEM_PARAM, ATTR_NAME));
+        param.setType(readAV(reader, ATTR_TYPE));
         String location = readAV(reader, ATTR_LOCATION);
         String expr = readAV(reader, ATTR_EXPR);
         if (expr != null) {
@@ -1153,6 +1162,8 @@ public final class SCXMLReader {
         } else {
             param.setLocation(location);
         }
+
+
         readNamespaces(configuration, param);
         parent.getParams().add(param);
         skipToEndElement(reader);
@@ -1506,7 +1517,6 @@ public final class SCXMLReader {
             }
         }
     }
-
 
     /**
      * Read the contents of this &lt;raise&gt; element.
@@ -2069,10 +2079,10 @@ public final class SCXMLReader {
         }
         //判断 组是否冲突
         userTask.setCandidateGroups(readAV(reader, ATTR_CANDIDATEGROUPS));
-        String candidateGroupExpr = readAV(reader,ATTR_CANDIDATEGROUPS);
+        String candidateGroupExpr = readAV(reader, ATTR_CANDIDATEGROUPSEXPR);
        if (candidateGroupExpr!=null){
            if (userTask.getCandidateGroups() != null) {
-               reportConflictingAttribute(reader, configuration, ELEM_USERTASK, ATTR_ASSIGNEE, ATTR_ASSIGNEEEXPR);
+               reportConflictingAttribute(reader, configuration, ELEM_USERTASK, ATTR_CANDIDATEGROUPS, ATTR_CANDIDATEGROUPSEXPR);
            } else {
                userTask.setCandidateGroupsExpr(candidateGroupExpr);
            }
@@ -2081,7 +2091,7 @@ public final class SCXMLReader {
         userTask.setInstances(readAV(reader, ATTR_INSTANCES));
         attrValue = readAV(reader,ATTR_INSTANCESEXPR);
         if (attrValue!=null){
-            if (!userTask.getInstances().equals("1")){
+            if (userTask.getInstances() != null) {
                 reportConflictingAttribute(reader, configuration, ELEM_USERTASK, ATTR_INSTANCES, ATTR_INSTANCESEXPR);
             }else {
                 userTask.setInstancesExpr(attrValue);
@@ -2090,16 +2100,47 @@ public final class SCXMLReader {
 
         //TODO:读取截止日期
 
-
         readNamespaces(configuration, userTask);
         userTask.setParent(executable);
+
+        loop:
+        while (reader.hasNext()) {
+            String name, nsURI;
+            switch (reader.next()) {
+                case XMLStreamConstants.START_ELEMENT:
+                    pushNamespaces(reader, configuration);
+                    nsURI = reader.getNamespaceURI();
+                    name = reader.getLocalName();
+                    if (XMLNS_SCXML.equals(nsURI)) {
+                        if (ELEM_FORM.equals(name)) {
+                            //读读取Form里面的内容
+                            if (userTask.getForm() == null) {
+                                readForm(reader, configuration, userTask);
+                            } else {
+                                reportIgnoredElement(reader, configuration, ELEM_USERTASK, nsURI, name);
+                            }
+                        } else {
+                            reportIgnoredElement(reader, configuration, ELEM_USERTASK, nsURI, name);
+                        }
+                    } else {
+                        reportIgnoredElement(reader, configuration, ELEM_USERTASK, nsURI, name);
+                    }
+                    break;
+                case XMLStreamConstants.END_ELEMENT:
+                    popNamespaces(reader, configuration);
+                    break loop;
+                default:
+            }
+        }
+
+
 
         if (parent != null) {
             parent.addAction(userTask);
         } else {
             executable.addAction(userTask);
         }
-        skipToEndElement(reader);
+        //skipToEndElement(reader);
 
     }
 
@@ -2116,6 +2157,54 @@ public final class SCXMLReader {
             throws XMLStreamException {
 
 
+    }
+
+    private static void readForm(final XMLStreamReader reader, final Configuration configuration, final UserTask userTask) throws ModelException, XMLStreamException {
+
+        Form form = new Form();
+        form.setId(readAV(reader, ATTR_ID));
+        form.setSrc(readAV(reader, ATTR_SRC));
+        form.setPathResolver(configuration.pathResolver);
+
+        String srcValue = readAV(reader, ATTR_SRCEXPR);
+        if (srcValue != null) {
+            if (form.getSrc() != null) {
+                reportConflictingAttribute(reader, configuration, ELEM_FORM, ATTR_SRC, ATTR_SRCEXPR);
+            } else {
+                form.setSrcexpr(srcValue);
+            }
+        }
+
+        readNamespaces(configuration, form);
+        if (form.getSrc() == null && form.getSrcexpr() == null) {
+            loop:
+            while (reader.hasNext()) {
+                String name, nsURI;
+                switch (reader.next()) {
+                    case XMLStreamConstants.START_ELEMENT:
+                        pushNamespaces(reader, configuration);
+                        nsURI = reader.getNamespaceURI();
+                        name = reader.getLocalName();
+                        if (XMLNS_SCXML.equals(nsURI)) {
+                            if (ELEM_PARAM.equals(name)) {
+                                readParam(reader, configuration, form);
+                            } else {
+                                reportIgnoredElement(reader, configuration, ELEM_FORM, nsURI, name);
+                            }
+                        } else {
+                            reportIgnoredElement(reader, configuration, ELEM_FORM, nsURI, name);
+                        }
+                        break;
+                    case XMLStreamConstants.END_ELEMENT:
+                        popNamespaces(reader, configuration);
+                        break loop;
+                    default:
+                }
+            }
+        }
+        form.setParent(userTask.getParent());
+        form.setUserTask(userTask);
+        userTask.setForm(form);
     }
 
     /**
@@ -2137,7 +2226,6 @@ public final class SCXMLReader {
         }
         skipToEndElement(reader);
     }
-
 
     /**
      * Read the following contents into a DOM {@link Node}.
@@ -2639,16 +2727,6 @@ public final class SCXMLReader {
         }
 
         return xsr;
-    }
-
-    /**
-     * Discourage instantiation since this is a utility class.
-     */
-   /* private SCXMLReader() {
-        super();
-    }*/
-    public SCXMLReader() {
-
     }
 
     //------------------------- configuration 类 -------------------------//

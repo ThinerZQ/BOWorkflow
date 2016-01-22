@@ -1,49 +1,55 @@
 package com.sysu.workflow.service.indentityservice;
 
-import com.sysu.workflow.service.taskservice.WorkItemEntity;
+import com.sysu.workflow.entity.WorkflowEntity;
+import com.sysu.workflow.service.taskservice.UserWorkItemEntity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
- * Created by zhengshouzi on 2015/9/17.
+ * Created with IntelliJ IDEA
+ * Date: 2015/9/17
+ * Time: 13:16
+ * User: ThinerZQ
+ * GitHub: <a>https://github.com/ThinerZQ</a>
+ * Blog: <a>http://blog.csdn.net/c601097836</a>
+ * Email: 601097836@qq.com
+ *
  */
 @Entity
 @Table(name = "t_user")
-public class UserEntity {
+public class UserEntity implements WorkflowEntity {
 
     @Id
     @GeneratedValue(generator = "generator")
     @GenericGenerator(name = "generator", strategy = "identity")
-    public int userId;
+    private long userId;
 
     @Basic
-    public String userName;
+    private String userName;
     @Basic
-    public String userRealName;
+    private String userRealName;
     @Basic
-    public String userPassword;
+    private String userPassword;
     @Basic
-    public String userAge;
+    private String userAge;
     @Basic
-    public String userGender;
+    private String userGender;
     @Basic
-    public String userEmail;
+    private String userEmail;
     @Basic
-    public String userActivateCode;
+    private String userActivateCode;
     @Basic
-    public String userStatus;
+    private String userStatus;
     @Temporal(TemporalType.TIMESTAMP)
-    public Date userRegisterDate;
+    private Date userRegisterDate;
 
     @ManyToMany(mappedBy = "userEntitySet",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    public Set<GroupEntity> groupEntitySet;
+    private Set<GroupEntity> groupEntitySet = new HashSet<GroupEntity>();
 
-    @OneToMany(mappedBy="itemAssigneeEntity",fetch=FetchType.LAZY,cascade={CascadeType.MERGE,CascadeType.REMOVE})
-    public Set<WorkItemEntity> workItemEntitySet = new HashSet<WorkItemEntity>();
+    @OneToMany(mappedBy = "itemAssigneeEntity", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<UserWorkItemEntity> workItemEntitySet = new HashSet<UserWorkItemEntity>();
 
 
     public UserEntity(String realname) {
@@ -53,11 +59,11 @@ public class UserEntity {
     public UserEntity() {
     }
 
-    public int getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 
@@ -148,5 +154,32 @@ public class UserEntity {
 
     public void setGroupEntitySet(Set<GroupEntity> groupEntitySet) {
         this.groupEntitySet = groupEntitySet;
+    }
+
+    public Map<String, Object> getNotNullPropertyMap() {
+        Map<String, Object> map = new HashMap<String, Object>();
+
+        if (getUserId() != 0) {
+            map.put("userId", getUserId());
+        }
+        if (getUserRealName() != null) {
+            map.put("userRealName", getUserRealName());
+        }
+        if (getUserAge() != null) {
+            map.put("userAge", getUserAge());
+        }
+        if (getUserEmail() != null) {
+            map.put("userEmail", getUserEmail());
+        }
+        if (getUserName() != null) {
+            map.put("userName", getUserName());
+        }
+        if (getUserGender() != null) {
+            map.put("userGender", getUserGender());
+        }
+        if (getUserPassword() != null) {
+            map.put("userPassword", getUserPassword());
+        }
+        return map;
     }
 }

@@ -2,7 +2,8 @@
 <scxml xmlns="http://www.w3.org/2005/07/scxml"
        version="1.0"
        datamodel="jexl"
-       initial="judging">
+       initial="init"
+       name="crowdsourcing">
 
     <!-- 请假单需要的数据-->
     <datamodel>
@@ -11,13 +12,34 @@
         <data id="taskDescription" expr=""></data>
         <data id="dueDate"></data>
 
-        <data id="judgeCount" expr="3"></data>
-        <data id="decomposeCount" expr="2"></data>
-        <data id="decomposeVoteCount" expr="3"></data>
-        <data id="solveCount" expr="2"></data>
-        <data id="solveVoteCount" expr="3"></data>
+        <data id="judgeCount" expr=""></data>
+        <data id="decomposeCount" expr=""></data>
+        <data id="decomposeVoteCount" expr=""></data>
+        <data id="solveCount" expr=""></data>
+        <data id="solveVoteCount" expr=""></data>
     </datamodel>
 
+
+    <state id="init">
+        <onentry>
+            <log expr="'init state entry'"/>
+        </onentry>
+        <transition event="init" target="judging">
+            <assign location="taskName" expr="_event.data.taskName"></assign>
+            <assign location="taskDescription" expr="_event.data.taskDescription"></assign>
+            <assign location="judgeCount" expr="_event.data.judgeCount"></assign>
+            <assign location="decomposeCount" expr="_event.data.decomposeCount"></assign>
+            <assign location="decomposeVoteCount" expr="_event.data.decomposeVoteCount"></assign>
+            <assign location="solveCount" expr="_event.data.solveCount"></assign>
+            <assign location="solveVoteCount" expr="_event.data.solveVoteCount"></assign>
+            <log expr="'init state transition to judging'"/>
+        </transition>
+        <onexit>
+            <log expr="'init state exit'"/>
+        </onexit>
+    </state>
+
+    <!-- 判断 -->
 
     <state id="judging">
         <datamodel>
@@ -25,29 +47,48 @@
             <data id="simpleCount" expr="0"></data>
         </datamodel>
         <onentry>
-            <userTask id="judge" name="判断任务" cadidateGroups="judger" instances="judgeCount">
-                <param name="任务名字" expr="taskName"></param>
-                <param name="任务描述" expr="taskDescription"></param>
+            <log expr="'entry judging state'"/>
+            <userTask id="judge" name="判断任务" candidateGroups="Judger" instancesExpr="judgeCount">
+                <form>
+                    <param name="任务名字" expr="taskName" type="output"></param>
+                    <param name="任务描述" expr="taskDescription" type="output"></param>
+                </form>
             </userTask>
-            <send event="judgeComplete" type="scxml"></send>
         </onentry>
         <transition event="judgeComplete">
+            <if cond="_event.data.simple eq 0">
+                <assign location="simpleCount" expr="simpleCount + 1"></assign>
 
+                <elseif cond="_event.data.simple eq 1">
+                    <assign location="complexCount" expr="complexCount + 1"></assign>
+                </elseif>
+            </if>
+            <if cond="simpleCount + complexCount eq judgeCount">
+                <send event="judgeCompleted"></send>
+            </if>
+            <log expr="'judge state inner transition'"/>
         </transition>
-
+        <transition event="judgeCompleted" cond="simpleCount gt complexCount" target="solving">
+            <log expr="'judge state transition to solving'"/>
+        </transition>
+        <transition event="judgeCompleted" cond="simpleCount lt complexCount" target="decomposing">
+            <log expr="'judge state transition to decomposing'"/>
+        </transition>
+        <onexit>
+            <log expr="'exit judging state'"/>
+        </onexit>
     </state>
 
 
+    <!-- 分解 -->
     <state id="decomposing">
         <datamodel>
             <data id="counted" expr="0"></data>
             <data id="step" expr="0"></data>
         </datamodel>
         <onentry>
-            <userTask id="decompose" name="分解任务" cadidateGroups="decomposer"
-                      instances="decomposeCount">
-                <param name="任务名字" expr="taskName"></param>
-                <param name="任务描述" expr="taskDescription"></param>
+            <userTask id="decompose" name="分解任务" candidateGroups="Decomposer"
+                      instancesExpr="decomposeCount">
             </userTask>
         </onentry>
 
@@ -58,14 +99,15 @@
         <transition cond="counted eq decomposeCount" target="decomposeVoting"></transition>
     </state>
 
+    <!-- 分解投票 -->
 
     <state id="decomposeVoting">
         <datamodel>
             <data id="counted" expr="0"></data>
         </datamodel>
         <onentry>
-            <userTask id="decompose" name="分解投票任务" assignee="zhengqiang" cadidateUsers="" cadidateGroups="" dueDate=""
-                      instances="decomposeVoteCount">
+            <userTask id="decompose" name="分解投票任务" candidateGroups="DecomposeVoter"
+                      instancesExpr="decomposeVoteCount">
 
             </userTask>
         </onentry>
@@ -78,44 +120,41 @@
 
 
             <!-- 投票结束了，选出最好的投票解决，调用本xml文件作为子状态机， -->
-            <subStateMachine src="crowdsourcing.xml" instances="steps">
-
-            </subStateMachine>
 
         </transition>
     </state>
 
-
+    <!-- 解决 -->
     <state id="solving">
         <datamodel>
             <data id="counted" expr="0"></data>
         </datamodel>
         <onentry>
-            <userTask id="solve" name="解决任务" assignee="zhengqiang" cadidateUsers="" cadidateGroups="" dueDate=""
-                      instances="solveCount">
+            <userTask id="solve" name="解决任务" candidateGroups="Solver"
+                      instancesExpr="solveCount">
 
             </userTask>
         </onentry>
         <transition event="solveComplete">
-            <assigne location="counted" expr="counted + 1"></assigne>
+            <assign location="counted" expr="counted + 1"></assign>
             <!-- 保存解决结果到数据库 -->
         </transition>
         <transition cond="counted eq solveCount" target="solveVoting"></transition>
     </state>
 
-
+    <!-- 解决投票 -->
     <state id="solveVoting">
         <datamodel>
             <data id="counted" expr="0"></data>
         </datamodel>
         <onentry>
-            <userTask id="solveVoting" name="解决投票任务" assignee="zhengqiang" cadidateUsers="" cadidateGroups="" dueDate=""
-                      instances="solveVoteCount">
+            <userTask id="solveVoting" name="解决投票任务" candidateGroups="SolveVoter"
+                      instancesExpr="solveVoteCount">
 
             </userTask>
         </onentry>
         <transition event="solveVoteComplete">
-            <assigne location="counted" expr="counted + 1"></assigne>
+            <assign location="counted" expr="counted + 1"></assign>
             <!-- 保存到数据库  谁投了谁 -->
         </transition>
         <transition cond="counted eq solveVoteCount" target="end"></transition>

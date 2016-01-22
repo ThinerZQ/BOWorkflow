@@ -16,12 +16,55 @@
     <schema name="" catalog="myweb"/>
     <schema name="" catalog="performance_schema"/>
     <schema name="" catalog="test"/>
+    <table name="t_form" schema="" catalog="crowdsourcing" type="TABLE">
+      <column name="formId" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="formName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="formSrc" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="groupWorkItem" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="userWorkItem" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <primary-key name="PRIMARY" columns="formId"/>
+      <foreign-key name="FKCB5CEDAF4BA08E2E" columns="userWorkItem" ref-table="t_userworkitem" ref-schema="" ref-catalog="crowdsourcing" ref-columns="itemId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FKCB5CEDAF5A012D9C" columns="groupWorkItem" ref-table="t_groupworkitem" ref-schema="" ref-catalog="crowdsourcing" ref-columns="itemId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="FKD2F1F9425CC1AA3A" table="t_formitem" schema="" catalog="crowdsourcing" columns="formEntity"/>
+      <exported-key name="FK15550985CC1AA3A" table="t_groupworkitem" schema="" catalog="crowdsourcing" columns="formEntity"/>
+      <exported-key name="FKAB9C085A5CC1AA3A" table="t_userworkitem" schema="" catalog="crowdsourcing" columns="formEntity"/>
+      <index name="FKCB5CEDAF4BA08E2E" unique="false" columns="userWorkItem"/>
+      <index name="FKCB5CEDAF5A012D9C" unique="false" columns="groupWorkItem"/>
+    </table>
+    <table name="t_formitem" schema="" catalog="crowdsourcing" type="TABLE">
+      <column name="formId" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="formItemName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="formItemType" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="formItemValue" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="formEntity" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <primary-key name="PRIMARY" columns="formId"/>
+      <foreign-key name="FKD2F1F9425CC1AA3A" columns="formEntity" ref-table="t_form" ref-schema="" ref-catalog="crowdsourcing" ref-columns="formId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FKD2F1F9425CC1AA3A" unique="false" columns="formEntity"/>
+    </table>
     <table name="t_group" schema="" catalog="crowdsourcing" type="TABLE">
-      <column name="groupId" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="groupId" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
       <column name="groupName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <primary-key name="PRIMARY" columns="groupId"/>
-      <exported-key name="FK300645B6E713BB51" table="t_user_group" schema="" catalog="crowdsourcing" columns="group_id"/>
-      <exported-key name="FKB8C9C50F8A7BBD25" table="t_workitem" schema="" catalog="crowdsourcing" columns="itemCandidateGroup"/>
+      <exported-key name="FK1555098148B0398" table="t_groupworkitem" schema="" catalog="crowdsourcing" columns="groupEntity"/>
+      <exported-key name="FK300645B6148B0398" table="t_user_group" schema="" catalog="crowdsourcing" columns="groupEntity"/>
+    </table>
+    <table name="t_groupworkitem" schema="" catalog="crowdsourcing" type="TABLE">
+      <column name="itemId" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="itemCreateTime" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="itemDueTime" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="itemInstances" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="itemName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="itemProcessId" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="itemStateId" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="formEntity" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="groupEntity" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <primary-key name="PRIMARY" columns="itemId"/>
+      <foreign-key name="FK1555098148B0398" columns="groupEntity" ref-table="t_group" ref-schema="" ref-catalog="crowdsourcing" ref-columns="groupId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK15550985CC1AA3A" columns="formEntity" ref-table="t_form" ref-schema="" ref-catalog="crowdsourcing" ref-columns="formId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="FKCB5CEDAF5A012D9C" table="t_form" schema="" catalog="crowdsourcing" columns="groupWorkItem"/>
+      <exported-key name="FKAB9C085A32726B3F" table="t_userworkitem" schema="" catalog="crowdsourcing" columns="groupWorkItemEntity"/>
+      <index name="FK1555098148B0398" unique="false" columns="groupEntity"/>
+      <index name="FK15550985CC1AA3A" unique="false" columns="formEntity"/>
     </table>
     <table name="t_processinstance" schema="" catalog="crowdsourcing" type="TABLE">
       <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
@@ -31,22 +74,8 @@
       <column name="processinstanceName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <primary-key name="PRIMARY" columns="id"/>
     </table>
-    <table name="t_task" schema="" catalog="crowdsourcing" type="TABLE">
-      <column name="taskId" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
-      <column name="taskCompleteTime" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
-      <column name="taskDeadlineTime" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
-      <column name="taskDescription" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="taskName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="taskPrice" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="taskReleaseTime" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
-      <column name="taskType" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <primary-key name="PRIMARY" columns="taskId"/>
-      <foreign-key name="FKCB6316705C7CD5E9" columns="user_id" ref-table="t_user" ref-schema="" ref-catalog="crowdsourcing" ref-columns="userId" update-rule="3" delete-rule="3" deferrability="2"/>
-      <index name="FKCB6316705C7CD5E9" unique="false" columns="user_id"/>
-    </table>
     <table name="t_user" schema="" catalog="crowdsourcing" type="TABLE">
-      <column name="userId" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="userId" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
       <column name="userActivateCode" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="userAge" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="userEmail" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
@@ -57,33 +86,36 @@
       <column name="userRegisterDate" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
       <column name="userStatus" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <primary-key name="PRIMARY" columns="userId"/>
-      <exported-key name="FKCB6316705C7CD5E9" table="t_task" schema="" catalog="crowdsourcing" columns="user_id"/>
-      <exported-key name="FK300645B65C7CD5E9" table="t_user_group" schema="" catalog="crowdsourcing" columns="user_id"/>
-      <exported-key name="FKB8C9C50F70D0ADBC" table="t_workitem" schema="" catalog="crowdsourcing" columns="itemAssignee"/>
+      <exported-key name="FK300645B6E28B7348" table="t_user_group" schema="" catalog="crowdsourcing" columns="userEntity"/>
+      <exported-key name="FKAB9C085A70D0ADBC" table="t_userworkitem" schema="" catalog="crowdsourcing" columns="itemAssignee"/>
     </table>
     <table name="t_user_group" schema="" catalog="crowdsourcing" type="TABLE">
-      <column name="group_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <primary-key name="PRIMARY" columns="group_id,user_id"/>
-      <foreign-key name="FK300645B6E713BB51" columns="group_id" ref-table="t_group" ref-schema="" ref-catalog="crowdsourcing" ref-columns="groupId" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="FK300645B65C7CD5E9" columns="user_id" ref-table="t_user" ref-schema="" ref-catalog="crowdsourcing" ref-columns="userId" update-rule="3" delete-rule="3" deferrability="2"/>
-      <index name="FK300645B65C7CD5E9" unique="false" columns="user_id"/>
-      <index name="FK300645B6E713BB51" unique="false" columns="group_id"/>
+      <column name="groupEntity" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="userEntity" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <primary-key name="PRIMARY" columns="groupEntity,userEntity"/>
+      <foreign-key name="FK300645B6148B0398" columns="groupEntity" ref-table="t_group" ref-schema="" ref-catalog="crowdsourcing" ref-columns="groupId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK300645B6E28B7348" columns="userEntity" ref-table="t_user" ref-schema="" ref-catalog="crowdsourcing" ref-columns="userId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FK300645B6148B0398" unique="false" columns="groupEntity"/>
+      <index name="FK300645B6E28B7348" unique="false" columns="userEntity"/>
     </table>
-    <table name="t_workitem" schema="" catalog="crowdsourcing" type="TABLE">
+    <table name="t_userworkitem" schema="" catalog="crowdsourcing" type="TABLE">
       <column name="itemId" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
-      <column name="itemCreateTimee" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="itemCreateTime" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="itemDueTime" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="itemName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="itemProcessId" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="itemStateId" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="itemAssignee" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="itemCandidateGroup" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="formEntity" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="groupWorkItemEntity" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="itemAssignee" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
       <primary-key name="PRIMARY" columns="itemId"/>
-      <foreign-key name="FKB8C9C50F8A7BBD25" columns="itemCandidateGroup" ref-table="t_group" ref-schema="" ref-catalog="crowdsourcing" ref-columns="groupId" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="FKB8C9C50F70D0ADBC" columns="itemAssignee" ref-table="t_user" ref-schema="" ref-catalog="crowdsourcing" ref-columns="userId" update-rule="3" delete-rule="3" deferrability="2"/>
-      <index name="FKB8C9C50F70D0ADBC" unique="false" columns="itemAssignee"/>
-      <index name="FKB8C9C50F8A7BBD25" unique="false" columns="itemCandidateGroup"/>
+      <foreign-key name="FKAB9C085A70D0ADBC" columns="itemAssignee" ref-table="t_user" ref-schema="" ref-catalog="crowdsourcing" ref-columns="userId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FKAB9C085A32726B3F" columns="groupWorkItemEntity" ref-table="t_groupworkitem" ref-schema="" ref-catalog="crowdsourcing" ref-columns="itemId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FKAB9C085A5CC1AA3A" columns="formEntity" ref-table="t_form" ref-schema="" ref-catalog="crowdsourcing" ref-columns="formId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="FKCB5CEDAF4BA08E2E" table="t_form" schema="" catalog="crowdsourcing" columns="userWorkItem"/>
+      <index name="FKAB9C085A32726B3F" unique="false" columns="groupWorkItemEntity"/>
+      <index name="FKAB9C085A5CC1AA3A" unique="false" columns="formEntity"/>
+      <index name="FKAB9C085A70D0ADBC" unique="false" columns="itemAssignee"/>
     </table>
     <table name="user" schema="" catalog="dbflow" type="TABLE">
       <column name="ID" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>

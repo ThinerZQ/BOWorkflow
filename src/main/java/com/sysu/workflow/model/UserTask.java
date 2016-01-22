@@ -4,14 +4,21 @@ import com.sysu.workflow.*;
 import com.sysu.workflow.service.indentityservice.GroupEntity;
 import com.sysu.workflow.service.indentityservice.IdentityService;
 import com.sysu.workflow.service.indentityservice.UserEntity;
-import com.sysu.workflow.service.taskservice.WorkItemEntity;
+import com.sysu.workflow.service.taskservice.GroupWorkItemEntity;
 import com.sysu.workflow.service.taskservice.TaskDispatcher;
+import com.sysu.workflow.service.taskservice.UserWorkItemEntity;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Created by zhengshouzi on 2015/12/11.
+ * Created with IntelliJ IDEA
+ * Date: 2015/12/11
+ * Time: 13:17
+ * User: ThinerZQ
+ * GitHub: <a>https://github.com/ThinerZQ</a>
+ * Blog: <a>http://blog.csdn.net/c601097836</a>
+ * Email: 601097836@qq.com
+ *
  */
 public class UserTask extends Action {
 
@@ -30,7 +37,9 @@ public class UserTask extends Action {
     private String candidateGroupsExpr;
     private String dueDate;
     private String instances="1";
-    private String instancesExpr="1";
+    private String instancesExpr;
+
+    private Form form;
 
 
     public UserTask() {
@@ -129,6 +138,14 @@ public class UserTask extends Action {
         this.instancesExpr = instancesExpr;
     }
 
+    public Form getForm() {
+        return form;
+    }
+
+    public void setForm(Form form) {
+        this.form = form;
+    }
+
     @Override
     public void execute(ActionExecutionContext exctx) throws ModelException, SCXMLExpressionException {
 
@@ -178,45 +195,52 @@ public class UserTask extends Action {
             }
         }
 
-
-        //组装，插入到workitem里面
-        ArrayList<WorkItemEntity> workItemEntityArrayList = new ArrayList<WorkItemEntity>();
         IdentityService identityService = new IdentityService();
 
+
+        //执行Form中的求值，
+        getForm().execute(exctx);
+
+
+        boolean flag = false;
         if (assigneeValue!=null){
-            WorkItemEntity workItemEntity = new WorkItemEntity();
-            workItemEntity.setItemName(getName())
-                    .setItemCreateTimee(new Date().toLocaleString())
+            UserWorkItemEntity userWorkItemEntity = new UserWorkItemEntity();
+            userWorkItemEntity.setItemName(getName())
+                    .setItemCreateTime(new Date().toLocaleString())
                     .setItemDueTime(getDueDate())
                     .setItemProcessId((String)ctx.getSystemContext().get(SCXMLSystemContext.SESSIONID_KEY))
-                    .setItemStateId(parentState.getId());
+                    .setItemStateId(parentState.getId())
+                    .setItemFormEntity(getForm().getFormEntity());
             //找到这个人
             UserEntity userEntity = identityService.createUserQuery().userRealName(assigneeValue).SingleResult();
-
             try {
-                TaskDispatcher.newInstance().dispatchUserTask(workItemEntity,userEntity);
+                //id是保存到数据库的主键值
+                long id = TaskDispatcher.newInstance().dispatchUserTask(userWorkItemEntity, userEntity);
             }catch (Exception e){
                 e.printStackTrace();
             }
-
-
-
 
         }else if (candidateUsersValue!=null){
             //分配到候选人
         }else if (candidateGroupValue!=null){
             //分配到组
-            WorkItemEntity workItemEntity = new WorkItemEntity();
-            workItemEntity.setItemName(getName())
-                    .setItemCreateTimee(new Date().toLocaleString())
+            GroupWorkItemEntity groupWorkItemEntity = new GroupWorkItemEntity();
+            groupWorkItemEntity.setItemName(getName())
+                    .setItemCreateTime(new Date().toLocaleString())
                     .setItemDueTime(getDueDate())
                     .setItemProcessId((String)ctx.getSystemContext().get(SCXMLSystemContext.SESSIONID_KEY))
-                    .setItemStateId(parentState.getId());
+                    .setItemStateId(parentState.getId())
+                    .setItemFormEntity(getForm().getFormEntity());
             //找到这个组
             GroupEntity groupEntity = identityService.createGroupQuery().groupName(candidateGroupValue).SingleResult();
 
-            TaskDispatcher.newInstance().dispatchGroupTask(workItemEntity,groupEntity);
-        }
+            try {
+                //id是保存到数据库的主键值
+                long id = TaskDispatcher.newInstance().dispatchGroupTask(groupWorkItemEntity, groupEntity);
 
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

@@ -23,14 +23,6 @@ import java.util.Map;
 public abstract class PayloadProvider extends Action {
 
     /**
-     * Payload data values wrapper list needed when multiple variable entries use the same names.
-     * The multiple values are then wrapped in a list. The PayloadBuilder uses this 'marker' list
-     * to distinguish between entry values which are a list themselves and the wrapper list.
-     */
-    private static class DataValueList extends ArrayList {
-    }
-
-    /**
      * Adds an attribute and value to a payload data map.
      * <p>
      * As the SCXML specification allows for multiple payload attributes with the same name, this
@@ -48,6 +40,33 @@ public abstract class PayloadProvider extends Action {
      */
     @SuppressWarnings("unchecked")
     protected void addToPayload(final String attrName, final Object attrValue, Map<String, Object> payload) {
+        DataValueList valueList = null;
+        Object value = payload.get(attrName);
+        if (value != null) {
+            if (value instanceof DataValueList) {
+                valueList = (DataValueList) value;
+            } else {
+                valueList = new DataValueList();
+                valueList.add(value);
+                payload.put(attrName, valueList);
+            }
+        }
+        value = clonePayloadValue(attrValue);
+        if (value instanceof List) {
+            if (valueList == null) {
+                valueList = new DataValueList();
+                payload.put(attrName, valueList);
+            }
+            valueList.addAll((List) value);
+        } else if (valueList != null) {
+            valueList.add(value);
+        } else {
+            payload.put(attrName, value);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    protected void addToPayload(final String attrName, final Object attrValue, final String type, Map<String, Object> payload) {
         DataValueList valueList = null;
         Object value = payload.get(attrName);
         if (value != null) {
@@ -164,5 +183,13 @@ public abstract class PayloadProvider extends Action {
             }
         }
         return payload;
+    }
+
+    /**
+     * Payload data values wrapper list needed when multiple variable entries use the same names.
+     * The multiple values are then wrapped in a list. The PayloadBuilder uses this 'marker' list
+     * to distinguish between entry values which are a list themselves and the wrapper list.
+     */
+    private static class DataValueList extends ArrayList {
     }
 }

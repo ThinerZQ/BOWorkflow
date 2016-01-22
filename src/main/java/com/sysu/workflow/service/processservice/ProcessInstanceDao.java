@@ -2,6 +2,7 @@ package com.sysu.workflow.service.processservice;
 
 import com.sysu.workflow.database.DBUtils;
 import org.hibernate.Session;
+
 import java.util.ArrayList;
 
 /**
@@ -54,5 +55,23 @@ public class ProcessInstanceDao {
     }
     public boolean deleteProcessInstance(ProcessInstanceEntity processInstanceEntity){
         return false;
+    }
+
+    public ArrayList<ProcessInstanceEntity> getAllProcessInstance() {
+        Session session = null;
+        ArrayList<ProcessInstanceEntity> processInstanceEntities = null;
+        try {
+            session = DBUtils.getSessionFactory().getCurrentSession();
+            session.beginTransaction();
+            String hql = "select processInstance from ProcessInstanceEntity as processInstance";
+            processInstanceEntities = (ArrayList<ProcessInstanceEntity>) session.createQuery(hql).list();
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            DBUtils.closeSession(session);
+        }
+        return processInstanceEntities;
+
     }
 }

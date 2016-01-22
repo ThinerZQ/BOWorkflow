@@ -6,15 +6,18 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by zhengshouzi on 2015/12/15.
+ * Created with IntelliJ IDEA
+ * Date: 2015/12/15
+ * Time: 13:16
+ * User: ThinerZQ
+ * GitHub: <a>https://github.com/ThinerZQ</a>
+ * Blog: <a>http://blog.csdn.net/c601097836</a>
+ * Email: 601097836@qq.com
+ *
  */
 public class UserDao{
 
@@ -29,9 +32,7 @@ public class UserDao{
         try {
             session =DBUtils.getSessionFactory().getCurrentSession();
             session.beginTransaction();
-
             session.save(userEntity);
-
             session.getTransaction().commit();
         }catch (Exception e){
             e.printStackTrace();
@@ -54,12 +55,10 @@ public class UserDao{
             session =DBUtils.getSessionFactory().getCurrentSession();
             session.beginTransaction();
             Criteria criteria = session.createCriteria(UserEntity.class);
-
             Criterion userEmailCriterion = Restrictions.eq("userEmail", userEmail);
             Criterion userPasswordCriterion = Restrictions.eq("userPassword", userPassword);
             criteria.add(userEmailCriterion);
             criteria.add(userPasswordCriterion);
-
             List<UserEntity> userEntityList = criteria.list();
 
             if (userEntityList.size() == 1) {
@@ -75,20 +74,93 @@ public class UserDao{
 
     }
     public ArrayList<UserEntity> findUser(UserEntity userEntity) {
-        return null;
+        Session session = null;
+        ArrayList<UserEntity> userEntityArrayList = new ArrayList<UserEntity>();
+        try {
+            session = DBUtils.getSessionFactory().getCurrentSession();
+            Criteria criteria = session.createCriteria(UserEntity.class);
+
+            Criterion userCriterion = Restrictions.allEq(userEntity.getNotNullPropertyMap());
+            criteria.add(userCriterion);
+
+            userEntityArrayList = (ArrayList<UserEntity>) criteria.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            DBUtils.closeSession(session);
+        }
+        return userEntityArrayList;
     }
     public ArrayList<UserEntity> findUserByUserName(String userName) {
-     return null;
+
+        Session session = null;
+        ArrayList<UserEntity> userEntityArrayList = new ArrayList<UserEntity>();
+        try {
+            session = DBUtils.getSessionFactory().getCurrentSession();
+            session.beginTransaction();
+            Criteria criteria = session.createCriteria(UserEntity.class);
+
+            Criterion userEmailCriterion = Restrictions.eq("userName", userName);
+            criteria.add(userEmailCriterion);
+
+            userEntityArrayList = (ArrayList<UserEntity>) criteria.list();
+
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            DBUtils.closeSession(session);
+        }
+        return userEntityArrayList;
+
     }
     public ArrayList<UserEntity> findUserByUserId(String userId) {
-       return null;
+        Session session = null;
+        ArrayList<UserEntity> userEntityArrayList = new ArrayList<UserEntity>();
+        try {
+            session = DBUtils.getSessionFactory().getCurrentSession();
+            session.beginTransaction();
+            Criteria criteria = session.createCriteria(UserEntity.class);
+
+            Criterion userEmailCriterion = Restrictions.eq("userId", userId);
+            criteria.add(userEmailCriterion);
+
+            userEntityArrayList = (ArrayList<UserEntity>) criteria.list();
+
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            DBUtils.closeSession(session);
+        }
+        return userEntityArrayList;
     }
     public ArrayList<UserEntity> findUserByUserEmail(String userEmail) {
-        return null;
+        Session session = null;
+        ArrayList<UserEntity> userEntityArrayList = new ArrayList<UserEntity>();
+        try {
+            session = DBUtils.getSessionFactory().getCurrentSession();
+            session.beginTransaction();
+            Criteria criteria = session.createCriteria(UserEntity.class);
+
+            Criterion userEmailCriterion = Restrictions.eq("userEmail", userEmail);
+            criteria.add(userEmailCriterion);
+
+            userEntityArrayList = (ArrayList<UserEntity>) criteria.list();
+
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            DBUtils.closeSession(session);
+        }
+        return userEntityArrayList;
     }
     public ArrayList<UserEntity> findUserByUserRealName(String userRealName) {
         return null;
     }
+
+
     public boolean updateUser(UserEntity userEntity){
         return false;
     }
@@ -98,4 +170,5 @@ public class UserDao{
     public boolean deleteUserById(String userId){
         return false;
     }
+
 }

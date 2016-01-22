@@ -80,6 +80,7 @@
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/model/Final.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/model/Finalize.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/model/Foreach.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/model/GroupException.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/model/History.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/model/If.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/model/Initial.java" charset="UTF-8" />
@@ -111,6 +112,8 @@
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/semantics/ErrorConstants.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/semantics/SCXMLSemanticsImpl.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/semantics/Step.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/service/indentityservice/GroupQuery.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/service/taskservice/TaskDispatcher.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/system/EventVariable.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/test/StandaloneJexlExpressions.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/test/StandaloneUtils.java" charset="UTF-8" />
