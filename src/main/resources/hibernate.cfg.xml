@@ -17,13 +17,13 @@
         <property name="hbm2ddl.auto">update</property>
 
 
-        <mapping class="com.sysu.workflow.service.indentityservice.GroupEntity"/>
-        <mapping class="com.sysu.workflow.service.indentityservice.UserEntity"/>
-        <mapping class="com.sysu.workflow.service.taskservice.UserWorkItemEntity"/>
-        <mapping class="com.sysu.workflow.service.taskservice.GroupWorkItemEntity"/>
-        <mapping class="com.sysu.workflow.service.processservice.ProcessInstanceEntity"/>
-        <mapping class="com.sysu.workflow.service.formservice.FormEntity"/>
-        <mapping class="com.sysu.workflow.service.formservice.FormItemEntity"/>
+        <mapping class="com.sysu.workflow.entity.GroupEntity"/>
+        <mapping class="com.sysu.workflow.entity.UserEntity"/>
+        <mapping class="com.sysu.workflow.entity.UserWorkItemEntity"/>
+        <mapping class="com.sysu.workflow.entity.GroupWorkItemEntity"/>
+        <mapping class="com.sysu.workflow.entity.ProcessInstanceEntity"/>
+        <mapping class="com.sysu.workflow.entity.FormEntity"/>
+        <mapping class="com.sysu.workflow.entity.FormItemEntity"/>
 
     </session-factory>
 

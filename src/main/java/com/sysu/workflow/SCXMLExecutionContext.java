@@ -3,6 +3,7 @@ package com.sysu.workflow;
 
 import com.sysu.workflow.engine.SCXMLInstanceManager;
 import com.sysu.workflow.engine.SCXMLInstanceTree;
+import com.sysu.workflow.entity.ProcessInstanceEntity;
 import com.sysu.workflow.env.SimpleDispatcher;
 import com.sysu.workflow.env.SimpleErrorReporter;
 import com.sysu.workflow.invoke.Invoker;
@@ -11,7 +12,6 @@ import com.sysu.workflow.invoke.SimpleSCXMLInvoker;
 import com.sysu.workflow.model.Invoke;
 import com.sysu.workflow.model.ModelException;
 import com.sysu.workflow.model.SCXML;
-import com.sysu.workflow.service.processservice.ProcessInstanceEntity;
 import com.sysu.workflow.service.processservice.RuntimeService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -38,92 +38,77 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
      * Alias for {@link #SCXML_INVOKER_TYPE_URI}
      */
     public static final String SCXML_INVOKER_TYPE = "scxml";
-
-    /**
-     * SCXML执行日志
-     * SCXML Execution Logger for the application.
-     */
-    private Log appLog = LogFactory.getLog(SCXMLExecutionContext.class);
-
     /**
      * action执行上下文实例，提供了对执行上下文严格的访问
      * The action execution context instance, providing restricted access to this execution context
      */
     private final ActionExecutionContext actionExecutionContext;
-
     /**
      * SCXML执行上下文的执行器
      * The SCXMLExecutor of this SCXMLExecutionContext
      */
     private final SCXMLExecutor scxmlExecutor;
-
-    /**
-     * SCInstance实例
-     * The SCInstance.
-     */
-    private SCInstance scInstance;
-
-    /**
-     * 表达式求值器
-     * The evaluator for expressions.
-     */
-    private Evaluator evaluator;
-
-    /**
-     * 外部事件处理器
-     * The external IOProcessor for Invokers to communicate back on
-     */
-    private SCXMLIOProcessor externalIOProcessor;
-
-    /**
-     * 事件分发器，
-     * The event dispatcher to interface with external documents etc.
-     */
-    private EventDispatcher eventdispatcher;
-
-    /**
-     * 环境描述错误报告
-     * The environment specific error reporter.
-     */
-    private ErrorReporter errorReporter = null;
-
-    /**
-     * 通知注册
-     * The notification registry.
-     */
-    private NotificationRegistry notificationRegistry;
-
     /**
      * 内部事件队列
      * The internal event queue
      */
     private final Queue<TriggerEvent> internalEventQueue = new LinkedList<TriggerEvent>();
-
     /**
      * 调用的类的Map,通过调用的目标类型指定key
      * <p/>
      * The Invoker classes map, keyed by invoke target types (specified using "type" attribute).
      */
     private final Map<String, Class<? extends Invoker>> invokerClasses = new HashMap<String, Class<? extends Invoker>>();
-
     /**
      * 存储了唯一的invokeId对于一个调用者，
      * The map storing the unique invokeId for an Invoke with an active Invoker
      */
     private final Map<Invoke, String> invokeIds = new HashMap<Invoke, String>();
-
     /**
      * 活跃的调用者，
      * The Map of active Invoker, keyed by their unique invokeId.
      */
     private final Map<String, Invoker> invokers = new HashMap<String, Invoker>();
-
     /**
      * 当前I/O处理器的集合
      * The Map of the current ioProcessors
      */
     private final Map<String, SCXMLIOProcessor> ioProcessors = new HashMap<String, SCXMLIOProcessor>();
-
+    /**
+     * SCXML执行日志
+     * SCXML Execution Logger for the application.
+     */
+    private Log appLog = LogFactory.getLog(SCXMLExecutionContext.class);
+    /**
+     * SCInstance实例
+     * The SCInstance.
+     */
+    private SCInstance scInstance;
+    /**
+     * 表达式求值器
+     * The evaluator for expressions.
+     */
+    private Evaluator evaluator;
+    /**
+     * 外部事件处理器
+     * The external IOProcessor for Invokers to communicate back on
+     */
+    private SCXMLIOProcessor externalIOProcessor;
+    /**
+     * 事件分发器，
+     * The event dispatcher to interface with external documents etc.
+     */
+    private EventDispatcher eventdispatcher;
+    /**
+     * 环境描述错误报告
+     * The environment specific error reporter.
+     */
+    private ErrorReporter errorReporter = null;
+    /**
+     * 通知注册
+     * The notification registry.
+     */
+    private NotificationRegistry notificationRegistry;
     /**
      * 表明SCXML的配置应该在执行之前被检查
      * Flag indicating if the SCXML configuration should be checked before execution (default = true)
@@ -249,6 +234,14 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
     }
 
     /**
+     * @return if the SCXML configuration will be checked before execution
+     * 是否是合法的配置
+     */
+    public boolean isCheckLegalConfiguration() {
+        return checkLegalConfiguration;
+    }
+
+    /**
      * Set if the SCXML configuration should be checked before execution (default = true)
      * 设置是否是合法的配置
      *
@@ -256,14 +249,6 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
      */
     public void setCheckLegalConfiguration(boolean checkLegalConfiguration) {
         this.checkLegalConfiguration = checkLegalConfiguration;
-    }
-
-    /**
-     * @return if the SCXML configuration will be checked before execution
-     * 是否是合法的配置
-     */
-    public boolean isCheckLegalConfiguration() {
-        return checkLegalConfiguration;
     }
 
     /**

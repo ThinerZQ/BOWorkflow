@@ -1,5 +1,8 @@
 package com.sysu.workflow.service.indentityservice;
 
+import com.sysu.workflow.entity.GroupEntity;
+import com.sysu.workflow.entity.UserEntity;
+
 /**
  * Created with IntelliJ IDEA
  * Date: 2015/12/14

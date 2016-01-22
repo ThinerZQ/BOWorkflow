@@ -5,6 +5,7 @@ import com.sysu.workflow.*;
 import com.sysu.workflow.engine.SCXMLInstanceTree;
 import com.sysu.workflow.env.MulitStateMachineDispatcher;
 import com.sysu.workflow.env.SimpleDispatcher;
+import com.sysu.workflow.model.extend.MessageMode;
 import org.apache.commons.logging.Log;
 
 import java.util.LinkedHashMap;
@@ -427,18 +428,6 @@ public class Send extends NamelistHolder implements ContentContainer {
         String targetNameValue = targetName;
         String targetStateValue = targetState;
 
-
-
-
-
-
-
-
-
-
-
-
-
         Object payload = null;
         Map<String, Object> payloadDataMap = new LinkedHashMap<String, Object>();
         addNamelistDataToPayload(exctx, payloadDataMap);
@@ -501,10 +490,8 @@ public class Send extends NamelistHolder implements ContentContainer {
                     payload, hintsValue, wait);
 
         }else{
-
-            System.out.println("没有这种消息转发器");
+            System.out.println("the message dispatcher is not support");
         }
-
 
     }
 
@@ -531,7 +518,7 @@ public class Send extends NamelistHolder implements ContentContainer {
             } else if (trimDelay.endsWith(SECONDS)) {
                 multiplier = MILLIS_IN_A_SECOND;
                 numericDelay = trimDelay.substring(0, trimDelay.length() - 1);
-            } else if (trimDelay.endsWith(MINUTES)) { // Not CSS2
+            } else if (trimDelay.endsWith(MINUTES)) {
                 multiplier = MILLIS_IN_A_MINUTE;
                 numericDelay = trimDelay.substring(0, trimDelay.length() - 1);
             }
@@ -547,8 +534,4 @@ public class Send extends NamelistHolder implements ContentContainer {
         }
         return wait;
     }
-
-
-
 }
-

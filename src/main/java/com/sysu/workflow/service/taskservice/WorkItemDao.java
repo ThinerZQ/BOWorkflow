@@ -1,13 +1,14 @@
 package com.sysu.workflow.service.taskservice;
 
 import com.sysu.workflow.database.DBUtils;
+import com.sysu.workflow.entity.GroupWorkItemEntity;
+import com.sysu.workflow.entity.UserWorkItemEntity;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA
@@ -68,10 +69,7 @@ public class WorkItemDao {
             Criteria criteria = session.createCriteria(UserWorkItemEntity.class);
 
 
-            Map<String, Object> propertyNameValue = userWorkItemEntity.getNotNullPropertyMap();
-
-            System.out.println("Query Condition£º" + propertyNameValue.toString());
-            Criterion allCriterion = Restrictions.allEq(propertyNameValue);
+            Criterion allCriterion = Restrictions.allEq(userWorkItemEntity.getNotNullPropertyMap());
 
             criteria.add(allCriterion);
 
@@ -95,11 +93,7 @@ public class WorkItemDao {
             session.beginTransaction();
             Criteria criteria = session.createCriteria(GroupWorkItemEntity.class);
 
-
-            Map<String, Object> propertyNameValue = groupWorkItemEntity.getNotNullPropertyMap();
-
-            System.out.println("Query Condition£º" + propertyNameValue.toString());
-            Criterion allCriterion = Restrictions.allEq(propertyNameValue);
+            Criterion allCriterion = Restrictions.allEq(groupWorkItemEntity.getNotNullPropertyMap());
 
             criteria.add(allCriterion);
 

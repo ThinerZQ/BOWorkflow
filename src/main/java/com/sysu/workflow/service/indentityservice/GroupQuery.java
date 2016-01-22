@@ -1,5 +1,7 @@
 package com.sysu.workflow.service.indentityservice;
 
+import com.sysu.workflow.entity.GroupEntity;
+
 import java.util.ArrayList;
 
 /**

@@ -1,6 +1,7 @@
 package com.sysu.workflow.service.indentityservice;
 
 import com.sysu.workflow.database.DBUtils;
+import com.sysu.workflow.entity.GroupEntity;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;

@@ -1,8 +1,12 @@
-package com.sysu.workflow.model;
+package com.sysu.workflow.model.extend;
 
 import com.sysu.workflow.*;
-import com.sysu.workflow.service.formservice.FormEntity;
-import com.sysu.workflow.service.formservice.FormItemEntity;
+import com.sysu.workflow.entity.FormEntity;
+import com.sysu.workflow.entity.FormItemEntity;
+import com.sysu.workflow.model.EnterableState;
+import com.sysu.workflow.model.ModelException;
+import com.sysu.workflow.model.ParamsContainer;
+import com.sysu.workflow.model.PathResolverHolder;
 
 import java.util.HashSet;
 import java.util.LinkedHashMap;

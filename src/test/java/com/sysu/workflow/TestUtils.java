@@ -1,6 +1,6 @@
 package com.sysu.workflow;
 
-import com.sysu.workflow.service.taskservice.UserWorkItemEntity;
+import com.sysu.workflow.entity.UserWorkItemEntity;
 import org.junit.Test;
 
 /**

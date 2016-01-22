@@ -1,12 +1,15 @@
-package com.sysu.workflow.model;
+package com.sysu.workflow.model.extend;
 
 import com.sysu.workflow.*;
-import com.sysu.workflow.service.indentityservice.GroupEntity;
+import com.sysu.workflow.entity.GroupEntity;
+import com.sysu.workflow.entity.GroupWorkItemEntity;
+import com.sysu.workflow.entity.UserEntity;
+import com.sysu.workflow.entity.UserWorkItemEntity;
+import com.sysu.workflow.model.Action;
+import com.sysu.workflow.model.EnterableState;
+import com.sysu.workflow.model.ModelException;
 import com.sysu.workflow.service.indentityservice.IdentityService;
-import com.sysu.workflow.service.indentityservice.UserEntity;
-import com.sysu.workflow.service.taskservice.GroupWorkItemEntity;
 import com.sysu.workflow.service.taskservice.TaskDispatcher;
-import com.sysu.workflow.service.taskservice.UserWorkItemEntity;
 
 import java.util.Date;
 
@@ -215,7 +218,7 @@ public class UserTask extends Action {
             UserEntity userEntity = identityService.createUserQuery().userRealName(assigneeValue).SingleResult();
             try {
                 //id是保存到数据库的主键值
-                long id = TaskDispatcher.newInstance().dispatchUserTask(userWorkItemEntity, userEntity);
+                long id = TaskDispatcher.newInstance().dispatchTask(userWorkItemEntity, userEntity);
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -236,7 +239,7 @@ public class UserTask extends Action {
 
             try {
                 //id是保存到数据库的主键值
-                long id = TaskDispatcher.newInstance().dispatchGroupTask(groupWorkItemEntity, groupEntity);
+                long id = TaskDispatcher.newInstance().dispatchTask(groupWorkItemEntity, groupEntity);
 
             } catch (Exception e) {
                 e.printStackTrace();

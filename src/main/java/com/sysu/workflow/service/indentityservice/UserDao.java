@@ -1,6 +1,7 @@
 package com.sysu.workflow.service.indentityservice;
 
 import com.sysu.workflow.database.DBUtils;
+import com.sysu.workflow.entity.UserEntity;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
@@ -22,7 +23,7 @@ import java.util.List;
 public class UserDao{
 
     /**
-     * ²éÕÒÓÃ»§
+     * ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½
      * @param userEntity
      * @return
      */
@@ -78,12 +79,14 @@ public class UserDao{
         ArrayList<UserEntity> userEntityArrayList = new ArrayList<UserEntity>();
         try {
             session = DBUtils.getSessionFactory().getCurrentSession();
+            session.beginTransaction();
             Criteria criteria = session.createCriteria(UserEntity.class);
 
             Criterion userCriterion = Restrictions.allEq(userEntity.getNotNullPropertyMap());
             criteria.add(userCriterion);
 
             userEntityArrayList = (ArrayList<UserEntity>) criteria.list();
+            session.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

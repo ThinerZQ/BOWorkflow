@@ -1,10 +1,8 @@
 package com.sysu.workflow.service.taskservice;
 
-import com.sysu.workflow.entity.WorkflowEntity;
-import com.sysu.workflow.model.GroupException;
-import com.sysu.workflow.model.UserException;
-import com.sysu.workflow.service.indentityservice.GroupEntity;
-import com.sysu.workflow.service.indentityservice.UserEntity;
+import com.sysu.workflow.entity.*;
+import com.sysu.workflow.model.extend.GroupException;
+import com.sysu.workflow.model.extend.UserException;
 
 /**
  * Created with IntelliJ IDEA
@@ -26,22 +24,15 @@ public class TaskDispatcher {
     }
 
 
-    public long dispatchUserTask(UserWorkItemEntity userWorkItemEntity, UserEntity userEntity) throws UserException {
-        long id = -1;
+    public long dispatchUserTask(UserWorkItemEntity userWorkItemEntity) throws UserException {
 
-        userWorkItemEntity.setItemAssigneeEntity(userEntity);
-        id = taskService.saveUserWorkItem(userWorkItemEntity);
-
-        return id;
+        return taskService.saveUserWorkItem(userWorkItemEntity);
     }
 
-    public long dispatchGroupTask(GroupWorkItemEntity groupWorkItemEntity, GroupEntity groupEntity) throws GroupException {
+    public long dispatchGroupTask(GroupWorkItemEntity groupWorkItemEntity) throws GroupException {
 
-        long id = -1;
-        groupWorkItemEntity.setItemCandidateGroupEntity(groupEntity);
-        id = taskService.saveGroupWorkItem(groupWorkItemEntity);
+        return taskService.saveGroupWorkItem(groupWorkItemEntity);
 
-        return id;
     }
 
     public long dispatchTask(WorkflowEntity workItemEntity, WorkflowEntity resourceEntity) {
@@ -55,11 +46,21 @@ public class TaskDispatcher {
                 throw new GroupException("no resource: " + resourceEntity.getNotNullPropertyMap());
             }
             if (workItemEntity instanceof GroupWorkItemEntity && resourceEntity instanceof GroupEntity) {
-                return dispatchGroupTask((GroupWorkItemEntity) workItemEntity, (GroupEntity) resourceEntity);
+                GroupWorkItemEntity groupWorkItemEntity = (GroupWorkItemEntity) workItemEntity;
+                GroupEntity groupEntity = (GroupEntity) resourceEntity;
+                groupWorkItemEntity.setItemCandidateGroupEntity(groupEntity);
+                return dispatchGroupTask(groupWorkItemEntity);
+
             } else if (workItemEntity instanceof UserWorkItemEntity && resourceEntity instanceof UserEntity) {
-                return dispatchUserTask((UserWorkItemEntity) workItemEntity, (UserEntity) resourceEntity);
+
+                UserWorkItemEntity userWorkItemEntity = (UserWorkItemEntity) workItemEntity;
+                UserEntity userEntity = (UserEntity) resourceEntity;
+                userWorkItemEntity.setItemAssigneeEntity(userEntity);
+
+                return dispatchUserTask(userWorkItemEntity);
+
             } else {
-                System.out.println("the dispatch type is not support");
+                System.out.println("the task dispatch type is not support");
             }
         } catch (Exception e) {
             e.printStackTrace();

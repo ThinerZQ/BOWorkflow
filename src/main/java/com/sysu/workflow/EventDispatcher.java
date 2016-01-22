@@ -2,7 +2,7 @@
 package com.sysu.workflow;
 
 import com.sysu.workflow.engine.SCXMLInstanceTree;
-import com.sysu.workflow.model.MessageMode;
+import com.sysu.workflow.model.extend.MessageMode;
 
 import java.util.Map;
 

@@ -6,12 +6,11 @@ import com.sysu.workflow.SCXMLIOProcessor;
 import com.sysu.workflow.TriggerEvent;
 import com.sysu.workflow.engine.SCXMLInstanceManager;
 import com.sysu.workflow.engine.SCXMLInstanceTree;
-import com.sysu.workflow.model.MessageMode;
 import com.sysu.workflow.model.ModelException;
+import com.sysu.workflow.model.extend.MessageMode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import javax.swing.tree.TreeNode;
 import java.io.Serializable;
 import java.util.*;
 
@@ -35,67 +34,10 @@ public class MulitStateMachineDispatcher extends SimpleDispatcher implements Ser
      * Serial version UID.
      */
     private static final long serialVersionUID = 1L;
-
-    /**
-     * TimerTask implementation.
-     */
-    class DelayedEventTask extends TimerTask {
-
-        /**
-         * The ID of the &lt;send&gt; element.
-         */
-        private String id;
-
-        /**
-         * The event name.
-         */
-        private String event;
-
-        /**
-         * The event payload, if any.
-         */
-        private Object payload;
-
-        /**
-         * The target io processor
-         */
-        private SCXMLIOProcessor target;
-
-        /**
-         * Constructor for events with payload.
-         *
-         * @param id      The ID of the send element.
-         * @param event   The name of the event to be triggered.
-         * @param payload The event payload, if any.
-         * @param target  The target io processor
-         */
-        DelayedEventTask(final String id, final String event, final Object payload, SCXMLIOProcessor target) {
-            super();
-            this.id = id;
-            this.event = event;
-            this.payload = payload;
-            this.target = target;
-        }
-
-        /**
-         * What to do when timer expires.
-         */
-        @Override
-        public void run() {
-            timers.remove(id);
-            target.addEvent(new TriggerEvent(event, TriggerEvent.SIGNAL_EVENT, payload));
-            if (log.isDebugEnabled()) {
-                log.debug("Fired event '" + event + "' as scheduled by "
-                        + "<send> with id '" + id + "'");
-            }
-        }
-    }
-
     /**
      * Implementation independent log category.
      */
     private Log log = LogFactory.getLog(EventDispatcher.class);
-
     /**
      * The <code>Map</code> of active <code>Timer</code>s, keyed by
      * &lt;send&gt; element <code>id</code>s.
@@ -317,7 +259,6 @@ public class MulitStateMachineDispatcher extends SimpleDispatcher implements Ser
         return true;
     }
 
-
     private boolean sendBroadCast(SCXMLInstanceTree scxmlInstanceTree, String currentSessionId, String targetName, String targetState, String event, Object data, Object hints, long delay) {
 
         //得到树中所有实例
@@ -334,7 +275,6 @@ public class MulitStateMachineDispatcher extends SimpleDispatcher implements Ser
 
         return true;
     }
-
 
     private void sendToTarget(ArrayList<SCXMLInstanceTree.TreeNode> treeNodeArrayList, String targetState, String event, Object data) {
         if (targetState != null && !"".equals(targetState)) {
@@ -367,6 +307,61 @@ public class MulitStateMachineDispatcher extends SimpleDispatcher implements Ser
                 } else {
                     System.out.println("no this  scxml executor");
                 }
+            }
+        }
+    }
+
+    /**
+     * TimerTask implementation.
+     */
+    class DelayedEventTask extends TimerTask {
+
+        /**
+         * The ID of the &lt;send&gt; element.
+         */
+        private String id;
+
+        /**
+         * The event name.
+         */
+        private String event;
+
+        /**
+         * The event payload, if any.
+         */
+        private Object payload;
+
+        /**
+         * The target io processor
+         */
+        private SCXMLIOProcessor target;
+
+        /**
+         * Constructor for events with payload.
+         *
+         * @param id      The ID of the send element.
+         * @param event   The name of the event to be triggered.
+         * @param payload The event payload, if any.
+         * @param target  The target io processor
+         */
+        DelayedEventTask(final String id, final String event, final Object payload, SCXMLIOProcessor target) {
+            super();
+            this.id = id;
+            this.event = event;
+            this.payload = payload;
+            this.target = target;
+        }
+
+        /**
+         * What to do when timer expires.
+         */
+        @Override
+        public void run() {
+            timers.remove(id);
+            target.addEvent(new TriggerEvent(event, TriggerEvent.SIGNAL_EVENT, payload));
+            if (log.isDebugEnabled()) {
+                log.debug("Fired event '" + event + "' as scheduled by "
+                        + "<send> with id '" + id + "'");
             }
         }
     }

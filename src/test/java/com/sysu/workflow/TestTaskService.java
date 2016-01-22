@@ -24,9 +24,13 @@ public class TestTaskService {
 
     @Test
     public void testFindTask() {
-      /*  UserWorkItemEntity workItemEntity = new UserWorkItemEntity();
-        ArrayList<UserWorkItemEntity> workItemEntities = TaskService.createUserTaskQuery().taskName("panda").list();
-        System.out.println(workItemEntities.size());*/
+      /*  GroupEntity groupEntity = IdentityService.createGroupQuery().groupName("Judger").SingleResult();
+        ArrayList<GroupWorkItemEntity> groupWorkItemEntityArrayList = TaskService.createGroupTaskQuery().taskCandidateGroup(groupEntity).list();
+
+
+
+        System.out.println(groupWorkItemEntityArrayList.get(0).getItemFormEntity().getFormItemEntityLinkedHashSet().size());
+    */
     }
 
 }

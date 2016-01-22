@@ -1,5 +1,7 @@
 package com.sysu.workflow.service.processservice;
 
+import com.sysu.workflow.entity.ProcessInstanceEntity;
+
 import java.util.ArrayList;
 
 /**

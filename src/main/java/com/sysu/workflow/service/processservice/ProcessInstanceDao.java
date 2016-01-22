@@ -1,6 +1,7 @@
 package com.sysu.workflow.service.processservice;
 
 import com.sysu.workflow.database.DBUtils;
+import com.sysu.workflow.entity.ProcessInstanceEntity;
 import org.hibernate.Session;
 
 import java.util.ArrayList;

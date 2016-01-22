@@ -1,17 +1,20 @@
-package com.sysu.workflow.model;
+package com.sysu.workflow.model.extend;
 
 import com.sysu.workflow.*;
 import com.sysu.workflow.engine.SCXMLInstanceManager;
 import com.sysu.workflow.engine.SCXMLInstanceTree;
 import com.sysu.workflow.env.SimpleErrorReporter;
 import com.sysu.workflow.io.SCXMLReader;
+import com.sysu.workflow.model.Action;
+import com.sysu.workflow.model.ModelException;
+import com.sysu.workflow.model.SCXML;
 
 import java.net.URL;
 
 /**
  * Created by zhengshouzi on 2016/1/2.
  */
-public class SubStateMachine extends Action{
+public class SubStateMachine extends Action {
 
     private String src;
     private int instances=1;

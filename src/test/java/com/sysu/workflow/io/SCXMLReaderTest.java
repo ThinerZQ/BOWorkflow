@@ -1,12 +1,20 @@
 
 package com.sysu.workflow.io;
 
+import com.sysu.workflow.Evaluator;
+import com.sysu.workflow.SCXMLExecutor;
 import com.sysu.workflow.SCXMLTestHelper;
+import com.sysu.workflow.TriggerEvent;
+import com.sysu.workflow.env.MulitStateMachineDispatcher;
+import com.sysu.workflow.env.SimpleErrorReporter;
+import com.sysu.workflow.env.jexl.JexlEvaluator;
 import com.sysu.workflow.model.SCXML;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -27,7 +35,7 @@ public class SCXMLReaderTest {
 
     @Test
     public void testExecutor() throws Exception {
-      /*  URL url = SCXMLTestHelper.getResource("crowdsourcingTest.xml");
+        URL url = SCXMLTestHelper.getResource("crowdsourcingTest.xml");
         SCXML scxml = new SCXMLReader().read(url);
         //实例化数据模型解析器
         Evaluator evaluator = new JexlEvaluator();
@@ -52,7 +60,11 @@ public class SCXMLReaderTest {
 
 
         Map<String,Integer> map = new HashMap<String, Integer>();
-        map.put("simple",0);*/
+        map.put("simple", 0);
+
+
+
+
 /*
         executor.triggerEvent(new TriggerEvent("judgeComplete", TriggerEvent.SIGNAL_EVENT,map));
         executor.triggerEvent(new TriggerEvent("judgeComplete", TriggerEvent.SIGNAL_EVENT,map));

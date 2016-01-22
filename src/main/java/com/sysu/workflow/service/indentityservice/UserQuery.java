@@ -1,5 +1,7 @@
 package com.sysu.workflow.service.indentityservice;
 
+import com.sysu.workflow.entity.UserEntity;
+
 import java.util.ArrayList;
 
 /**
@@ -9,6 +11,14 @@ public class UserQuery {
 
     private UserEntity user = null;
     private UserDao userDao = null;
+
+    public UserQuery(UserEntity user) {
+        this.user = user;
+    }
+
+    public UserQuery() {
+        user = new UserEntity();
+    }
 
     public UserQuery userRealName(String realname) {
         user.setUserRealName(realname);
@@ -27,13 +37,5 @@ public class UserQuery {
         ArrayList<UserEntity> arrayList = userDao.findUser(user);
         int size = arrayList.size();
         return size >= 1 ? arrayList.get(0) : null;
-    }
-
-    public UserQuery(UserEntity user) {
-        this.user = user;
-    }
-
-    public UserQuery() {
-        user = new UserEntity();
     }
 }

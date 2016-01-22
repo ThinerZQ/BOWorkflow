@@ -18,7 +18,7 @@ public class DataTest{
     }
     @Test
     public void testAddUserAndGroup() {
-        //添加管理员
+        //
         UserEntity userEntity = identityService.newUser("admin");
         userEntity.setUserPassword("123456")
                 .setUserName("admin")
@@ -29,7 +29,7 @@ public class DataTest{
                 .setUserRegisterDate(new Date());
         identityService.saveUser(userEntity);
 
-        //添加用户对应的组
+        //
         GroupEntity judgerGroupEntity = identityService.newGroup("Judger");
         GroupEntity decomposerGroupEntity1 = identityService.newGroup("Decomposer");
         GroupEntity decomposeVoterGroupEntity2 = identityService.newGroup("DecomposeVoter");
@@ -43,7 +43,7 @@ public class DataTest{
         identityService.saveGroup(solveVoterGroupEntity4);
 
 
-        //添加判断人3个
+        //
         for (int i = 1; i <=3; i++) {
             Set groupSet = new HashSet<GroupEntity>();
             groupSet.add(judgerGroupEntity);
@@ -59,7 +59,7 @@ public class DataTest{
                     .setGroupEntitySet(groupSet);
             identityService.saveUser(userEntity);
         }
-        //添加分解者2个
+        //
         for (int i = 1; i <= 2; i++) {
             Set groupSet = new HashSet<GroupEntity>();
             groupSet.add(decomposerGroupEntity1);
@@ -75,7 +75,7 @@ public class DataTest{
                     .setGroupEntitySet(groupSet);
             identityService.saveUser(userEntity);
         }
-        //添加分解投票者3个
+        //
         for (int i = 1; i <= 3; i++) {
             Set groupSet = new HashSet<GroupEntity>();
             groupSet.add(decomposeVoterGroupEntity2);
@@ -91,7 +91,7 @@ public class DataTest{
                     .setGroupEntitySet(groupSet);
             identityService.saveUser(userEntity);
         }
-        //添加解决者2个
+        //
         for (int i = 1; i <= 2; i++) {
             Set groupSet = new HashSet<GroupEntity>();
             groupSet.add(solverGroupEntity3);
@@ -107,7 +107,7 @@ public class DataTest{
                     .setGroupEntitySet(groupSet);
             identityService.saveUser(userEntity);
         }
-        //添加解决投票者3个
+        //
         for (int i = 1; i <= 3; i++) {
             Set groupSet = new HashSet<GroupEntity>();
             groupSet.add(solveVoterGroupEntity4);

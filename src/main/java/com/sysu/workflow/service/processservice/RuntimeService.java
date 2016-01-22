@@ -1,6 +1,6 @@
 package com.sysu.workflow.service.processservice;
 
-import org.omg.CORBA.PUBLIC_MEMBER;
+import com.sysu.workflow.entity.ProcessInstanceEntity;
 
 /**
  * Created with IntelliJ IDEA
@@ -15,6 +15,9 @@ public class RuntimeService {
 
     ProcessInstanceDao processInstanceDao=null;
 
+    public static ProcessInstanceQuery createProcessInstanceQuery() {
+        return new ProcessInstanceQuery();
+    }
 
     public boolean saveProcessInstance(ProcessInstanceEntity processInstanceEntity){
 
@@ -28,10 +31,6 @@ public class RuntimeService {
     public boolean updateProcessInstance(){
 
         return false;
-    }
-
-    public static ProcessInstanceQuery createProcessInstanceQuery(){
-        return new ProcessInstanceQuery();
     }
 
     public ProcessInstanceEntity newProcessInstance(){

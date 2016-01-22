@@ -11,5 +11,7 @@ package com.sysu.workflow.service.formservice;
  */
 public class FormService {
 
-
+    public static FormQuery createFormQuery() {
+        return new FormQuery();
+    }
 }

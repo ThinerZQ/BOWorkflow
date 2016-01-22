@@ -1,5 +1,5 @@
 
-package com.sysu.workflow.model;
+package com.sysu.workflow.model.extend;
 
 /**
  * Exception that is thrown when the SCXML model supplied to the
