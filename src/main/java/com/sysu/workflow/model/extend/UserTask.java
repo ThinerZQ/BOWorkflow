@@ -188,7 +188,7 @@ public class UserTask extends Action {
                         + "\" evaluated to null or empty String");
             }
         }
-        String instancesValue = getCandidateGroups();
+        String instancesValue = getInstances();
         if (instancesValue==null && getInstancesExpr()!=null){
             instancesValue = String.valueOf(getTextContentIfNodeResult(eval.eval(ctx,getInstancesExpr())));
             if (instancesValue == null || instancesValue.trim().length()==0
@@ -233,6 +233,7 @@ public class UserTask extends Action {
                     .setItemDueTime(getDueDate())
                     .setItemProcessId((String)ctx.getSystemContext().get(SCXMLSystemContext.SESSIONID_KEY))
                     .setItemStateId(parentState.getId())
+                    .setItemInstances(Integer.parseInt(instancesValue))
                     .setItemFormEntity(getForm().getFormEntity());
             //找到这个组
             GroupEntity groupEntity = identityService.createGroupQuery().groupName(candidateGroupValue).SingleResult();

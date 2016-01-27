@@ -28,8 +28,10 @@ public class WorkItemDao {
         long id = -1;
         try {
             session =DBUtils.getSessionFactory().getCurrentSession();
-            session.beginTransaction();
 
+
+            session.beginTransaction();
+            workItemEntity = (UserWorkItemEntity) session.merge(workItemEntity);
             id = (Long) session.save(workItemEntity);
 
             session.getTransaction().commit();
@@ -96,6 +98,7 @@ public class WorkItemDao {
             Criterion allCriterion = Restrictions.allEq(groupWorkItemEntity.getNotNullPropertyMap());
 
             criteria.add(allCriterion);
+            criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 
             groupWorkItemEntityArrayList = (ArrayList<GroupWorkItemEntity>) criteria.list();
             //System.out.println(workItemEntityArrayList.size());
@@ -107,5 +110,39 @@ public class WorkItemDao {
             DBUtils.closeSession(session);
         }
         return groupWorkItemEntityArrayList;
+    }
+
+    public boolean updateUserWorkItem(UserWorkItemEntity userWorkItemEntity) {
+        Session session = null;
+        boolean flag = false;
+        try {
+            session = DBUtils.getSessionFactory().getCurrentSession();
+            session.beginTransaction();
+            session.update(userWorkItemEntity);
+            session.getTransaction().commit();
+            flag =true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            DBUtils.closeSession(session);
+        }
+        return flag;
+    }
+
+    public boolean updateGroupWorkItem(GroupWorkItemEntity groupWorkItemEntity) {
+        Session session = null;
+        boolean flag = false;
+        try {
+            session = DBUtils.getSessionFactory().getCurrentSession();
+            session.beginTransaction();
+            session.update(groupWorkItemEntity);
+            session.getTransaction().commit();
+            flag =true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            DBUtils.closeSession(session);
+        }
+        return flag;
     }
 }

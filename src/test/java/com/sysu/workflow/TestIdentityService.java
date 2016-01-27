@@ -26,8 +26,8 @@ public class TestIdentityService {
 
     @Test
     public void testFindTask() {
-        UserEntity userEntity = IdentityService.createUserQuery().userRealName("judger1").SingleResult();
+    /*    UserEntity userEntity = IdentityService.createUserQuery().userRealName("judger1").SingleResult();
 
-        System.out.println(userEntity.toString());
+        System.out.println(userEntity.toString());*/
     }
 }

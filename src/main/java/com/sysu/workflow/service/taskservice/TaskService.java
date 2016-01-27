@@ -37,11 +37,19 @@ public class TaskService {
         return workItemDao.insertIntoWorkItem(groupWorkItemEntity);
     }
 
-    public boolean updateWorkItem() {
-
-        return false;
+    public boolean updateUserWorkItem(UserWorkItemEntity userWorkItemEntity) {
+        if (workItemDao == null) {
+            workItemDao = new WorkItemDao();
+        }
+        return workItemDao.updateUserWorkItem(userWorkItemEntity);
     }
 
+    public boolean updateGroupWorkItem(GroupWorkItemEntity groupWorkItemEntity) {
+        if (workItemDao == null) {
+            workItemDao = new WorkItemDao();
+        }
+        return workItemDao.updateGroupWorkItem(groupWorkItemEntity);
+    }
     public UserWorkItemEntity newWorkItem() {
         return new UserWorkItemEntity();
     }
