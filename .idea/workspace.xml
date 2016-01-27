@@ -5,42 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a19c9282-b1d5-41f7-be6b-082dd0e9ae3f" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/BOWorkFlow-1.0-SNAPSHOT.jar" afterPath="$PROJECT_DIR$/target/BOWorkFlow-1.0-SNAPSHOT.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/sysu/workflow/entity/FormItemEntity.class" afterPath="$PROJECT_DIR$/target/classes/com/sysu/workflow/entity/FormItemEntity.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/sysu/workflow/service/formservice/FormQuery.class" afterPath="$PROJECT_DIR$/target/classes/com/sysu/workflow/service/formservice/FormQuery.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/sysu/workflow/env/MulitStateMachineDispatcher$1.class" afterPath="$PROJECT_DIR$/target/classes/com/sysu/workflow/env/MulitStateMachineDispatcher$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/sysu/workflow/env/MulitStateMachineDispatcher$DelayedEventTask.class" afterPath="$PROJECT_DIR$/target/classes/com/sysu/workflow/env/MulitStateMachineDispatcher$DelayedEventTask.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/sysu/workflow/env/MulitStateMachineDispatcher.class" afterPath="$PROJECT_DIR$/target/classes/com/sysu/workflow/env/MulitStateMachineDispatcher.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/sysu/workflow/entity/ProcessDefineEntity.class" afterPath="$PROJECT_DIR$/target/classes/com/sysu/workflow/entity/ProcessDefineEntity.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/sysu/workflow/entity/ProcessInstanceEntity.class" afterPath="$PROJECT_DIR$/target/classes/com/sysu/workflow/entity/ProcessInstanceEntity.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/sysu/workflow/service/processservice/RuntimeService.class" afterPath="$PROJECT_DIR$/target/classes/com/sysu/workflow/service/processservice/RuntimeService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/sysu/workflow/SCXMLExecutionContext.class" afterPath="$PROJECT_DIR$/target/classes/com/sysu/workflow/SCXMLExecutionContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/sysu/workflow/env/SimpleDispatcher$DelayedEventTask.class" afterPath="$PROJECT_DIR$/target/classes/com/sysu/workflow/env/SimpleDispatcher$DelayedEventTask.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/sysu/workflow/env/SimpleDispatcher.class" afterPath="$PROJECT_DIR$/target/classes/com/sysu/workflow/env/SimpleDispatcher.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/test-classes/com/sysu/workflow/database/TableTest.class" afterPath="$PROJECT_DIR$/target/test-classes/com/sysu/workflow/database/TableTest.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/test-classes/com/sysu/workflow/TestIdentityService.class" afterPath="$PROJECT_DIR$/target/test-classes/com/sysu/workflow/TestIdentityService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/test-classes/com/sysu/workflow/TestTaskService.class" afterPath="$PROJECT_DIR$/target/test-classes/com/sysu/workflow/TestTaskService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/sysu/workflow/service/indentityservice/UserQuery.class" afterPath="$PROJECT_DIR$/target/classes/com/sysu/workflow/service/indentityservice/UserQuery.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/sysu/workflow/service/taskservice/WorkItemDao.class" afterPath="$PROJECT_DIR$/target/classes/com/sysu/workflow/service/taskservice/WorkItemDao.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/com/sysu/workflow/io/SCXMLReaderTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/sysu/workflow/io/SCXMLReaderTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.sysu.workflow.TestIdentityService.xml" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.sysu.workflow.TestIdentityService.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.sysu.workflow.TestTaskService.xml" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.sysu.workflow.TestTaskService.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.sysu.workflow.TestUtils.xml" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.sysu.workflow.TestUtils.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.sysu.workflow.database.TableTest.xml" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.sysu.workflow.database.TableTest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.sysu.workflow.engine.InstanceTreeTest.xml" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.sysu.workflow.engine.InstanceTreeTest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.sysu.workflow.io.SCXMLReaderTest.xml" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.sysu.workflow.io.SCXMLReaderTest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/sysu/workflow/service/taskservice/TaskService.java" afterPath="$PROJECT_DIR$/src/main/java/com/sysu/workflow/service/taskservice/TaskService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/com/sysu/workflow/TestIdentityService.java" afterPath="$PROJECT_DIR$/src/test/java/com/sysu/workflow/TestIdentityService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/com/sysu/workflow/TestTaskService.java" afterPath="$PROJECT_DIR$/src/test/java/com/sysu/workflow/TestTaskService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/sysu/workflow/model/extend/UserTask.java" afterPath="$PROJECT_DIR$/src/main/java/com/sysu/workflow/model/extend/UserTask.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/sysu/workflow/service/taskservice/WorkItemDao.java" afterPath="$PROJECT_DIR$/src/main/java/com/sysu/workflow/service/taskservice/WorkItemDao.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/surefire-reports/com.sysu.workflow.TestIdentityService.txt" afterPath="$PROJECT_DIR$/target/surefire-reports/com.sysu.workflow.TestIdentityService.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/surefire-reports/com.sysu.workflow.TestTaskService.txt" afterPath="$PROJECT_DIR$/target/surefire-reports/com.sysu.workflow.TestTaskService.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/surefire-reports/com.sysu.workflow.TestUtils.txt" afterPath="$PROJECT_DIR$/target/surefire-reports/com.sysu.workflow.TestUtils.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/surefire-reports/com.sysu.workflow.database.TableTest.txt" afterPath="$PROJECT_DIR$/target/surefire-reports/com.sysu.workflow.database.TableTest.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/surefire-reports/com.sysu.workflow.engine.InstanceTreeTest.txt" afterPath="$PROJECT_DIR$/target/surefire-reports/com.sysu.workflow.engine.InstanceTreeTest.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/surefire-reports/com.sysu.workflow.io.SCXMLReaderTest.txt" afterPath="$PROJECT_DIR$/target/surefire-reports/com.sysu.workflow.io.SCXMLReaderTest.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/sysu/workflow/entity/GroupWorkItemEntity.class" afterPath="$PROJECT_DIR$/target/classes/com/sysu/workflow/entity/GroupWorkItemEntity.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/test-classes/com/sysu/workflow/io/SCXMLReaderTest.class" afterPath="$PROJECT_DIR$/target/test-classes/com/sysu/workflow/io/SCXMLReaderTest.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/sysu/workflow/service/taskservice/TaskService.class" afterPath="$PROJECT_DIR$/target/classes/com/sysu/workflow/service/taskservice/TaskService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/sysu/workflow/model/extend/UserTask.class" afterPath="$PROJECT_DIR$/target/classes/com/sysu/workflow/model/extend/UserTask.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/sysu/workflow/entity/UserWorkItemEntity.class" afterPath="$PROJECT_DIR$/target/classes/com/sysu/workflow/entity/UserWorkItemEntity.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="BOWorkFlow.iws" />
@@ -103,11 +72,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="GroupWorkItemEntity.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="GroupWorkItemEntity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/entity/GroupWorkItemEntity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="170" column="1" selection-start-line="170" selection-start-column="1" selection-end-line="170" selection-end-column="1" />
+            <state vertical-scroll-proportion="-0.18730159">
+              <caret line="143" column="64" selection-start-line="143" selection-start-column="64" selection-end-line="143" selection-end-column="64" />
               <folding>
                 <element signature="e#3395#3396#0" expanded="true" />
                 <element signature="e#3432#3433#0" expanded="true" />
@@ -138,12 +107,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TestTaskService.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="TestTaskService.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/com/sysu/workflow/TestTaskService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.16984127">
-              <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="13" column="21" selection-start-line="13" selection-start-column="21" selection-end-line="13" selection-end-column="21" />
               <folding>
+                <element signature="imports" expanded="true" />
                 <element signature="e#796#797#0" expanded="true" />
                 <element signature="e#843#844#0" expanded="true" />
               </folding>
@@ -1222,7 +1192,7 @@
       <workItem from="1453434500588" duration="19107000" />
       <workItem from="1453540479771" duration="1177000" />
       <workItem from="1453719277946" duration="615000" />
-      <workItem from="1453873661283" duration="10056000" />
+      <workItem from="1453873661283" duration="10994000" />
     </task>
     <task id="LOCAL-00001" summary="usertask ing">
       <created>1450190025541</created>
@@ -1314,11 +1284,17 @@
       <option name="project" value="LOCAL" />
       <updated>1453474274309</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="entity relation have problem ,cannot save formentity for userWorkItemEntity in groupWorkItemEntity signIn. next checking  it">
+      <created>1453899195162</created>
+      <option name="number" value="00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1453899195162</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="252020000" />
+    <option name="totallyTimeSpent" value="252958000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1335,7 +1311,7 @@
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32972974" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28756756" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28756756" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -1347,7 +1323,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32972974" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Persistence" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2771855" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2771855" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.13166311" sideWeight="0.4766949" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24972972" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
@@ -1858,19 +1834,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/entity/GroupWorkItemEntity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="170" column="1" selection-start-line="170" selection-start-column="1" selection-end-line="170" selection-end-column="1" />
-          <folding>
-            <element signature="e#3395#3396#0" expanded="true" />
-            <element signature="e#3432#3433#0" expanded="true" />
-            <element signature="e#3496#3497#0" expanded="true" />
-            <element signature="e#3548#3549#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/service/taskservice/WorkItemDao.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1883,11 +1846,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/com/sysu/workflow/TestTaskService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.16984127">
-          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="13" column="21" selection-start-line="13" selection-start-column="21" selection-end-line="13" selection-end-column="21" />
           <folding>
+            <element signature="imports" expanded="true" />
             <element signature="e#796#797#0" expanded="true" />
             <element signature="e#843#844#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/entity/GroupWorkItemEntity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.18730159">
+          <caret line="143" column="64" selection-start-line="143" selection-start-column="64" selection-end-line="143" selection-end-column="64" />
+          <folding>
+            <element signature="e#3395#3396#0" expanded="true" />
+            <element signature="e#3432#3433#0" expanded="true" />
+            <element signature="e#3496#3497#0" expanded="true" />
+            <element signature="e#3548#3549#0" expanded="true" />
           </folding>
         </state>
       </provider>
