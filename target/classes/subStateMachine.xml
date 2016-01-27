@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<scxml xmlns="http://www.w3.org/2005/07/scxml"
+       version="1.0"
+       datamodel="jexl"
+       initial="decomposeVoting">
+
+    <state id="start">
+
+        <transition event="start" cond="" target="decomposeVoting">
+
+        </transition>
+    </state>
+
+    <state id="decomposeVoting">
+        <datamodel>
+            <data id="counted" expr="0"></data>
+        </datamodel>
+        <onentry>
+            <userTask id="decompose" name="分解投票任务" assignee="zhengqiang" cadidateUsers="" cadidateGroups="" dueDate=""
+                      instances="4">
+
+            </userTask>
+        </onentry>
+        <transition event="decomposeVoteComplete">
+            <assign location="counted" expr="4"></assign>
+        </transition>
+        <transition cond="counted eq 4" target="temp">
+            <subStateMachine src="subStateMachine.xml" instances="3">
+
+            </subStateMachine>
+        </transition>
+    </state>
+
+    <state id="temp">
+        <datamodel>
+            <data id="counted" expr="0"></data>
+        </datamodel>
+        <onentry>
+            <send event="start" type="scxml" messageMode="BROADCAST"></send>
+        </onentry>
+        <transition event="decomposeVoteComplete" target="end">
+            <assign location="counted" expr="4"></assign>
+        </transition>
+    </state>
+
+    <final id="end">
+    </final>
+</scxml>
