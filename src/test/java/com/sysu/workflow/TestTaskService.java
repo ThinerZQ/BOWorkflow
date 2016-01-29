@@ -9,9 +9,7 @@ import com.sysu.workflow.service.taskservice.TaskService;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA
@@ -64,17 +62,51 @@ public class TestTaskService {
     @Test
     public void findUserTaskByUser(){
 
-        UserEntity currentUserEntity  = IdentityService.createUserQuery().userRealName("judger1").SingleResult();
+  UserEntity currentUserEntity  = IdentityService.createUserQuery().userRealName("judger1").SingleResult();
 
         ArrayList<UserWorkItemEntity> userWorkItemEntityList = TaskService.createUserTaskQuery().taskAssignee(currentUserEntity).list();
 
-
-        for (UserWorkItemEntity userWorkItemEntity : userWorkItemEntityList){
-
-            System.out.println(userWorkItemEntity.getItemFormEntity());
+        Map<GroupEntity, ArrayList<GroupWorkItemEntity>> groupWorkItemArrayListMap = new LinkedHashMap<GroupEntity, ArrayList<GroupWorkItemEntity>>();
+        //得到当前用户所在组的所有工作项
+       long groupWorkItemId =0;
+        for (GroupEntity groupEntity : currentUserEntity.getGroupEntitySet()) {
+            ArrayList<GroupWorkItemEntity> groupWorkItemEntityArrayList = TaskService.createGroupTaskQuery().taskCandidateGroup(groupEntity).list();
+            //当前组有任务，就加入到map里面
+            if (groupWorkItemEntityArrayList.size() != 0) {
+                groupWorkItemArrayListMap.put(groupEntity, groupWorkItemEntityArrayList);
+            }
+            groupWorkItemId = groupWorkItemEntityArrayList.get(0).getItemId();
         }
 
 
+
+        if (groupWorkItemId != 0) {
+            GroupWorkItemEntity groupWorkItemEntity = TaskService.createGroupTaskQuery().taskId((int) groupWorkItemId).SingleResult();
+            //更新group workitem
+            int instance;
+            instance = groupWorkItemEntity.getItemInstances();
+            if (groupWorkItemEntity.getItemInstances() <= 0) {
+                //返回，提示组任务被做完了。
+                System.out.println("group work done ");
+            } else {
+                TaskService taskService = new TaskService();
+                UserWorkItemEntity userWorkItemEntity = taskService.newWorkItem();
+                //保存user workitem
+                userWorkItemEntity.setItemName(groupWorkItemEntity.getItemName())
+                        .setItemCreateTime(new Date().toLocaleString())
+                        .setItemStateId(groupWorkItemEntity.getItemStateId())
+                        .setItemProcessId(groupWorkItemEntity.getItemProcessId())
+                        .setItemAssigneeEntity(currentUserEntity)
+                        .setItemFormEntity(groupWorkItemEntity.getItemFormEntity())
+                        .setItemGroupWorkItemEntity(groupWorkItemEntity);
+
+                taskService.saveUserWorkItem(userWorkItemEntity);
+
+                instance = groupWorkItemEntity.getItemInstances() - 1;
+                groupWorkItemEntity.setItemInstances(instance);
+                taskService.updateGroupWorkItem(groupWorkItemEntity);
+            }
+        }
 
     }
 

@@ -1,6 +1,8 @@
 package com.sysu.workflow.service.taskservice;
 
 import com.sysu.workflow.database.DBUtils;
+import com.sysu.workflow.entity.FormEntity;
+import com.sysu.workflow.entity.GroupEntity;
 import com.sysu.workflow.entity.GroupWorkItemEntity;
 import com.sysu.workflow.entity.UserWorkItemEntity;
 import org.hibernate.Criteria;
@@ -31,10 +33,20 @@ public class WorkItemDao {
 
 
             session.beginTransaction();
-            workItemEntity = (UserWorkItemEntity) session.merge(workItemEntity);
-            id = (Long) session.save(workItemEntity);
-
+           /* //½â¾öerror£ºa different object with the same identifier value was already associated with the session
+            workItemEntity.setItemFormEntity((FormEntity) session.merge(workItemEntity.getItemFormEntity()));
+            workItemEntity.setItemGroupWorkItemEntity((GroupWorkItemEntity) session.merge(workItemEntity.getItemGroupWorkItemEntity()));
+            workItemEntity.getItemGroupWorkItemEntity().setItemCandidateGroupEntity((GroupEntity) session.merge(workItemEntity.getItemGroupWorkItemEntity().getItemCandidateGroupEntity()));
+            id = (Long) session.save(workItemEntity);*/
+            if (workItemEntity.getItemFormEntity()!=null){
+                workItemEntity.setItemFormEntity((FormEntity) session.merge(workItemEntity.getItemFormEntity()));
+                workItemEntity.setItemGroupWorkItemEntity((GroupWorkItemEntity) session.merge(workItemEntity.getItemGroupWorkItemEntity()));
+                session.merge(workItemEntity);
+            }else{
+                session.save(workItemEntity);
+            }
             session.getTransaction().commit();
+
         }catch (Exception e){
             e.printStackTrace();
         }finally {
@@ -135,7 +147,10 @@ public class WorkItemDao {
         try {
             session = DBUtils.getSessionFactory().getCurrentSession();
             session.beginTransaction();
-            session.update(groupWorkItemEntity);
+
+
+            session.merge(groupWorkItemEntity);
+            //session.update(groupWorkItemEntity);
             session.getTransaction().commit();
             flag =true;
         } catch (Exception e) {

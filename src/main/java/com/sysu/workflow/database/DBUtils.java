@@ -2,7 +2,9 @@ package com.sysu.workflow.database;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
 
 import java.sql.*;
 
@@ -12,10 +14,14 @@ import java.sql.*;
 public class DBUtils {
 
     private static SessionFactory sessionFactory = null;
+    private static Configuration cfg=cfg = new Configuration().configure();;
+    private static ServiceRegistry serviceRegistry = serviceRegistry = new StandardServiceRegistryBuilder().applySettings(cfg.getProperties()).build();;
 
     public static SessionFactory  getSessionFactory(){
+
+
         if (sessionFactory ==null){
-            sessionFactory = new Configuration().configure().buildSessionFactory();
+            sessionFactory = cfg.buildSessionFactory(serviceRegistry);
         }
 
         return sessionFactory;
