@@ -14,7 +14,7 @@ import java.sql.*;
 public class DBUtils {
 
     private static SessionFactory sessionFactory = null;
-    private static Configuration cfg=cfg = new Configuration().configure();;
+    private static Configuration cfg = new Configuration().configure();;
     private static ServiceRegistry serviceRegistry = serviceRegistry = new StandardServiceRegistryBuilder().applySettings(cfg.getProperties()).build();;
 
     public static SessionFactory  getSessionFactory(){
@@ -31,26 +31,10 @@ public class DBUtils {
            if (session.isOpen()){
                session.close();
            }
-
         }
     }
 
 
-
-    public static Connection getH2InMemeConnection() {
-        Connection connection = null;
-        try {
-            Class.forName("org.h2.Driver");
-            try {
-                connection = DriverManager.getConnection("jdbc:h2:mem:workflow", "sa", "");
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return connection;
-    }
 
 
     public static Connection getMysqlConnection() {

@@ -1,6 +1,8 @@
 package com.sysu.workflow.database;
 
 import com.sysu.workflow.service.indentityservice.IdentityService;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,10 +27,9 @@ public class TableTest {
     @Test
     public void testCreateTable() {
 
-     /*   Configuration config = new Configuration().configure();
+        Configuration config = new Configuration().configure();
         SchemaExport schema = new SchemaExport(config);
         schema.setFormat(true).create(true, true);
-*/
     }
 
 

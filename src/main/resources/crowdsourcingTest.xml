@@ -12,6 +12,7 @@
         <data id="taskDescription" expr=""></data>
         <data id="dueDate"></data>
 
+
         <data id="judgeCount" expr=""></data>
         <data id="decomposeCount" expr=""></data>
         <data id="decomposeVoteCount" expr=""></data>
@@ -19,19 +20,17 @@
         <data id="solveVoteCount" expr=""></data>
     </datamodel>
 
-
     <state id="init">
         <onentry>
             <log expr="'init state entry'"/>
+            <script>
+                taskName=crowdSourcingTaskEntity.getTaskName();
+                taskDescription=crowdSourcingTaskEntity.getTaskDescription();
+                judgeCount = crowdSourcingTaskEntity.getJudgeCount();
+            </script>
         </onentry>
-        <transition event="init" target="judging">
-            <assign location="taskName" expr="_event.data.taskName"></assign>
-            <assign location="taskDescription" expr="_event.data.taskDescription"></assign>
-            <assign location="judgeCount" expr="_event.data.judgeCount"></assign>
-            <assign location="decomposeCount" expr="_event.data.decomposeCount"></assign>
-            <assign location="decomposeVoteCount" expr="_event.data.decomposeVoteCount"></assign>
-            <assign location="solveCount" expr="_event.data.solveCount"></assign>
-            <assign location="solveVoteCount" expr="_event.data.solveVoteCount"></assign>
+        <transition target="judging">
+
             <log expr="'init state transition to judging'"/>
         </transition>
         <onexit>
@@ -48,10 +47,10 @@
         </datamodel>
         <onentry>
             <log expr="'entry judging state'"/>
-            <userTask id="judge" name="判断任务" candidateGroups="Judger" instancesExpr="judgeCount">
+            <userTask id="judge" name="JudgeTask" candidateGroups="Judger" instancesExpr="judgeCount">
                 <form>
-                    <param name="任务名字" expr="taskName" type="output"></param>
-                    <param name="任务描述" expr="taskDescription" type="output"></param>
+                    <param name="任务名字" expr="taskName" type="input"></param>
+                    <param name="任务描述" expr="taskDescription" type="input"></param>
                 </form>
             </userTask>
         </onentry>
@@ -87,7 +86,8 @@
             <data id="step" expr="0"></data>
         </datamodel>
         <onentry>
-            <userTask id="decompose" name="分解任务" candidateGroups="Decomposer"
+            <log expr="'entry decomposing state'"/>
+            <userTask id="decompose" name="DecomposeTask" candidateGroups="Decomposer"
                       instancesExpr="decomposeCount">
             </userTask>
         </onentry>
@@ -97,6 +97,10 @@
             <!-- 写入数据库: 谁分解成了什么 -->
         </transition>
         <transition cond="counted eq decomposeCount" target="decomposeVoting"></transition>
+
+        <onexit>
+            <log expr="'exit decomposing state'"/>
+        </onexit>
     </state>
 
     <!-- 分解投票 -->
@@ -106,7 +110,7 @@
             <data id="counted" expr="0"></data>
         </datamodel>
         <onentry>
-            <userTask id="decompose" name="分解投票任务" candidateGroups="DecomposeVoter"
+            <userTask id="decompose" name="DecomposeVoteTask" candidateGroups="DecomposeVoter"
                       instancesExpr="decomposeVoteCount">
 
             </userTask>
@@ -130,7 +134,7 @@
             <data id="counted" expr="0"></data>
         </datamodel>
         <onentry>
-            <userTask id="solve" name="解决任务" candidateGroups="Solver"
+            <userTask id="solve" name="SolveTask" candidateGroups="Solver"
                       instancesExpr="solveCount">
 
             </userTask>
@@ -148,7 +152,7 @@
             <data id="counted" expr="0"></data>
         </datamodel>
         <onentry>
-            <userTask id="solveVoting" name="解决投票任务" candidateGroups="SolveVoter"
+            <userTask id="solveVoting" name="SolveVoteTask" candidateGroups="SolveVoter"
                       instancesExpr="solveVoteCount">
 
             </userTask>

@@ -1,8 +1,6 @@
 package com.sysu.workflow.service.taskservice;
 
 import com.sysu.workflow.database.DBUtils;
-import com.sysu.workflow.entity.FormEntity;
-import com.sysu.workflow.entity.GroupEntity;
 import com.sysu.workflow.entity.GroupWorkItemEntity;
 import com.sysu.workflow.entity.UserWorkItemEntity;
 import org.hibernate.Criteria;
@@ -30,27 +28,28 @@ public class WorkItemDao {
         long id = -1;
         try {
             session =DBUtils.getSessionFactory().getCurrentSession();
-
-
             session.beginTransaction();
+
            /* //½â¾öerror£ºa different object with the same identifier value was already associated with the session
             workItemEntity.setItemFormEntity((FormEntity) session.merge(workItemEntity.getItemFormEntity()));
             workItemEntity.setItemGroupWorkItemEntity((GroupWorkItemEntity) session.merge(workItemEntity.getItemGroupWorkItemEntity()));
             workItemEntity.getItemGroupWorkItemEntity().setItemCandidateGroupEntity((GroupEntity) session.merge(workItemEntity.getItemGroupWorkItemEntity().getItemCandidateGroupEntity()));
             id = (Long) session.save(workItemEntity);*/
-            if (workItemEntity.getItemFormEntity()!=null){
+         /*   if (workItemEntity.getItemFormEntity()!=null){
                 workItemEntity.setItemFormEntity((FormEntity) session.merge(workItemEntity.getItemFormEntity()));
                 workItemEntity.setItemGroupWorkItemEntity((GroupWorkItemEntity) session.merge(workItemEntity.getItemGroupWorkItemEntity()));
                 session.merge(workItemEntity);
             }else{
                 session.save(workItemEntity);
-            }
+            }*/
+            session.flush();
+            session.merge(workItemEntity);
             session.getTransaction().commit();
 
         }catch (Exception e){
             e.printStackTrace();
         }finally {
-            DBUtils.closeSession(session);
+           // DBUtils.closeSession(session);
         }
         return id;
     }
@@ -69,7 +68,7 @@ public class WorkItemDao {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            DBUtils.closeSession(session);
+            //DBUtils.closeSession(session);
         }
         return id;
     }
@@ -86,7 +85,7 @@ public class WorkItemDao {
             Criterion allCriterion = Restrictions.allEq(userWorkItemEntity.getNotNullPropertyMap());
 
             criteria.add(allCriterion);
-
+            criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
             workItemEntityArrayList = (ArrayList<UserWorkItemEntity>) criteria.list();
             //System.out.println(workItemEntityArrayList.size());
 
@@ -94,7 +93,7 @@ public class WorkItemDao {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            DBUtils.closeSession(session);
+            //DBUtils.closeSession(session);
         }
         return workItemEntityArrayList;
     }
@@ -119,7 +118,7 @@ public class WorkItemDao {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            DBUtils.closeSession(session);
+           // DBUtils.closeSession(session);
         }
         return groupWorkItemEntityArrayList;
     }
@@ -136,7 +135,7 @@ public class WorkItemDao {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            DBUtils.closeSession(session);
+            //DBUtils.closeSession(session);
         }
         return flag;
     }
@@ -156,7 +155,7 @@ public class WorkItemDao {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            DBUtils.closeSession(session);
+           // DBUtils.closeSession(session);
         }
         return flag;
     }

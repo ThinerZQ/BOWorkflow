@@ -33,7 +33,7 @@ public class GroupDao {
         }catch (Exception e){
             e.printStackTrace();
         }finally {
-            DBUtils.closeSession(session);
+            //DBUtils.closeSession(session);
         }
         return true;
     }
@@ -55,7 +55,7 @@ public class GroupDao {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            DBUtils.closeSession(session);
+            //DBUtils.closeSession(session);
         }
         return null;
     }
@@ -78,7 +78,7 @@ public class GroupDao {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            DBUtils.closeSession(session);
+            //DBUtils.closeSession(session);
         }
         return groupEntityArrayList;
 
@@ -101,7 +101,7 @@ public class GroupDao {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            DBUtils.closeSession(session);
+            //DBUtils.closeSession(session);
         }
         return groupEntityArrayList;
     }

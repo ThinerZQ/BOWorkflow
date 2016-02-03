@@ -2,7 +2,10 @@ package com.sysu.workflow.service.processservice;
 
 import com.sysu.workflow.database.DBUtils;
 import com.sysu.workflow.entity.ProcessInstanceEntity;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 
 import java.util.ArrayList;
 
@@ -34,7 +37,7 @@ public class ProcessInstanceDao {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            DBUtils.closeSession(session);
+            //DBUtils.closeSession(session);
         }
         return true;
     }
@@ -44,8 +47,28 @@ public class ProcessInstanceDao {
     public ArrayList<ProcessInstanceEntity> findProcessInstanceByProcessName(String processName) {
         return null;
     }
-    public ArrayList<ProcessInstanceEntity> findProcessInstance(ProcessInstanceEntity ProcessInstanceEntity) {
-        return null;
+    public ArrayList<ProcessInstanceEntity> findProcessInstance(ProcessInstanceEntity processInstanceEntity) {
+
+        Session session = null;
+        ArrayList<ProcessInstanceEntity> processInstanceEntities = null;
+        try {
+            session = DBUtils.getSessionFactory().getCurrentSession();
+            session.beginTransaction();
+            Criteria criteria = session.createCriteria(ProcessInstanceEntity.class);
+
+            Criterion allCriterion = Restrictions.allEq(processInstanceEntity.getNotNullPropertyMap());
+
+            criteria.add(allCriterion);
+            criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+
+            processInstanceEntities = (ArrayList<ProcessInstanceEntity>) criteria.list();
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // DBUtils.closeSession(session);
+        }
+        return processInstanceEntities;
     }
     public ProcessInstanceEntity findProcessInstanceByProcessInstanceId(String processInstanceId) {
         return null;
@@ -64,13 +87,16 @@ public class ProcessInstanceDao {
         try {
             session = DBUtils.getSessionFactory().getCurrentSession();
             session.beginTransaction();
-            String hql = "select processInstance from ProcessInstanceEntity as processInstance";
-            processInstanceEntities = (ArrayList<ProcessInstanceEntity>) session.createQuery(hql).list();
+            Criteria criteria = session.createCriteria(ProcessInstanceEntity.class);
+
+            criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+
+            processInstanceEntities = (ArrayList<ProcessInstanceEntity>) criteria.list();
             session.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            DBUtils.closeSession(session);
+           // DBUtils.closeSession(session);
         }
         return processInstanceEntities;
 

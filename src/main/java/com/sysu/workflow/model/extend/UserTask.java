@@ -1,14 +1,12 @@
 package com.sysu.workflow.model.extend;
 
 import com.sysu.workflow.*;
-import com.sysu.workflow.entity.GroupEntity;
-import com.sysu.workflow.entity.GroupWorkItemEntity;
-import com.sysu.workflow.entity.UserEntity;
-import com.sysu.workflow.entity.UserWorkItemEntity;
+import com.sysu.workflow.entity.*;
 import com.sysu.workflow.model.Action;
 import com.sysu.workflow.model.EnterableState;
 import com.sysu.workflow.model.ModelException;
 import com.sysu.workflow.service.indentityservice.IdentityService;
+import com.sysu.workflow.service.processservice.RuntimeService;
 import com.sysu.workflow.service.taskservice.TaskDispatcher;
 
 import java.util.Date;
@@ -160,7 +158,7 @@ public class UserTask extends Action {
         ctx.setLocal(getNamespacesKey(), getNamespaces());
         Evaluator eval = exctx.getEvaluator();
 
-        //求出各个属性表达式的值
+        //锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷员锟斤拷式锟斤拷值
         String assigneeValue = getAssignee();
         if (assigneeValue==null && getAssigneeExpr()!=null){
           assigneeValue = (String)getTextContentIfNodeResult(eval.eval(ctx,getAssigneeExpr()));
@@ -201,8 +199,13 @@ public class UserTask extends Action {
         IdentityService identityService = new IdentityService();
 
 
-        //执行Form中的求值，
-        getForm().execute(exctx);
+        //执get forms for current userTasks
+        if (getForm()!=null){
+            getForm().execute(exctx);
+        }
+
+        //query current stateMachine Instance
+        ProcessInstanceEntity processInstanceEntity = RuntimeService.createProcessInstanceQuery().processInstanceId((String)ctx.getSystemContext().get(SCXMLSystemContext.SESSIONID_KEY)).SingleResult();
 
 
         boolean flag = false;
@@ -213,20 +216,25 @@ public class UserTask extends Action {
                     .setItemDueTime(getDueDate())
                     .setItemProcessId((String)ctx.getSystemContext().get(SCXMLSystemContext.SESSIONID_KEY))
                     .setItemStateId(parentState.getId())
-                    .setItemFormEntity(getForm().getFormEntity());
-            //找到这个人
-            UserEntity userEntity = identityService.createUserQuery().userRealName(assigneeValue).SingleResult();
+                    .setItemProcessInstanceEntity(processInstanceEntity);
+            if (getForm()!=null){
+                userWorkItemEntity.setItemFormEntity(getForm().getFormEntity());
+            }
+
+            // query specify user
+            UserEntity userEntity = IdentityService.createUserQuery().userRealName(assigneeValue).SingleResult();
+
             try {
-                //id是保存到数据库的主键值
+                //
                 long id = TaskDispatcher.newInstance().dispatchTask(userWorkItemEntity, userEntity);
             }catch (Exception e){
                 e.printStackTrace();
             }
 
         }else if (candidateUsersValue!=null){
-            //分配到候选人
+            //if specify candidateUser
         }else if (candidateGroupValue!=null){
-            //分配到组
+            // if specify candidateGroupValue
             GroupWorkItemEntity groupWorkItemEntity = new GroupWorkItemEntity();
             groupWorkItemEntity.setItemName(getName())
                     .setItemCreateTime(new Date().toLocaleString())
@@ -234,12 +242,15 @@ public class UserTask extends Action {
                     .setItemProcessId((String)ctx.getSystemContext().get(SCXMLSystemContext.SESSIONID_KEY))
                     .setItemStateId(parentState.getId())
                     .setItemInstances(Integer.parseInt(instancesValue))
-                    .setItemFormEntity(getForm().getFormEntity());
-            //找到这个组
+                    .setItemProcessInstanceEntity(processInstanceEntity);
+            if (getForm()!=null){
+                groupWorkItemEntity.setItemFormEntity(getForm().getFormEntity());
+            }
+            //get current group
             GroupEntity groupEntity = identityService.createGroupQuery().groupName(candidateGroupValue).SingleResult();
 
             try {
-                //id是保存到数据库的主键值
+                // insert task to groupWorkItem
                 long id = TaskDispatcher.newInstance().dispatchTask(groupWorkItemEntity, groupEntity);
 
             } catch (Exception e) {

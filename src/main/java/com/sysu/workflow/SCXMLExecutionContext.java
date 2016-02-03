@@ -270,6 +270,12 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
         initializeIOProcessors();
         scInstance.setRunning(true);
 
+        saveProcessInstance();
+
+
+    }
+
+    private void saveProcessInstance() {
         try {
             //保存过程实例到数据库
             RuntimeService runtimeService = new RuntimeService();
@@ -292,8 +298,6 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
         }catch (Exception e){
             e.printStackTrace();
         }
-
-
     }
 
     /**

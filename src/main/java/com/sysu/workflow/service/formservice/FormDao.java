@@ -35,7 +35,7 @@ public class FormDao {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            DBUtils.closeSession(session);
+            //DBUtils.closeSession(session);
         }
         return formEntityArrayList;
     }

@@ -1,5 +1,9 @@
 package com.sysu.workflow.database;
 
+import com.sysu.workflow.service.indentityservice.IdentityService;
+import org.junit.Before;
+import org.junit.Test;
+
 /**
  * Created with IntelliJ IDEA
  * Date: 2016/1/18
@@ -10,7 +14,7 @@ package com.sysu.workflow.database;
  * Email: 601097836@qq.com
  */
 public class DataTest{
-    /*private IdentityService identityService =null;
+    private IdentityService identityService =null;
 
     @Before
     public void before(){
@@ -18,7 +22,7 @@ public class DataTest{
     }
     @Test
     public void testAddUserAndGroup() {
-        //
+        /*
         UserEntity userEntity = identityService.newUser("admin");
         userEntity.setUserPassword("123456")
                 .setUserName("admin")
@@ -122,10 +126,10 @@ public class DataTest{
                     .setUserRegisterDate(new Date())
                     .setGroupEntitySet(groupSet);
             identityService.saveUser(userEntity);
-        }
+        }*/
     }
     @Test
     public void testAddGroup() {
 
-    }*/
+    }
 }

@@ -26,12 +26,12 @@ public class ProcessInstanceQuery {
     }
 
     public ProcessInstanceQuery processInstanceId(String  id) {
-        processInstanceEntity.setProcessinstanceId(id);
+        processInstanceEntity.setProcessInstanceId(id);
         return this;
     }
 
     public ProcessInstanceQuery userId(String processInstanceName) {
-        processInstanceEntity.setProcessinstanceName(processInstanceName);
+        processInstanceEntity.setProcessInstanceName(processInstanceName);
         return this;
     }
 

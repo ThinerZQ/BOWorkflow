@@ -38,7 +38,7 @@ public class UserDao{
         }catch (Exception e){
             e.printStackTrace();
         }finally {
-            DBUtils.closeSession(session);
+            //DBUtils.closeSession(session);
         }
         return true;
     }
@@ -69,7 +69,7 @@ public class UserDao{
         }catch (Exception e){
             e.printStackTrace();
         }finally {
-            DBUtils.closeSession(session);
+            //DBUtils.closeSession(session);
         }
         return userEntity!=null? true:false;
 
@@ -90,7 +90,7 @@ public class UserDao{
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            DBUtils.closeSession(session);
+            //DBUtils.closeSession(session);
         }
         return userEntityArrayList;
     }
@@ -112,7 +112,7 @@ public class UserDao{
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            DBUtils.closeSession(session);
+            //DBUtils.closeSession(session);
         }
         return userEntityArrayList;
 
@@ -134,7 +134,7 @@ public class UserDao{
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            DBUtils.closeSession(session);
+            //DBUtils.closeSession(session);
         }
         return userEntityArrayList;
     }
@@ -155,7 +155,7 @@ public class UserDao{
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            DBUtils.closeSession(session);
+            //DBUtils.closeSession(session);
         }
         return userEntityArrayList;
     }

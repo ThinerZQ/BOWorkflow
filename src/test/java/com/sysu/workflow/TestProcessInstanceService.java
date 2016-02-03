@@ -1,8 +1,11 @@
 package com.sysu.workflow;
 
-import com.sysu.workflow.service.taskservice.TaskService;
+import com.sysu.workflow.entity.ProcessInstanceEntity;
+import com.sysu.workflow.service.processservice.RuntimeService;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 /**
  * Created with IntelliJ IDEA
@@ -13,24 +16,21 @@ import org.junit.Test;
  * Blog: <a>http://www.thinerzq.me</a>
  * Email: 601097836@qq.com
  */
-public class TestTaskService {
+public class TestProcessInstanceService {
 
-    TaskService taskService = null;
+    RuntimeService runtimeService = null;
 
     @Before
     public void before() {
-        taskService = new TaskService();
+        runtimeService = new RuntimeService();
     }
 
     @Test
-    public void testFindTask() {
-      /*  GroupEntity groupEntity = IdentityService.createGroupQuery().groupName("Judger").SingleResult();
-        ArrayList<GroupWorkItemEntity> groupWorkItemEntityArrayList = TaskService.createGroupTaskQuery().taskCandidateGroup(groupEntity).list();
+    public void testGetAllProcessInstance() {
 
+        ArrayList<ProcessInstanceEntity> processInstanceEntities = RuntimeService.createProcessInstanceQuery().getAllProcessInstance();
+        System.out.println(processInstanceEntities.size());
 
-
-        System.out.println(groupWorkItemEntityArrayList.get(0).getItemFormEntity().getFormItemEntityLinkedHashSet().size());
-    */
     }
     @Test
     public void findGroupTaskByUser(){
