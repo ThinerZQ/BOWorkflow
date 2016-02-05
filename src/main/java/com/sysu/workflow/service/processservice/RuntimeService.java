@@ -28,9 +28,14 @@ public class RuntimeService {
         return  processInstanceDao.addProcessInstance(processInstanceEntity);
     }
 
-    public boolean updateProcessInstance(){
+    public boolean updateProcessInstance(ProcessInstanceEntity processInstanceEntity){
 
-        return false;
+        if (processInstanceDao==null){
+            processInstanceDao = new ProcessInstanceDao();
+        }
+
+        return  processInstanceDao.updateProcessInstance(processInstanceEntity);
+
     }
 
     public ProcessInstanceEntity newProcessInstance(){

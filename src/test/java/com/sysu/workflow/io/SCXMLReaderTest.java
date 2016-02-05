@@ -29,7 +29,8 @@ public class SCXMLReaderTest {
 
     @Test
     public void testExecutor() throws Exception {
-   /*     URL url = SCXMLTestHelper.getResource("crowdsourcingTest.xml");
+/*
+        URL url = SCXMLTestHelper.getResource("crowdsourcingTest.xml");
         SCXML scxml = new SCXMLReader().read(url);
         //实例化数据模型解析器
         Evaluator evaluator = new JexlEvaluator();
@@ -46,14 +47,12 @@ public class SCXMLReaderTest {
 
 
         Context rootConext = evaluator.newContext(null);
-        rootConext.set("crowdSourcingTaskEntity",crowdSourcingTaskEntity);
+        rootConext.set("crowdSourcingTaskEntity", crowdSourcingTaskEntity);
         executor.setRootContext(rootConext);
 
         executor.go();
-*/
 
-
-
+        CrowdSourcingTaskEntity c = (CrowdSourcingTaskEntity) executor.getRootContext().get("crowdSourcingTaskEntity");*/
 
       /*  Map<String,Object> initData = new HashMap<String, Object>();
         initData.put("taskName","写一篇关于众包的文章");
@@ -72,12 +71,10 @@ public class SCXMLReaderTest {
         map.put("simple", 0);
 
 
-/*
-
+        /*
         executor.triggerEvent(new TriggerEvent("judgeComplete", TriggerEvent.SIGNAL_EVENT,map));
         executor.triggerEvent(new TriggerEvent("judgeComplete", TriggerEvent.SIGNAL_EVENT,map));
         executor.triggerEvent(new TriggerEvent("judgeComplete", TriggerEvent.SIGNAL_EVENT,map));*/
-
 
     }
 

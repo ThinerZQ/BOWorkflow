@@ -81,20 +81,25 @@ public class Form extends ParamsContainer implements PathResolverHolder {
         addParamsToForm(exctx, payloadDataMap);
 
         FormEntity formEntity = new FormEntity();
-        if (!payloadDataMap.isEmpty()) {
 
-            //插入到数据库表
-            Object[] paramObject;
-            Set<FormItemEntity> formItemEntitySet = new HashSet<FormItemEntity>();
-            for (Map.Entry<String, Object> entry : payloadDataMap.entrySet()) {
-                FormItemEntity formItemEntity = new FormItemEntity();
-                formItemEntity.setFormItemName(entry.getKey());
-                paramObject = (Object[]) entry.getValue();
-                formItemEntity.setFormItemValue((String) paramObject[0]);
-                formItemEntity.setFormItemType((String) paramObject[1]);
-                formItemEntitySet.add(formItemEntity);
+        if (getSrc()!=null){
+            formEntity.setFormSrc(getSrc());
+        }else{
+            if (!payloadDataMap.isEmpty()) {
+
+                //插入到数据库表
+                Object[] paramObject;
+                Set<FormItemEntity> formItemEntitySet = new HashSet<FormItemEntity>();
+                for (Map.Entry<String, Object> entry : payloadDataMap.entrySet()) {
+                    FormItemEntity formItemEntity = new FormItemEntity();
+                    formItemEntity.setFormItemName(entry.getKey());
+                    paramObject = (Object[]) entry.getValue();
+                    formItemEntity.setFormItemValue((String) paramObject[0]);
+                    formItemEntity.setFormItemType((String) paramObject[1]);
+                    formItemEntitySet.add(formItemEntity);
+                }
+                formEntity.setFormItemEntityLinkedHashSet(formItemEntitySet);
             }
-            formEntity.setFormItemEntityLinkedHashSet(formItemEntitySet);
         }
         //放入到FormEntity，等待UserTask去读取数据
         setFormEntity(formEntity);

@@ -2,9 +2,11 @@
 package com.sysu.workflow.semantics;
 
 import com.sysu.workflow.*;
+import com.sysu.workflow.entity.ProcessInstanceEntity;
 import com.sysu.workflow.invoke.Invoker;
 import com.sysu.workflow.invoke.InvokerException;
 import com.sysu.workflow.model.*;
+import com.sysu.workflow.service.processservice.RuntimeService;
 import com.sysu.workflow.system.EventVariable;
 
 import java.util.*;
@@ -1054,7 +1056,48 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
                     }
                 }
             }
+
+
+
+
+            //如果当前状态是State的实例，并且.....，并且........
+            if (es instanceof State) {
+                //executeContent(exctx, ((State) es).getInitial().getTransition());   //执行初始内容里面的转移
+                //更新数据库中当前实例的状态值
+                updateCurrentState(exctx);
+
+
+            }
+            //如果当前状态是 Final
+            if (es instanceof Final) {
+                //更新数据库中当前实例的状态值
+                updateCurrentState(exctx);
+
+
+            }
+
+
+
         }
+    }
+
+    private void updateCurrentState(SCXMLExecutionContext exctx) {
+        //query current stateMachine Instance
+        ProcessInstanceEntity processInstanceEntity = RuntimeService.createProcessInstanceQuery().processInstanceId((String)exctx.getSessionId()).SingleResult();
+        Set<EnterableState> stateSet = exctx.getScInstance().getCurrentStatus().getStates();
+        StringBuilder stringBuilder = new StringBuilder();
+
+        if (stateSet.size()==1){
+            stringBuilder.append(stateSet.iterator().next().getId());
+        }else{
+            for (EnterableState enterableState : stateSet){
+                stringBuilder.append(enterableState.getId()+",");
+            }
+            stringBuilder.deleteCharAt(stringBuilder.length()-1);
+        }
+        System.out.println("stringBuilder :"+stringBuilder.toString());
+        processInstanceEntity.setProcessInstanceCurrentState(stringBuilder.toString());
+        new RuntimeService().updateProcessInstance(processInstanceEntity);
     }
 
     /**

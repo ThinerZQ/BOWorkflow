@@ -1,7 +1,5 @@
 package com.sysu.workflow;
 
-import com.sysu.workflow.entity.UserEntity;
-
 import java.util.Date;
 
 /**
@@ -17,31 +15,37 @@ import java.util.Date;
 public class CrowdSourcingTaskEntity {
 
 
-    public long taskId;
+    private long taskId;
+    private String taskName;
 
-    public String taskName;
+    private String taskDescription;
 
-    public String taskDescription;
+    private Date taskReleaseTime;
 
-    public Date taskReleaseTime;
+    private Date taskDeadlineTime;
 
-    public Date taskDeadlineTime;
+    private Date taskCompleteTime;
 
-    public Date taskCompleteTime;
+    private String taskPrice;
 
-    public String taskType;
+    private int taskJudgeCount = 3;
 
-    public String taskPrice;
+    private int taskDecomposeCount = 2;
 
-    public UserEntity userEntity;
+    private int taskDecomposeVoteCount = 3;
 
-    private String stateMachineId;
+    private int taskSolveCount = 2;
 
-    private final int judgeCount=3;
-    private final int decomposeCount=2;
-    private final int getDecomposeVoteCount=3;
-    private final int solveCount=2;
-    private final int solveVoteCount=3;
+    private int taskSolveVoteCount = 3;
+
+
+
+    private TaskState taskState;
+
+
+    public void updateTaskState(String taskState){
+        this.setTaskState(TaskState.valueOf(taskState));
+    }
 
 
     public long getTaskId() {
@@ -100,63 +104,70 @@ public class CrowdSourcingTaskEntity {
         this.taskPrice = taskPrice;
     }
 
-    public UserEntity getUserEntity() {
-        return userEntity;
+    public int getTaskJudgeCount() {
+        return taskJudgeCount;
     }
 
-    public void setUserEntity(UserEntity userEntity) {
-        this.userEntity = userEntity;
+    public void setTaskJudgeCount(int taskJudgeCount) {
+        this.taskJudgeCount = taskJudgeCount;
     }
 
-    public String getTaskType() {
-        return taskType;
+    public int getTaskDecomposeCount() {
+        return taskDecomposeCount;
     }
 
-    public void setTaskType(String taskType) {
-        this.taskType = taskType;
+    public void setTaskDecomposeCount(int taskDecomposeCount) {
+        this.taskDecomposeCount = taskDecomposeCount;
     }
 
-    public String getStateMachineId() {
-        return stateMachineId;
+    public int getTaskDecomposeVoteCount() {
+        return taskDecomposeVoteCount;
     }
 
-    public void setStateMachineId(String stateMachineId) {
-        this.stateMachineId = stateMachineId;
+    public void setTaskDecomposeVoteCount(int taskDecomposeVoteCount) {
+        this.taskDecomposeVoteCount = taskDecomposeVoteCount;
     }
 
-    public int getJudgeCount() {
-        return judgeCount;
+    public int getTaskSolveCount() {
+        return taskSolveCount;
     }
 
-    public int getDecomposeCount() {
-        return decomposeCount;
+    public void setTaskSolveCount(int taskSolveCount) {
+        this.taskSolveCount = taskSolveCount;
     }
 
-    public int getGetDecomposeVoteCount() {
-        return getDecomposeVoteCount;
+    public int getTaskSolveVoteCount() {
+        return taskSolveVoteCount;
     }
 
-    public int getSolveCount() {
-        return solveCount;
+    public void setTaskSolveVoteCount(int taskSolveVoteCount) {
+        this.taskSolveVoteCount = taskSolveVoteCount;
     }
 
-    public int getSolveVoteCount() {
-        return solveVoteCount;
+    public TaskState getTaskState() {
+        return taskState;
+    }
+
+    public void setTaskState(TaskState taskState) {
+        this.taskState = taskState;
     }
 
     @Override
     public String toString() {
-        return "CrowdSourcingTask{" +
+        return "CrowdSourcingTaskEntity{" +
                 "taskId=" + taskId +
                 ", taskName='" + taskName + '\'' +
                 ", taskDescription='" + taskDescription + '\'' +
                 ", taskReleaseTime=" + taskReleaseTime +
                 ", taskDeadlineTime=" + taskDeadlineTime +
                 ", taskCompleteTime=" + taskCompleteTime +
-                ", taskType='" + taskType + '\'' +
                 ", taskPrice='" + taskPrice + '\'' +
-                ", userEntity=" + userEntity +
-                ", stateMachineId='" + stateMachineId + '\'' +
+                ", taskJudgeCount=" + taskJudgeCount +
+                ", taskDecomposeCount=" + taskDecomposeCount +
+                ", taskDecomposeVoteCount=" + taskDecomposeVoteCount +
+                ", taskSolveCount=" + taskSolveCount +
+                ", taskSolveVoteCount=" + taskSolveVoteCount +
+                ", taskState=" + taskState +
                 '}';
     }
 }

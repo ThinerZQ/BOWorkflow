@@ -27,6 +27,7 @@ public class ProcessInstanceDao {
     public boolean addProcessInstance(ProcessInstanceEntity processInstanceEntity) {
 
         Session session = null;
+        boolean flag =false ;
         try {
             session = DBUtils.getSessionFactory().getCurrentSession();
             session.beginTransaction();
@@ -34,14 +35,35 @@ public class ProcessInstanceDao {
             session.save(processInstanceEntity);
 
             session.getTransaction().commit();
+            flag=true;
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             //DBUtils.closeSession(session);
         }
-        return true;
+        return flag;
     }
 
+
+    public boolean updateProcessInstance(ProcessInstanceEntity processInstanceEntity) {
+
+        Session session = null;
+        boolean flag =false ;
+        try {
+            session = DBUtils.getSessionFactory().getCurrentSession();
+            session.beginTransaction();
+
+            session.update(processInstanceEntity);
+
+            session.getTransaction().commit();
+            flag = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            //DBUtils.closeSession(session);
+        }
+        return flag;
+    }
 
 
     public ArrayList<ProcessInstanceEntity> findProcessInstanceByProcessName(String processName) {
@@ -74,9 +96,6 @@ public class ProcessInstanceDao {
         return null;
     }
 
-    public boolean updateProcessInstance(ProcessInstanceEntity processInstanceEntity){
-        return false;
-    }
     public boolean deleteProcessInstance(ProcessInstanceEntity processInstanceEntity){
         return false;
     }

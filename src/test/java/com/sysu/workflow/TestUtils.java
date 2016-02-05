@@ -21,4 +21,11 @@ public class TestUtils {
         System.out.println(workItemEntity.getNotNullPropertyMap().toString());
 
     }
+    @Test
+    public void s(){
+        StringBuilder sb  = new StringBuilder();
+        sb.append("daf,");
+        sb.append("sdassssssssss");
+        System.out.println(sb.toString());
+    }
 }

@@ -26,7 +26,11 @@
             <script>
                 taskName=crowdSourcingTaskEntity.getTaskName();
                 taskDescription=crowdSourcingTaskEntity.getTaskDescription();
-                judgeCount = crowdSourcingTaskEntity.getJudgeCount();
+                judgeCount = crowdSourcingTaskEntity.getTaskJudgeCount();
+                decomposeCount= crowdSourcingTaskEntity.getTaskDecomposeCount();
+                decomposeVoteCount= crowdSourcingTaskEntity.getTaskDecomposeVoteCount();
+                solveCount= crowdSourcingTaskEntity.getTaskSolveCount();
+                solveVoteCount= crowdSourcingTaskEntity.getTaskSolveVoteCount();
             </script>
         </onentry>
         <transition target="judging">
@@ -48,11 +52,13 @@
         <onentry>
             <log expr="'entry judging state'"/>
             <userTask id="judge" name="JudgeTask" candidateGroups="Judger" instancesExpr="judgeCount">
-                <form>
-                    <param name="任务名字" expr="taskName" type="input"></param>
-                    <param name="任务描述" expr="taskDescription" type="input"></param>
+                <form src="zhengq">
+
                 </form>
             </userTask>
+            <script>
+                crowdSourcingTaskEntity.updateTaskState("Judging");
+            </script>
         </onentry>
         <transition event="judgeComplete">
             <if cond="_event.data.simple eq 0">
