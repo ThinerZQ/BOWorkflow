@@ -35,6 +35,10 @@ public class UserTaskQuery {
         userWorkItemEntity.setItemId(taskId);
         return this;
     }
+    public UserTaskQuery taskFinish(String itemFinish) {
+        userWorkItemEntity.setItemFinish(itemFinish);
+        return this;
+    }
 
     public UserTaskQuery taskProcessInstanceId(String taskProcessInstanceId) {
         userWorkItemEntity.setItemProcessId(taskProcessInstanceId);

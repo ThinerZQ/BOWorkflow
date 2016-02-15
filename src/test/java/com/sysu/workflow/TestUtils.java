@@ -28,4 +28,10 @@ public class TestUtils {
         sb.append("sdassssssssss");
         System.out.println(sb.toString());
     }
+    @Test
+    public void s2(){
+
+        UserWorkItemEntity userWorkItemEntity = new UserWorkItemEntity();
+        System.out.println(userWorkItemEntity.getNotNullPropertyMap());
+    }
 }
