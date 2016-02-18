@@ -34,6 +34,8 @@ public class UserWorkItemEntity implements WorkflowEntity {
     private String itemStateId;
     @Basic
     private String itemProcessId;
+    @Basic
+    private String itemFinish = "no";
 
 
     @ManyToOne(cascade = {CascadeType.ALL})
@@ -48,6 +50,19 @@ public class UserWorkItemEntity implements WorkflowEntity {
     @JoinColumn(name = "groupWorkItemEntity")
     private GroupWorkItemEntity itemGroupWorkItemEntity;
 
+    @ManyToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "processInstanceEntity")
+    private ProcessInstanceEntity itemProcessInstanceEntity;
+
+
+    public String getItemFinish() {
+        return itemFinish;
+    }
+
+    public UserWorkItemEntity setItemFinish(String itemFinish) {
+        this.itemFinish = itemFinish;
+        return this;
+    }
 
     public long getItemId() {
         return itemId;
@@ -116,16 +131,26 @@ public class UserWorkItemEntity implements WorkflowEntity {
         return itemFormEntity;
     }
 
-    public void setItemFormEntity(FormEntity itemFormEntity) {
+    public UserWorkItemEntity setItemFormEntity(FormEntity itemFormEntity) {
         this.itemFormEntity = itemFormEntity;
+        return this;
     }
 
     public GroupWorkItemEntity getItemGroupWorkItemEntity() {
         return itemGroupWorkItemEntity;
     }
 
-    public void setItemGroupWorkItemEntity(GroupWorkItemEntity itemGroupWorkItemEntity) {
+    public UserWorkItemEntity setItemGroupWorkItemEntity(GroupWorkItemEntity itemGroupWorkItemEntity) {
         this.itemGroupWorkItemEntity = itemGroupWorkItemEntity;
+        return this;
+    }
+
+    public ProcessInstanceEntity getItemProcessInstanceEntity() {
+        return itemProcessInstanceEntity;
+    }
+
+    public void setItemProcessInstanceEntity(ProcessInstanceEntity itemProcessInstanceEntity) {
+        this.itemProcessInstanceEntity = itemProcessInstanceEntity;
     }
 
     public Map<String, Object> getNotNullPropertyMap() {
@@ -152,6 +177,9 @@ public class UserWorkItemEntity implements WorkflowEntity {
 
         if (getItemAssigneeEntity() != null) {
             map.put("itemAssigneeEntity", getItemAssigneeEntity());
+        }
+        if (getItemFinish() != null) {
+            map.put("itemFinish", getItemFinish());
         }
         System.out.println("Query Condition: " + map);
         map.remove("currentObject");

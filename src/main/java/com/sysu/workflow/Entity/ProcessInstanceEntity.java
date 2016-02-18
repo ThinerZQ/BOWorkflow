@@ -3,7 +3,9 @@ package com.sysu.workflow.entity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA
@@ -25,46 +27,28 @@ public class ProcessInstanceEntity implements WorkflowEntity {
     @GenericGenerator(name = "generator", strategy = "identity")
     private long id;
     @Basic
-    private String processinstanceId;
+    private String processInstanceId;
     @Basic
-    private String processinstanceName;
+    private String processInstanceName;
     @Basic
-    private String processinstanceCreateTime;
+    private String processInstanceCreateTime;
     @Basic
-    private String processinstanceCurrentState;
+    private String processInstanceCurrentState;
 
+
+    @OneToMany(mappedBy = "itemProcessInstanceEntity",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    private Set<UserWorkItemEntity>  processInstanceUserWorkItemEntitySet;
+
+    @OneToMany(mappedBy = "itemProcessInstanceEntity",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    private Set<GroupWorkItemEntity>  processInstanceGroupWorkItemEntitySet;
 
     public ProcessInstanceEntity(String processinstanceId, String processinstanceName, String processinstanceCreateTime) {
-        this.processinstanceId = processinstanceId;
-        this.processinstanceName = processinstanceName;
-        this.processinstanceCreateTime = processinstanceCreateTime;
+        this.processInstanceId = processinstanceId;
+        this.processInstanceName = processinstanceName;
+        this.processInstanceCreateTime = processinstanceCreateTime;
     }
 
     public ProcessInstanceEntity() {
-    }
-
-    public String getProcessinstanceName() {
-        return processinstanceName;
-    }
-
-    public void setProcessinstanceName(String processinstanceName) {
-        this.processinstanceName = processinstanceName;
-    }
-
-    public String getProcessinstanceCreateTime() {
-        return processinstanceCreateTime;
-    }
-
-    public void setProcessinstanceCreateTime(String processinstanceCreateTime) {
-        this.processinstanceCreateTime = processinstanceCreateTime;
-    }
-
-    public String getProcessinstanceCurrentState() {
-        return processinstanceCurrentState;
-    }
-
-    public void setProcessinstanceCurrentState(String processinstanceCurrentState) {
-        this.processinstanceCurrentState = processinstanceCurrentState;
     }
 
     public long getId() {
@@ -75,15 +59,75 @@ public class ProcessInstanceEntity implements WorkflowEntity {
         this.id = id;
     }
 
-    public String getProcessinstanceId() {
-        return processinstanceId;
+    public String getProcessInstanceId() {
+        return processInstanceId;
     }
 
-    public void setProcessinstanceId(String processinstanceId) {
-        this.processinstanceId = processinstanceId;
+    public void setProcessInstanceId(String processInstanceId) {
+        this.processInstanceId = processInstanceId;
+    }
+
+    public String getProcessInstanceName() {
+        return processInstanceName;
+    }
+
+    public void setProcessInstanceName(String processInstanceName) {
+        this.processInstanceName = processInstanceName;
+    }
+
+    public String getProcessInstanceCreateTime() {
+        return processInstanceCreateTime;
+    }
+
+    public void setProcessInstanceCreateTime(String processInstanceCreateTime) {
+        this.processInstanceCreateTime = processInstanceCreateTime;
+    }
+
+    public String getProcessInstanceCurrentState() {
+        return processInstanceCurrentState;
+    }
+
+    public void setProcessInstanceCurrentState(String processInstanceCurrentState) {
+        this.processInstanceCurrentState = processInstanceCurrentState;
+    }
+
+    public Set<UserWorkItemEntity> getProcessInstanceUserWorkItemEntitySet() {
+        return processInstanceUserWorkItemEntitySet;
+    }
+
+    public void setProcessInstanceUserWorkItemEntitySet(Set<UserWorkItemEntity> processInstanceUserWorkItemEntitySet) {
+        this.processInstanceUserWorkItemEntitySet = processInstanceUserWorkItemEntitySet;
+    }
+
+    public Set<GroupWorkItemEntity> getProcessInstanceGroupWorkItemEntitySet() {
+        return processInstanceGroupWorkItemEntitySet;
+    }
+
+    public void setProcessInstanceGroupWorkItemEntitySet(Set<GroupWorkItemEntity> processInstanceGroupWorkItemEntitySet) {
+        this.processInstanceGroupWorkItemEntitySet = processInstanceGroupWorkItemEntitySet;
     }
 
     public Map<String, Object> getNotNullPropertyMap() {
-        return null;
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("currentObject", this.getClass().getName());
+        if (getId() != 0) {
+            map.put("id", getId());
+        }
+        if (getProcessInstanceId() != null) {
+            map.put("processInstanceId", getProcessInstanceId());
+        }
+        if (getProcessInstanceCreateTime() != null) {
+            map.put("processInstanceCreateTime", getProcessInstanceCreateTime());
+        }
+        if (getProcessInstanceName() != null) {
+            map.put("processInstanceName", getProcessInstanceName());
+        }
+        if (getProcessInstanceCurrentState() != null) {
+            map.put("processInstanceCurrentState", getProcessInstanceCurrentState());
+        }
+
+        System.out.println("Query Condition: " + map);
+        map.remove("currentObject");
+        return map;
     }
 }

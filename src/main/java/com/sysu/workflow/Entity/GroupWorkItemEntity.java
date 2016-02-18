@@ -49,6 +49,11 @@ public class GroupWorkItemEntity implements WorkflowEntity {
     @JoinColumn(name = "formEntity")
     private FormEntity itemFormEntity;
 
+    @ManyToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "processInstanceEntity")
+    private ProcessInstanceEntity itemProcessInstanceEntity;
+
+
 
     public long getItemId() {
         return itemId;
@@ -108,8 +113,9 @@ public class GroupWorkItemEntity implements WorkflowEntity {
         return itemInstances;
     }
 
-    public void setItemInstances(int itemInstances) {
+    public GroupWorkItemEntity setItemInstances(int itemInstances) {
         this.itemInstances = itemInstances;
+        return this;
     }
 
     public GroupEntity getItemCandidateGroupEntity() {
@@ -133,10 +139,18 @@ public class GroupWorkItemEntity implements WorkflowEntity {
         return itemFormEntity;
     }
 
-    public void setItemFormEntity(FormEntity itemFormEntity) {
+    public GroupWorkItemEntity setItemFormEntity(FormEntity itemFormEntity) {
         this.itemFormEntity = itemFormEntity;
+        return this;
     }
 
+    public ProcessInstanceEntity getItemProcessInstanceEntity() {
+        return itemProcessInstanceEntity;
+    }
+
+    public void setItemProcessInstanceEntity(ProcessInstanceEntity itemProcessInstanceEntity) {
+        this.itemProcessInstanceEntity = itemProcessInstanceEntity;
+    }
 
     public Map<String, Object> getNotNullPropertyMap() {
 

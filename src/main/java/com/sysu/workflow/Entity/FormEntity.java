@@ -33,7 +33,6 @@ public class FormEntity implements WorkflowEntity {
 
 
     @OneToOne(cascade = {CascadeType.ALL},mappedBy = "itemFormEntity")
-
     private UserWorkItemEntity userWorkItemEntity;
 
     @OneToOne(cascade = {CascadeType.ALL},mappedBy = "itemFormEntity")
