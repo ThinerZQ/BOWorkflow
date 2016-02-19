@@ -28,9 +28,9 @@ public class TestProcessInstanceService {
     @Test
     public void testGetAllProcessInstance() {
 
-        ArrayList<ProcessInstanceEntity> processInstanceEntities = RuntimeService.createProcessInstanceQuery().getAllProcessInstance();
+   /*     ArrayList<ProcessInstanceEntity> processInstanceEntities = RuntimeService.createProcessInstanceQuery().getAllProcessInstance();
         System.out.println(processInstanceEntities.size());
-
+*/
     }
     @Test
     public void findGroupTaskByUser(){

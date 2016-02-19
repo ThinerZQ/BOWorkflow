@@ -2143,8 +2143,7 @@ public final class SCXMLReader {
         } else {
             executable.addAction(userTask);
         }
-        //skipToEndElement(reader);
-
+        skipToEndElement(reader);
     }
 
     /**

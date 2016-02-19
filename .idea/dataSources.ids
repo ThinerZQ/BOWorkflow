@@ -7,11 +7,37 @@
     </database-info>
     <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
     <schema name="" catalog="crowdsourcing"/>
+    <schema name="" catalog="dbflow"/>
+    <schema name="" catalog="dbworkflow"/>
     <schema name="" catalog="helloword"/>
     <schema name="" catalog="information_schema"/>
+    <schema name="" catalog="kdd2015"/>
     <schema name="" catalog="mysql"/>
+    <schema name="" catalog="myweb"/>
     <schema name="" catalog="performance_schema"/>
     <schema name="" catalog="test"/>
+    <table name="t_crowdsourcingtask" schema="" catalog="crowdsourcing" type="TABLE">
+      <column name="taskId" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="taskCompleteTime" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="taskDeadlineTime" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="taskDecomposeCount" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="taskDecomposeVoteCount" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="taskDescription" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="taskJudgeCount" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="taskName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="taskPrice" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="taskReleaseTime" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="taskSolveCount" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="taskSolveVoteCount" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="taskType" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="processInstanceId" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="user_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <primary-key name="PRIMARY" columns="taskId"/>
+      <foreign-key name="FK_1pv9kcwlqnf86ljckhib16qgi" columns="user_id" ref-table="t_user" ref-schema="" ref-catalog="crowdsourcing" ref-columns="userId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_ml73ttaywl26qucldtps9kscg" columns="processInstanceId" ref-table="t_processinstance" ref-schema="" ref-catalog="crowdsourcing" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FK_1pv9kcwlqnf86ljckhib16qgi" unique="false" columns="user_id"/>
+      <index name="FK_ml73ttaywl26qucldtps9kscg" unique="false" columns="processInstanceId"/>
+    </table>
     <table name="t_form" schema="" catalog="crowdsourcing" type="TABLE">
       <column name="formId" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
       <column name="formName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
@@ -26,8 +52,8 @@
       <column name="t_form_formId" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
       <column name="formItemEntityLinkedHashSet_formId" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
       <primary-key name="PRIMARY" columns="t_form_formId,formItemEntityLinkedHashSet_formId"/>
-      <foreign-key name="FK_egwjbum18tq5wjh2fxltvblrv" columns="t_form_formId" ref-table="t_form" ref-schema="" ref-catalog="crowdsourcing" ref-columns="formId" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="FK_ddoms57odurwx5f2vtpk2rdya" columns="formItemEntityLinkedHashSet_formId" ref-table="t_formitem" ref-schema="" ref-catalog="crowdsourcing" ref-columns="formId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_egwjbum18tq5wjh2fxltvblrv" columns="t_form_formId" ref-table="t_form" ref-schema="" ref-catalog="crowdsourcing" ref-columns="formId" update-rule="3" delete-rule="3" deferrability="2"/>
       <index name="UK_ddoms57odurwx5f2vtpk2rdya" unique="true" columns="formItemEntityLinkedHashSet_formId"/>
     </table>
     <table name="t_formitem" schema="" catalog="crowdsourcing" type="TABLE">
@@ -61,13 +87,22 @@
       <column name="formEntity" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
       <column name="processInstanceEntity" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
       <primary-key name="PRIMARY" columns="itemId"/>
-      <foreign-key name="FK_jablvwkoxih7jwc5s1ompgl5u" columns="processInstanceEntity" ref-table="t_processinstance" ref-schema="" ref-catalog="crowdsourcing" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="FK_f74y0pmwnfky9ba1n8mfqubg0" columns="formEntity" ref-table="t_form" ref-schema="" ref-catalog="crowdsourcing" ref-columns="formId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_jablvwkoxih7jwc5s1ompgl5u" columns="processInstanceEntity" ref-table="t_processinstance" ref-schema="" ref-catalog="crowdsourcing" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="FK_q3ehpgsy6v3wyek0bt3vmg93e" columns="groupEntity" ref-table="t_group" ref-schema="" ref-catalog="crowdsourcing" ref-columns="groupId" update-rule="3" delete-rule="3" deferrability="2"/>
       <exported-key name="FK_f40hve5p82fq0v07xdf9f6stp" table="t_userworkitem" schema="" catalog="crowdsourcing" columns="groupWorkItemEntity"/>
       <index name="FK_f74y0pmwnfky9ba1n8mfqubg0" unique="false" columns="formEntity"/>
       <index name="FK_jablvwkoxih7jwc5s1ompgl5u" unique="false" columns="processInstanceEntity"/>
       <index name="FK_q3ehpgsy6v3wyek0bt3vmg93e" unique="false" columns="groupEntity"/>
+    </table>
+    <table name="t_judgetask" schema="" catalog="crowdsourcing" type="TABLE">
+      <column name="taskId" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="property" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="taskCompleteTime" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="userworkitem_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <primary-key name="PRIMARY" columns="taskId"/>
+      <foreign-key name="FK_pe5y1aatbgghhw5d5ljquswxw" columns="userworkitem_id" ref-table="t_userworkitem" ref-schema="" ref-catalog="crowdsourcing" ref-columns="itemId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FK_pe5y1aatbgghhw5d5ljquswxw" unique="false" columns="userworkitem_id"/>
     </table>
     <table name="t_processinstance" schema="" catalog="crowdsourcing" type="TABLE">
       <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
@@ -76,6 +111,7 @@
       <column name="processInstanceId" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="processInstanceName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="FK_ml73ttaywl26qucldtps9kscg" table="t_crowdsourcingtask" schema="" catalog="crowdsourcing" columns="processInstanceId"/>
       <exported-key name="FK_jablvwkoxih7jwc5s1ompgl5u" table="t_groupworkitem" schema="" catalog="crowdsourcing" columns="processInstanceEntity"/>
       <exported-key name="FK_bdbioi0oovfp48l7mp1vfd7d1" table="t_userworkitem" schema="" catalog="crowdsourcing" columns="processInstanceEntity"/>
     </table>
@@ -91,6 +127,7 @@
       <column name="userRegisterDate" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
       <column name="userStatus" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <primary-key name="PRIMARY" columns="userId"/>
+      <exported-key name="FK_1pv9kcwlqnf86ljckhib16qgi" table="t_crowdsourcingtask" schema="" catalog="crowdsourcing" columns="user_id"/>
       <exported-key name="FK_dpi24dcojf8liy7xfx0ta8u90" table="t_user_group" schema="" catalog="crowdsourcing" columns="userEntity"/>
       <exported-key name="FK_71vddw8ljc00cmrhn287dc9de" table="t_user_t_group" schema="" catalog="crowdsourcing" columns="t_user_userId"/>
       <exported-key name="FK_3fly0xvvndw6pbmfxe09nn6bb" table="t_userworkitem" schema="" catalog="crowdsourcing" columns="itemAssignee"/>
@@ -99,8 +136,8 @@
       <column name="groupEntity" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
       <column name="userEntity" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
       <primary-key name="PRIMARY" columns="groupEntity,userEntity"/>
-      <foreign-key name="FK_fm3545xq7ba6d3r0sg81aoek1" columns="groupEntity" ref-table="t_group" ref-schema="" ref-catalog="crowdsourcing" ref-columns="groupId" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="FK_dpi24dcojf8liy7xfx0ta8u90" columns="userEntity" ref-table="t_user" ref-schema="" ref-catalog="crowdsourcing" ref-columns="userId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_fm3545xq7ba6d3r0sg81aoek1" columns="groupEntity" ref-table="t_group" ref-schema="" ref-catalog="crowdsourcing" ref-columns="groupId" update-rule="3" delete-rule="3" deferrability="2"/>
       <index name="FK_dpi24dcojf8liy7xfx0ta8u90" unique="false" columns="userEntity"/>
     </table>
     <table name="t_user_t_group" schema="" catalog="crowdsourcing" type="TABLE">
@@ -124,14 +161,46 @@
       <column name="groupWorkItemEntity" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
       <column name="processInstanceEntity" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
       <primary-key name="PRIMARY" columns="itemId"/>
-      <foreign-key name="FK_bdbioi0oovfp48l7mp1vfd7d1" columns="processInstanceEntity" ref-table="t_processinstance" ref-schema="" ref-catalog="crowdsourcing" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="FK_3fly0xvvndw6pbmfxe09nn6bb" columns="itemAssignee" ref-table="t_user" ref-schema="" ref-catalog="crowdsourcing" ref-columns="userId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_bdbioi0oovfp48l7mp1vfd7d1" columns="processInstanceEntity" ref-table="t_processinstance" ref-schema="" ref-catalog="crowdsourcing" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="FK_f40hve5p82fq0v07xdf9f6stp" columns="groupWorkItemEntity" ref-table="t_groupworkitem" ref-schema="" ref-catalog="crowdsourcing" ref-columns="itemId" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="FK_lcioq853iir0avq4dyr26ptjj" columns="formEntity" ref-table="t_form" ref-schema="" ref-catalog="crowdsourcing" ref-columns="formId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="FK_pe5y1aatbgghhw5d5ljquswxw" table="t_judgetask" schema="" catalog="crowdsourcing" columns="userworkitem_id"/>
       <index name="FK_3fly0xvvndw6pbmfxe09nn6bb" unique="false" columns="itemAssignee"/>
       <index name="FK_bdbioi0oovfp48l7mp1vfd7d1" unique="false" columns="processInstanceEntity"/>
       <index name="FK_f40hve5p82fq0v07xdf9f6stp" unique="false" columns="groupWorkItemEntity"/>
       <index name="FK_lcioq853iir0avq4dyr26ptjj" unique="false" columns="formEntity"/>
+    </table>
+    <table name="user" schema="" catalog="dbflow" type="TABLE">
+      <column name="ID" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="NAME" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="password" sqlType="VARCHAR" precision="20" scale="0" nullable="true" jdbcType="12"/>
+      <column name="email" sqlType="VARCHAR" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="user" schema="" catalog="dbworkflow" type="TABLE">
+      <column name="userId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="userName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="userRealName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="userPassword" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="userAge" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="userGender" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="userEmail" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="userId"/>
+      <exported-key name="FK_workitem" table="workitem" schema="" catalog="dbworkflow" columns="itemAssigineeId"/>
+    </table>
+    <table name="workitem" schema="" catalog="dbworkflow" type="TABLE">
+      <column name="itemId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="itemName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="itemCreateTime" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="itemDuetime" sqlType="VARCHAR" precision="20" scale="0" nullable="true" jdbcType="12"/>
+      <column name="itemAssigineeId" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="itemAssigneeName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="itemProcessId" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="itemStateId" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="itemId"/>
+      <foreign-key name="FK_workitem" columns="itemAssigineeId" ref-table="user" ref-schema="" ref-catalog="dbworkflow" ref-columns="userId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FK_workitem" unique="false" columns="itemAssigineeId"/>
     </table>
     <table name="address" schema="" catalog="helloword" type="TABLE">
       <column name="id" sqlType="BIGINT UNSIGNED" precision="20" scale="0" nullable="false" jdbcType="-5" remarks="5Zyw5Z2A6KGo55qE5ZSv5LiA5qCH6K+G56ym" autoIncrement="true"/>
@@ -262,7 +331,6 @@
       <exported-key name="FK_items_id" table="order_items" schema="" catalog="helloword" columns="item_id"/>
       <index name="FK_auctionitems" unique="false" columns="auction_saleitmes"/>
       <index name="FK_onsaleitems" unique="false" columns="onsale_saleitems"/>
-      <index name="FK_saleitems_ca" unique="false" columns="categories_id"/>
     </table>
     <table name="suppliers" schema="" catalog="helloword" type="TABLE">
       <column name="id" sqlType="BIGINT UNSIGNED" precision="20" scale="0" nullable="false" jdbcType="-5" remarks="5YWs5Y+455qE5ZSv5LiA5qCH56S656ym" autoIncrement="true"/>
@@ -798,6 +866,24 @@
       <column name="CHARACTER_SET_CLIENT" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
       <column name="COLLATION_CONNECTION" sqlType="VARCHAR" precision="32" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
     </table>
+    <table name="enrollment_train" schema="" catalog="kdd2015" type="TABLE">
+      <column name="enrollment_id" sqlType="VARCHAR" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="username" sqlType="VARCHAR" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="course_id" sqlType="VARCHAR" precision="50" scale="0" nullable="true" jdbcType="12"/>
+    </table>
+    <table name="log_train" schema="" catalog="kdd2015" type="TABLE">
+      <column name="enrollment_id" sqlType="VARCHAR" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="username" sqlType="VARCHAR" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="course_id" sqlType="VARCHAR" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="time" sqlType="VARCHAR" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="source" sqlType="VARCHAR" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="event" sqlType="VARCHAR" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="object" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+    </table>
+    <table name="truth_train" schema="" catalog="kdd2015" type="TABLE">
+      <column name="enrollment_id" sqlType="VARCHAR" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="continue_study" sqlType="VARCHAR" precision="50" scale="0" nullable="true" jdbcType="12"/>
+    </table>
     <table name="columns_priv" schema="" catalog="mysql" type="SYSTEM TABLE">
       <column name="Host" sqlType="CHAR" precision="60" scale="0" nullable="false" jdbcType="1" def="Jyc="/>
       <column name="Db" sqlType="CHAR" precision="64" scale="0" nullable="false" jdbcType="1" def="Jyc="/>
@@ -1098,6 +1184,17 @@
       <column name="authentication_string" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
       <primary-key name="PRIMARY" columns="Host,User"/>
     </table>
+    <table name="user_register_table" schema="" catalog="myweb" type="TABLE">
+      <column name="id" sqlType="BIGINT UNSIGNED" precision="20" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="username" sqlType="VARCHAR" precision="20" scale="0" nullable="true" jdbcType="12" def="J051bGwn"/>
+      <column name="email" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="password" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="activatecode" sqlType="VARCHAR" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="status" sqlType="CHAR" precision="1" scale="0" nullable="true" jdbcType="1"/>
+      <column name="registerdate" sqlType="TIMESTAMP" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <index name="email" unique="true" columns="email"/>
+    </table>
     <table name="cond_instances" schema="" catalog="performance_schema" type="SYSTEM TABLE">
       <column name="NAME" sqlType="VARCHAR" precision="128" scale="0" nullable="false" jdbcType="12"/>
       <column name="OBJECT_INSTANCE_BEGIN" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
@@ -1236,17 +1333,6 @@
       <column name="THREAD_ID" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="PROCESSLIST_ID" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <column name="NAME" sqlType="VARCHAR" precision="128" scale="0" nullable="false" jdbcType="12"/>
-    </table>
-    <table name="customer" schema="" catalog="test" type="TABLE">
-      <column name="customerID" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
-      <column name="major" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="PRIMARY" columns="customerID"/>
-    </table>
-    <table name="loan" schema="" catalog="test" type="TABLE">
-      <column name="loanID" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
-      <column name="customerID" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
-      <column name="checkedout" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
-      <primary-key name="PRIMARY" columns="loanID"/>
     </table>
   </data-source>
 </component>
