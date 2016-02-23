@@ -118,6 +118,8 @@
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/system/EventVariable.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/test/StandaloneJexlExpressions.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/test/StandaloneUtils.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/foreach.xml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/script.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources/scxml-initial-attr.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/test/java/com/sysu/workflow/SCXMLTestHelper.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/test/java/com/sysu/workflow/io/SCXMLReaderTest.java" charset="UTF-8" />

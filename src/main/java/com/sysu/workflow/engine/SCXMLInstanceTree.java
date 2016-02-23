@@ -35,6 +35,7 @@ public class SCXMLInstanceTree {
 
             if (node.getLeftChild()==null){
                 node.setLeftChild(newNode);
+
             }else{
                 TreeNode brotherNode = node.getLeftChild().getRightBrother();
                 TreeNode last = node.getLeftChild();
@@ -44,6 +45,8 @@ public class SCXMLInstanceTree {
                 }
                 last.setRightBrother(newNode);
             }
+            //set up parent node
+            newNode.setParent(node);
         }
     }
 
@@ -230,13 +233,9 @@ public class SCXMLInstanceTree {
         return getOffSpringTreeNodeByTargetName(currentTreeNode,null);
     }
 
-    public ArrayList<TreeNode> getParentTreeNode(TreeNode currentTreeNode) {
-        ArrayList<TreeNode> treeNodeArrayList = new ArrayList<TreeNode>();
+    public TreeNode getParentTreeNode(TreeNode currentTreeNode) {
 
-
-        //根据当前节点查找祖先
-        // TODO:
-        return treeNodeArrayList;
+        return currentTreeNode.getParent();
     }
 
     /**

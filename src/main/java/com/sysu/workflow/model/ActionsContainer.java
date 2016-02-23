@@ -19,6 +19,11 @@ public interface ActionsContainer {
     String ELEM_FOREACH = "foreach";
 
     /**
+     * the substateMachine actionContainer element name
+     */
+    String ELEM_SUBSTATEMACHINE = "subStateMachine";
+
+    /**
      * Get the Document element type for this &lt;container&gt;.
      *
      * @return Returns the element type

@@ -2215,18 +2215,52 @@ public final class SCXMLReader {
      * @param executable
      * @param parent
      */
-    private static void readSubStateMachine(XMLStreamReader reader, Configuration configuration, Executable executable, ActionsContainer parent) throws XMLStreamException {
+    private static void readSubStateMachine(XMLStreamReader reader, Configuration configuration, Executable executable, ActionsContainer parent) throws XMLStreamException, ModelException {
 
         SubStateMachine subStateMachine = new SubStateMachine();
         subStateMachine.setSrc(readAV(reader, ATTR_SRC));
         subStateMachine.setInstances(Integer.parseInt(readAV(reader, ATTR_INSTANCES)));
 
+        subStateMachine.setPathResolver(configuration.pathResolver);
+
+        if (subStateMachine.getSrc() == null){
+            return;
+        }else{
+            loop:
+            while (reader.hasNext()) {
+                String name, nsURI;
+                switch (reader.next()) {
+                    case XMLStreamConstants.START_ELEMENT:
+                        pushNamespaces(reader, configuration);
+                        nsURI = reader.getNamespaceURI();
+                        name = reader.getLocalName();
+                        if (XMLNS_SCXML.equals(nsURI)) {
+                            if (ELEM_PARAM.equals(name)) {
+                                readParam(reader, configuration, subStateMachine);
+                            } else {
+                                reportIgnoredElement(reader, configuration, ELEM_SUBSTATEMACHINE, nsURI, name);
+                            }
+                        } else {
+                            reportIgnoredElement(reader, configuration, ELEM_SUBSTATEMACHINE, nsURI, name);
+                        }
+                        break;
+                    case XMLStreamConstants.END_ELEMENT:
+                        popNamespaces(reader, configuration);
+                        break loop;
+                    default:
+                }
+            }
+        }
+
+
+        readNamespaces(configuration, subStateMachine);
+        subStateMachine.setParent(executable);
         if (parent != null) {
             parent.addAction(subStateMachine);
         } else {
             executable.addAction(subStateMachine);
         }
-        skipToEndElement(reader);
+        //skipToEndElement(reader);
     }
 
     /**

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<scxml xmlns="http://www.w3.org/2005/07/scxml" version="1.0" datamodel="jexl" initial="test">
+
+  <state id="test">
+    <onentry>
+
+        <!--  wrong expression -->
+          <script>
+              CrowdSourcingTaskEntity tempCrowdSourcingTask = new CrowdSourcingTaskEntity();
+          </script>
+    </onentry>
+    <transition target="finished"/>
+  </state>
+  <final id="finished"/>
+</scxml>

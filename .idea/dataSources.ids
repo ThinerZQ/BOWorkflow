@@ -38,6 +38,39 @@
       <index name="FK_1pv9kcwlqnf86ljckhib16qgi" unique="false" columns="user_id"/>
       <index name="FK_ml73ttaywl26qucldtps9kscg" unique="false" columns="processInstanceId"/>
     </table>
+    <table name="t_decomposetask" schema="" catalog="crowdsourcing" type="TABLE">
+      <column name="taskId" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="taskCompleteTime" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="taskDescription" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="taskName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="taskOrder" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="decomposeVoteTask_taskId" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="userworkitem_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <primary-key name="PRIMARY" columns="taskId"/>
+      <foreign-key name="FK_mngmfxr00qyunaww1c8dmmp8x" columns="userworkitem_id" ref-table="t_userworkitem" ref-schema="" ref-catalog="crowdsourcing" ref-columns="itemId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_4xsro0xvo4qk8yqe91s4c6ask" columns="decomposeVoteTask_taskId" ref-table="t_decomposevotetask" ref-schema="" ref-catalog="crowdsourcing" ref-columns="taskId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="FK_nlg2m3uv7f4hjs4aaj1gnf5k9" table="t_decomposevotetask_t_decomposetask" schema="" catalog="crowdsourcing" columns="decomposeTaskSet_taskId"/>
+      <index name="FK_4xsro0xvo4qk8yqe91s4c6ask" unique="false" columns="decomposeVoteTask_taskId"/>
+      <index name="FK_mngmfxr00qyunaww1c8dmmp8x" unique="false" columns="userworkitem_id"/>
+    </table>
+    <table name="t_decomposevotetask" schema="" catalog="crowdsourcing" type="TABLE">
+      <column name="taskId" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="taskCompleteTime" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="userworkitem_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <primary-key name="PRIMARY" columns="taskId"/>
+      <foreign-key name="FK_6mahh1vgbigq6dflo704dow4j" columns="userworkitem_id" ref-table="t_userworkitem" ref-schema="" ref-catalog="crowdsourcing" ref-columns="itemId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="FK_4xsro0xvo4qk8yqe91s4c6ask" table="t_decomposetask" schema="" catalog="crowdsourcing" columns="decomposeVoteTask_taskId"/>
+      <exported-key name="FK_eiu4yj78bfigr3l6fem56t2pw" table="t_decomposevotetask_t_decomposetask" schema="" catalog="crowdsourcing" columns="t_decomposevotetask_taskId"/>
+      <index name="FK_6mahh1vgbigq6dflo704dow4j" unique="false" columns="userworkitem_id"/>
+    </table>
+    <table name="t_decomposevotetask_t_decomposetask" schema="" catalog="crowdsourcing" type="TABLE">
+      <column name="t_decomposevotetask_taskId" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="decomposeTaskSet_taskId" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <primary-key name="PRIMARY" columns="t_decomposevotetask_taskId,decomposeTaskSet_taskId"/>
+      <foreign-key name="FK_eiu4yj78bfigr3l6fem56t2pw" columns="t_decomposevotetask_taskId" ref-table="t_decomposevotetask" ref-schema="" ref-catalog="crowdsourcing" ref-columns="taskId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_nlg2m3uv7f4hjs4aaj1gnf5k9" columns="decomposeTaskSet_taskId" ref-table="t_decomposetask" ref-schema="" ref-catalog="crowdsourcing" ref-columns="taskId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="UK_nlg2m3uv7f4hjs4aaj1gnf5k9" unique="true" columns="decomposeTaskSet_taskId"/>
+    </table>
     <table name="t_form" schema="" catalog="crowdsourcing" type="TABLE">
       <column name="formId" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
       <column name="formName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
@@ -52,8 +85,8 @@
       <column name="t_form_formId" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
       <column name="formItemEntityLinkedHashSet_formId" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
       <primary-key name="PRIMARY" columns="t_form_formId,formItemEntityLinkedHashSet_formId"/>
-      <foreign-key name="FK_ddoms57odurwx5f2vtpk2rdya" columns="formItemEntityLinkedHashSet_formId" ref-table="t_formitem" ref-schema="" ref-catalog="crowdsourcing" ref-columns="formId" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="FK_egwjbum18tq5wjh2fxltvblrv" columns="t_form_formId" ref-table="t_form" ref-schema="" ref-catalog="crowdsourcing" ref-columns="formId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_ddoms57odurwx5f2vtpk2rdya" columns="formItemEntityLinkedHashSet_formId" ref-table="t_formitem" ref-schema="" ref-catalog="crowdsourcing" ref-columns="formId" update-rule="3" delete-rule="3" deferrability="2"/>
       <index name="UK_ddoms57odurwx5f2vtpk2rdya" unique="true" columns="formItemEntityLinkedHashSet_formId"/>
     </table>
     <table name="t_formitem" schema="" catalog="crowdsourcing" type="TABLE">
@@ -87,8 +120,8 @@
       <column name="formEntity" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
       <column name="processInstanceEntity" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
       <primary-key name="PRIMARY" columns="itemId"/>
-      <foreign-key name="FK_f74y0pmwnfky9ba1n8mfqubg0" columns="formEntity" ref-table="t_form" ref-schema="" ref-catalog="crowdsourcing" ref-columns="formId" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="FK_jablvwkoxih7jwc5s1ompgl5u" columns="processInstanceEntity" ref-table="t_processinstance" ref-schema="" ref-catalog="crowdsourcing" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_f74y0pmwnfky9ba1n8mfqubg0" columns="formEntity" ref-table="t_form" ref-schema="" ref-catalog="crowdsourcing" ref-columns="formId" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="FK_q3ehpgsy6v3wyek0bt3vmg93e" columns="groupEntity" ref-table="t_group" ref-schema="" ref-catalog="crowdsourcing" ref-columns="groupId" update-rule="3" delete-rule="3" deferrability="2"/>
       <exported-key name="FK_f40hve5p82fq0v07xdf9f6stp" table="t_userworkitem" schema="" catalog="crowdsourcing" columns="groupWorkItemEntity"/>
       <index name="FK_f74y0pmwnfky9ba1n8mfqubg0" unique="false" columns="formEntity"/>
@@ -115,6 +148,31 @@
       <exported-key name="FK_jablvwkoxih7jwc5s1ompgl5u" table="t_groupworkitem" schema="" catalog="crowdsourcing" columns="processInstanceEntity"/>
       <exported-key name="FK_bdbioi0oovfp48l7mp1vfd7d1" table="t_userworkitem" schema="" catalog="crowdsourcing" columns="processInstanceEntity"/>
     </table>
+    <table name="t_solvetask" schema="" catalog="crowdsourcing" type="TABLE">
+      <column name="taskId" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="taskCompleteTime" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="taskSolution" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="solvevotetask_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="userworkitem_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <primary-key name="PRIMARY" columns="taskId"/>
+      <foreign-key name="FK_t4492sm15c9yi2t1ps0mfl1r9" columns="userworkitem_id" ref-table="t_userworkitem" ref-schema="" ref-catalog="crowdsourcing" ref-columns="itemId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_a8y8r12hehg1ya4hwlge42h5d" columns="solvevotetask_id" ref-table="t_solvevotetask" ref-schema="" ref-catalog="crowdsourcing" ref-columns="taskId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="FK_79k29dslm1qbh6n4iorb7iihp" table="t_solvevotetask" schema="" catalog="crowdsourcing" columns="solveTask_taskId"/>
+      <index name="FK_a8y8r12hehg1ya4hwlge42h5d" unique="false" columns="solvevotetask_id"/>
+      <index name="FK_t4492sm15c9yi2t1ps0mfl1r9" unique="false" columns="userworkitem_id"/>
+    </table>
+    <table name="t_solvevotetask" schema="" catalog="crowdsourcing" type="TABLE">
+      <column name="taskId" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="taskCompleteTime" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="solveTask_taskId" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="userworkitem_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <primary-key name="PRIMARY" columns="taskId"/>
+      <foreign-key name="FK_2e3hb6w8vbcm5cjgf1cmxqm32" columns="userworkitem_id" ref-table="t_userworkitem" ref-schema="" ref-catalog="crowdsourcing" ref-columns="itemId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_79k29dslm1qbh6n4iorb7iihp" columns="solveTask_taskId" ref-table="t_solvetask" ref-schema="" ref-catalog="crowdsourcing" ref-columns="taskId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="FK_a8y8r12hehg1ya4hwlge42h5d" table="t_solvetask" schema="" catalog="crowdsourcing" columns="solvevotetask_id"/>
+      <index name="FK_2e3hb6w8vbcm5cjgf1cmxqm32" unique="false" columns="userworkitem_id"/>
+      <index name="FK_79k29dslm1qbh6n4iorb7iihp" unique="false" columns="solveTask_taskId"/>
+    </table>
     <table name="t_user" schema="" catalog="crowdsourcing" type="TABLE">
       <column name="userId" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
       <column name="userActivateCode" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
@@ -136,8 +194,8 @@
       <column name="groupEntity" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
       <column name="userEntity" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
       <primary-key name="PRIMARY" columns="groupEntity,userEntity"/>
-      <foreign-key name="FK_dpi24dcojf8liy7xfx0ta8u90" columns="userEntity" ref-table="t_user" ref-schema="" ref-catalog="crowdsourcing" ref-columns="userId" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="FK_fm3545xq7ba6d3r0sg81aoek1" columns="groupEntity" ref-table="t_group" ref-schema="" ref-catalog="crowdsourcing" ref-columns="groupId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_dpi24dcojf8liy7xfx0ta8u90" columns="userEntity" ref-table="t_user" ref-schema="" ref-catalog="crowdsourcing" ref-columns="userId" update-rule="3" delete-rule="3" deferrability="2"/>
       <index name="FK_dpi24dcojf8liy7xfx0ta8u90" unique="false" columns="userEntity"/>
     </table>
     <table name="t_user_t_group" schema="" catalog="crowdsourcing" type="TABLE">
@@ -161,11 +219,15 @@
       <column name="groupWorkItemEntity" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
       <column name="processInstanceEntity" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
       <primary-key name="PRIMARY" columns="itemId"/>
-      <foreign-key name="FK_3fly0xvvndw6pbmfxe09nn6bb" columns="itemAssignee" ref-table="t_user" ref-schema="" ref-catalog="crowdsourcing" ref-columns="userId" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="FK_bdbioi0oovfp48l7mp1vfd7d1" columns="processInstanceEntity" ref-table="t_processinstance" ref-schema="" ref-catalog="crowdsourcing" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_3fly0xvvndw6pbmfxe09nn6bb" columns="itemAssignee" ref-table="t_user" ref-schema="" ref-catalog="crowdsourcing" ref-columns="userId" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="FK_f40hve5p82fq0v07xdf9f6stp" columns="groupWorkItemEntity" ref-table="t_groupworkitem" ref-schema="" ref-catalog="crowdsourcing" ref-columns="itemId" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="FK_lcioq853iir0avq4dyr26ptjj" columns="formEntity" ref-table="t_form" ref-schema="" ref-catalog="crowdsourcing" ref-columns="formId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="FK_mngmfxr00qyunaww1c8dmmp8x" table="t_decomposetask" schema="" catalog="crowdsourcing" columns="userworkitem_id"/>
+      <exported-key name="FK_6mahh1vgbigq6dflo704dow4j" table="t_decomposevotetask" schema="" catalog="crowdsourcing" columns="userworkitem_id"/>
       <exported-key name="FK_pe5y1aatbgghhw5d5ljquswxw" table="t_judgetask" schema="" catalog="crowdsourcing" columns="userworkitem_id"/>
+      <exported-key name="FK_t4492sm15c9yi2t1ps0mfl1r9" table="t_solvetask" schema="" catalog="crowdsourcing" columns="userworkitem_id"/>
+      <exported-key name="FK_2e3hb6w8vbcm5cjgf1cmxqm32" table="t_solvevotetask" schema="" catalog="crowdsourcing" columns="userworkitem_id"/>
       <index name="FK_3fly0xvvndw6pbmfxe09nn6bb" unique="false" columns="itemAssignee"/>
       <index name="FK_bdbioi0oovfp48l7mp1vfd7d1" unique="false" columns="processInstanceEntity"/>
       <index name="FK_f40hve5p82fq0v07xdf9f6stp" unique="false" columns="groupWorkItemEntity"/>

@@ -165,12 +165,15 @@ public class MulitStateMachineDispatcher extends SimpleDispatcher implements Ser
                     // TODO:
                     break;
                 case TO_ANCESTOR:
+                    // TODO:
                     sendToAncestor(scxmlInstanceTree, currentSessionId, targetName, targetState, event, data, hints, delay);
                     break;
                 case TO_CHILD:
+                    // TODO:
                     sendToChild(scxmlInstanceTree, currentSessionId, targetName, targetState, event, data, hints, delay);
                     break;
                 case TO_OFFSPRING:
+                    // TODO:
                     sendToOffSpring(scxmlInstanceTree, currentSessionId, targetName, targetState, event, data, hints, delay);
                     break;
                 case TO_PARENT:
@@ -185,8 +188,6 @@ public class MulitStateMachineDispatcher extends SimpleDispatcher implements Ser
                     System.out.println("不支持的消息模式");
                     break;
             }
-
-
         } else {
             //处理不支持的类型的 I/O 处理器
           /*  if (log.isWarnEnabled()) {
@@ -198,13 +199,13 @@ public class MulitStateMachineDispatcher extends SimpleDispatcher implements Ser
     }
 
     private boolean sendToParent(SCXMLInstanceTree scxmlInstanceTree, String currentSessionId, String targetName, String targetState, String event, Object data, Object hints, long delay) {
-        ArrayList<SCXMLInstanceTree.TreeNode> treeNodeArrayList;
+        SCXMLInstanceTree.TreeNode treeNode;
         SCXMLInstanceTree.TreeNode currentTreeNode = scxmlInstanceTree.getNode(currentSessionId);
 
-        treeNodeArrayList = scxmlInstanceTree.getParentTreeNode(currentTreeNode);
+        treeNode = scxmlInstanceTree.getParentTreeNode(currentTreeNode);
 
 
-        sendToTarget(treeNodeArrayList, targetState, event, data);
+        sendToTarget(treeNode, targetState, event, data);
 
         return true;
     }
@@ -309,6 +310,11 @@ public class MulitStateMachineDispatcher extends SimpleDispatcher implements Ser
                 }
             }
         }
+    }
+    private void sendToTarget(SCXMLInstanceTree.TreeNode treeNode, String targetState, String event, Object data) {
+        ArrayList<SCXMLInstanceTree.TreeNode> treeNodeArrayList = new ArrayList<SCXMLInstanceTree.TreeNode>();
+        treeNodeArrayList.add(treeNode);
+        sendToTarget(treeNodeArrayList, targetState, event,data);
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.sysu.workflow;
 
+import com.sysu.workflow.entity.UserWorkItemEntity;
 import com.sysu.workflow.service.taskservice.TaskService;
 import org.junit.Before;
 import org.junit.Test;
@@ -131,6 +132,17 @@ public class TestTaskService {
             }
         }
 */
+    }
+    @Test
+    public void testQueryUserWorkItemEntity(){
+       /* UserWorkItemEntity userWorkItemEntity = null;
+        UserWorkItemEntity votedUserWorkItemEntity = null;
+        userWorkItemEntity = TaskService.createUserTaskQuery().taskId(10).SingleResult();
+        votedUserWorkItemEntity = TaskService.createUserTaskQuery().taskId(8).taskFinish("yes").SingleResult();
+
+        if (userWorkItemEntity == null || votedUserWorkItemEntity == null) {
+            System.out.println("some null");
+        }*/
     }
 
 }
