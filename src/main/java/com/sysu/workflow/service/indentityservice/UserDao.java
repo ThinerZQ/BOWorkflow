@@ -23,7 +23,7 @@ import java.util.List;
 public class UserDao{
 
     /**
-     * �����û�
+     * add User
      * @param userEntity
      * @return
      */

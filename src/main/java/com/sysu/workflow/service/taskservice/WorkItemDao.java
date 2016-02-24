@@ -30,18 +30,6 @@ public class WorkItemDao {
             session =DBUtils.getSessionFactory().getCurrentSession();
             session.beginTransaction();
 
-           /* //½â¾öerror£ºa different object with the same identifier value was already associated with the session
-            workItemEntity.setItemFormEntity((FormEntity) session.merge(workItemEntity.getItemFormEntity()));
-            workItemEntity.setItemGroupWorkItemEntity((GroupWorkItemEntity) session.merge(workItemEntity.getItemGroupWorkItemEntity()));
-            workItemEntity.getItemGroupWorkItemEntity().setItemCandidateGroupEntity((GroupEntity) session.merge(workItemEntity.getItemGroupWorkItemEntity().getItemCandidateGroupEntity()));
-            id = (Long) session.save(workItemEntity);*/
-         /*   if (workItemEntity.getItemFormEntity()!=null){
-                workItemEntity.setItemFormEntity((FormEntity) session.merge(workItemEntity.getItemFormEntity()));
-                workItemEntity.setItemGroupWorkItemEntity((GroupWorkItemEntity) session.merge(workItemEntity.getItemGroupWorkItemEntity()));
-                session.merge(workItemEntity);
-            }else{
-                session.save(workItemEntity);
-            }*/
             session.flush();
             session.merge(workItemEntity);
             session.getTransaction().commit();
@@ -62,11 +50,13 @@ public class WorkItemDao {
             session = DBUtils.getSessionFactory().getCurrentSession();
             session.beginTransaction();
 
-            id = (Long) session.save(groupWorkItemEntity);
+            session.merge(groupWorkItemEntity);
 
             session.getTransaction().commit();
+            id=0;
         } catch (Exception e) {
             e.printStackTrace();
+            id=-1;
         } finally {
             //DBUtils.closeSession(session);
         }
