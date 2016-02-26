@@ -205,20 +205,9 @@ public class SCXMLInstanceTree {
 
 
 
-        return getAllAncestorTreeNodeByTargetName(currentTreeNode,null);
+        return getAllAncestorTreeNodeByTargetName(currentTreeNode, null);
     }
 
-    public ArrayList<TreeNode> getChildTreeNodeByTargetName(TreeNode currentTreeNode, String targetName) {
-        ArrayList<TreeNode> treeNodeArrayList = new ArrayList<TreeNode>();
-
-
-        //根据当前节点查找祖先
-        // TODO:
-        return treeNodeArrayList;
-    }
-    public ArrayList<TreeNode> getChildTreeNode(TreeNode currentTreeNode) {
-        return getChildTreeNodeByTargetName(currentTreeNode,null);
-    }
 
     public ArrayList<TreeNode> getOffSpringTreeNodeByTargetName(TreeNode currentTreeNode, String targetName) {
         ArrayList<TreeNode> treeNodeArrayList = new ArrayList<TreeNode>();
@@ -236,6 +225,57 @@ public class SCXMLInstanceTree {
     public TreeNode getParentTreeNode(TreeNode currentTreeNode) {
 
         return currentTreeNode.getParent();
+    }
+
+
+    /**
+     * 查找孩子节点
+     * @param currentTreeNode
+     * @param targetName
+     * @return
+     */
+
+    public ArrayList<TreeNode> getChildTreeNodeByTargetName(TreeNode currentTreeNode, String targetName) {
+
+        //根据当前节点查找孩子节点
+        TreeNode tempNode = currentTreeNode;
+        ArrayList<TreeNode> nodeList = new ArrayList<TreeNode>();
+        if (tempNode == null || tempNode.getLeftChild() == null){
+            return nodeList;
+        }
+        tempNode = tempNode.getLeftChild();
+        while (tempNode !=null){
+            nodeList.add(tempNode);
+            tempNode = tempNode.getRightBrother();
+        }
+        return nodeList;
+    }
+    public ArrayList<String> getChildTreeNodeSessionIdByTargetName(TreeNode currentTreeNode, String targetName) {
+
+        //根据当前节点查找孩子节点
+        ArrayList<String> childTreeNodeSessionId = new ArrayList<String>();
+        ArrayList<TreeNode> childTreeNode = getChildTreeNodeByTargetName(currentTreeNode,targetName);
+        for (TreeNode treeNode : childTreeNode){
+            childTreeNodeSessionId.add(treeNode.getSessionId());
+        }
+        return childTreeNodeSessionId;
+    }
+    public ArrayList<TreeNode> getChildTreeNode(TreeNode currentTreeNode) {
+        return getChildTreeNodeByTargetName(currentTreeNode, null);
+    }
+    public ArrayList<TreeNode> getChildTreeNode(String currentTreeNodeSessionId) {
+
+        //根据当前节点的ID, 查找孩子节点
+        TreeNode currentTreeNode = getNode(currentTreeNodeSessionId);
+
+        return getChildTreeNodeByTargetName(currentTreeNode, null);
+    }
+    public ArrayList<String> getChildTreeNodeSessionId(String currentTreeNodeSessionId) {
+
+        //根据当前节点的ID, 查找孩子节点
+        TreeNode currentTreeNode = getNode(currentTreeNodeSessionId);
+
+        return getChildTreeNodeSessionIdByTargetName(currentTreeNode, null);
     }
 
     /**

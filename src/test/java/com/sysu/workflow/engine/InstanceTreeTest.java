@@ -24,6 +24,8 @@ public class InstanceTreeTest {
 
         //输出结果“3，2，5，6，7，10，1，8，9，”正确，
         scxmlInstanceTree.depthFirstSearch(scxmlInstanceTree.getRoot());
+        System.out.println();
+        System.out.println(scxmlInstanceTree.getChildTreeNodeSessionId("3"));
 
 
 

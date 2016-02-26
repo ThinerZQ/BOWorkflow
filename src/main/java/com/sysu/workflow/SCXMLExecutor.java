@@ -589,4 +589,10 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
             log.debug(sb.toString());
         }
     }
+    /**
+     * 得到当前状态机的实例树
+     */
+    public SCXMLInstanceTree getSCXMLInstanceTree(){
+        return exctx.getInstanceTree();
+    }
 }
