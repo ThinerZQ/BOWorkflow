@@ -1,4 +1,4 @@
-package com.sysu.workflow;
+package com.sysu.workflow.model;
 
 import com.sysu.workflow.*;
 import com.sysu.workflow.env.MulitStateMachineDispatcher;
@@ -44,6 +44,35 @@ public class TestScript {
 
             rootConext.set("crowdSourcingTaskEntity", cst);
             rootConext.set("CrowdSourcingTaskEntity", CrowdSourcingTaskEntity.class);
+            executor.go();
+
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }*/
+    }
+    @Test
+    public void testScriptReturn(){
+       /* try {
+            URL url = SCXMLTestHelper.getResource("script.xml");
+            SCXML scxml = new SCXMLReader().read(url);
+            //实例化数据模型解析器
+            Evaluator evaluator = new JexlEvaluator();
+
+            //实例化引擎
+            SCXMLExecutor executor = new SCXMLExecutor(evaluator, new MulitStateMachineDispatcher(), new SimpleErrorReporter());
+
+            executor.setStateMachine(scxml);
+
+
+            CrowdSourcingTaskEntity cst = new CrowdSourcingTaskEntity();
+            cst.setTaskName("crowdsourcing taskName");
+            cst.setTaskDescription("crowdsourcing taskDescription");
+            Context rootConext = evaluator.newContext(null);
+            executor.setRootContext(rootConext);
+
+            rootConext.set("crowdSourcingTaskEntity", cst);
             executor.go();
 
 

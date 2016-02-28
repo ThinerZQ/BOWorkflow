@@ -423,7 +423,7 @@ public class Send extends NamelistHolder implements ContentContainer {
         }
         MessageMode messageModeValue = null;
         if (messageMode != null) {
-            messageModeValue = MessageMode.valueOf(messageMode);
+            messageModeValue = Enum.valueOf(MessageMode.class,messageMode);
         }
         String targetNameValue = targetName;
         String targetStateValue = targetState;

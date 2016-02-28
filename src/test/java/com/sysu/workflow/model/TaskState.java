@@ -1,4 +1,4 @@
-package com.sysu.workflow;
+package com.sysu.workflow.model;
 
 /**
  * Created with IntelliJ IDEA

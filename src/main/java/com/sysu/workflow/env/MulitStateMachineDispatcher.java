@@ -203,8 +203,10 @@ public class MulitStateMachineDispatcher extends SimpleDispatcher implements Ser
         SCXMLInstanceTree.TreeNode currentTreeNode = scxmlInstanceTree.getNode(currentSessionId);
 
         treeNode = scxmlInstanceTree.getParentTreeNode(currentTreeNode);
-
-
+        if(treeNode == null){
+            System.out.println("it is root , no parent.");
+            return true;
+        }
         sendToTarget(treeNode, targetState, event, data);
 
         return true;

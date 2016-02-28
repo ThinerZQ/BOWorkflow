@@ -11,15 +11,7 @@ package com.sysu.workflow.model.extend;
  */
 public enum MessageMode{
 
-    BROADCAST("Broadcast"), TO_OFFSPRING("To_Offspring"),TO_CHILD("To_Child"),TO_SIBLING("To_Sibling"),TO_ANCESTOR("To_Ancestor"),MULTICAST("Multicast"),TO_PARENT("To_Parent"),UNICAST("Unicast");
-
-    private String name;
-
-
-
-    MessageMode(String name){
-        this.name=name;
-    }
+    BROADCAST, TO_OFFSPRING,TO_CHILD,TO_SIBLING,TO_ANCESTOR,MULTICAST,TO_PARENT,UNICAST;
 
 }
 

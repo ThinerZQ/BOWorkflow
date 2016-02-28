@@ -1,5 +1,7 @@
 package com.sysu.workflow;
 
+import com.sysu.workflow.model.TaskState;
+
 import java.util.Date;
 
 /**
@@ -45,6 +47,14 @@ public class CrowdSourcingTaskEntity {
 
     public void updateTaskState(String taskState){
         this.setTaskState(TaskState.valueOf(taskState));
+    }
+
+    public boolean merge(){
+
+
+        System.out.println("merge");
+
+        return true;
     }
 
 

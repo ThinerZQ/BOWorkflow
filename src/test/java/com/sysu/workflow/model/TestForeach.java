@@ -1,4 +1,4 @@
-package com.sysu.workflow;
+package com.sysu.workflow.model;
 
 import com.sysu.workflow.env.MulitStateMachineDispatcher;
 import com.sysu.workflow.env.SimpleErrorReporter;

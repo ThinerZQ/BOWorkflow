@@ -4,11 +4,19 @@
 
   <state id="test">
     <onentry>
-
         <!--  wrong expression -->
+        <!--
           <script>
               CrowdSourcingTaskEntity tempCrowdSourcingTask = new CrowdSourcingTaskEntity();
           </script>
+        -->
+        <script>
+            flag = crowdSourcingTaskEntity.merge()
+        </script>
+        <log label="flag" expr="flag"></log>
+        <if cond="flag">
+            <log label="ifentry" expr="flag"></log>
+        </if>
     </onentry>
     <transition target="finished"/>
   </state>
