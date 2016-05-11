@@ -4,23 +4,14 @@
     <option name="CUSTOM_SCOPE_NAME" value="Project Production Files" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a19c9282-b1d5-41f7-be6b-082dd0e9ae3f" name="Default" comment="update readme.md again">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.ids" afterPath="$PROJECT_DIR$/.idea/dataSources.ids" />
+    <list default="true" id="a19c9282-b1d5-41f7-be6b-082dd0e9ae3f" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/BOWorkFlow-1.0-SNAPSHOT.jar" afterPath="$PROJECT_DIR$/target/BOWorkFlow-1.0-SNAPSHOT.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/sysu/workflow/SCXMLExecutor.class" afterPath="$PROJECT_DIR$/target/classes/com/sysu/workflow/SCXMLExecutor.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/sysu/workflow/env/MulitStateMachineDispatcher.class" afterPath="$PROJECT_DIR$/target/classes/com/sysu/workflow/env/MulitStateMachineDispatcher.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/sysu/workflow/io/SCXMLReader.class" afterPath="$PROJECT_DIR$/target/classes/com/sysu/workflow/io/SCXMLReader.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/sysu/workflow/model/Send.class" afterPath="$PROJECT_DIR$/target/classes/com/sysu/workflow/model/Send.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/test-classes/com/sysu/workflow/database/TableTest.class" afterPath="$PROJECT_DIR$/target/test-classes/com/sysu/workflow/database/TableTest.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/sysu/workflow/env/MulitStateMachineDispatcher.java" afterPath="$PROJECT_DIR$/src/main/java/com/sysu/workflow/env/MulitStateMachineDispatcher.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/sysu/workflow/model/Send.java" afterPath="$PROJECT_DIR$/src/main/java/com/sysu/workflow/model/Send.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/com/sysu/workflow/database/TableTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/sysu/workflow/database/TableTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.sysu.workflow.TestIdentityService.xml" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.sysu.workflow.TestIdentityService.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.sysu.workflow.TestProcessInstanceService.xml" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.sysu.workflow.TestProcessInstanceService.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.sysu.workflow.TestTaskService.xml" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.sysu.workflow.TestTaskService.xml" />
@@ -100,7 +91,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="22">
@@ -120,11 +111,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="3454">
+              <first_editor relative-caret-position="-528">
                 <caret line="157" column="45" selection-start-line="157" selection-start-column="45" selection-end-line="157" selection-end-column="45" />
                 <folding>
                   <marker date="1462952335699" expanded="true" signature="913:1125" placeholder="..." />
@@ -1153,7 +1144,7 @@
       <workItem from="1461922685898" duration="58000" />
       <workItem from="1461938336281" duration="35000" />
       <workItem from="1462947359590" duration="3052000" />
-      <workItem from="1462952557058" duration="210000" />
+      <workItem from="1462952557058" duration="235000" />
     </task>
     <task id="LOCAL-00001" summary="usertask ing">
       <created>1450190025541</created>
@@ -1358,7 +1349,14 @@
       <option name="project" value="LOCAL" />
       <updated>1459235133210</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="update readme.md again">
+      <created>1462952787313</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1462952787313</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1373,7 +1371,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="417873000" />
+    <option name="totallyTimeSpent" value="417898000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1390,6 +1388,7 @@
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32937366" sideWeight="0.48933902" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2832981" sideWeight="0.4519833" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32972974" sideWeight="0.4936034" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1413,7 +1412,6 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3718919" sideWeight="0.7798507" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="DSM" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" x="92" y="92" width="1736" height="856" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2832981" sideWeight="0.4519833" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29069766" sideWeight="0.6875" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13166311" sideWeight="0.52330506" order="7" side_tool="true" content_ui="tabs" />
@@ -1863,10 +1861,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/sysu/workflow/database/TableTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="484">
+          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="22">
+          <caret line="1" column="7" selection-start-line="1" selection-start-column="7" selection-end-line="1" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="3454">
+          <first_editor relative-caret-position="-528">
             <caret line="157" column="45" selection-start-line="157" selection-start-column="45" selection-end-line="157" selection-end-column="45" />
             <folding>
               <marker date="1462952335699" expanded="true" signature="913:1125" placeholder="..." />
@@ -1942,22 +1956,6 @@
       <provider editor-type-id="text-editor">
         <state relative-caret-position="-150">
           <caret line="18" column="3" selection-start-line="18" selection-start-column="3" selection-end-line="18" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/sysu/workflow/database/TableTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="484">
-          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="22">
-          <caret line="1" column="7" selection-start-line="1" selection-start-column="7" selection-end-line="1" selection-end-column="7" />
-          <folding />
         </state>
       </provider>
     </entry>
