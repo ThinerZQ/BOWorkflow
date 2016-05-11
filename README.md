@@ -9,10 +9,10 @@
 This worfklow engine adopt the idea of state machine. we use W3C's SCXML standard and modify the Apache Commons SCXML
 # 3、引擎架构（The architecture of engine）
 ## 3.1、Apache Commons SCXML architecture
-![Apache Commons SCXML ARCHITECTURE](https://github.com/ThinerZQ/Picture/blob/master/SCXML%20architecture.png?raw=true)
+![Apache Commons SCXML ARCHITECTURE](https://raw.githubusercontent.com/ThinerZQ/Picture/master/SCXML%20architecture.png)
 ## 3.2、BOWorkflow architecture
 
-![BOWorkflow ARCHITECTURE](https://github.com/ThinerZQ/Picture/blob/master/BOWorkflow%20engine%20architecture.png?raw=true)
+![BOWorkflow ARCHITECTURE](https://raw.githubusercontent.com/ThinerZQ/Picture/master/BOWorkflow%20engine%20architecture.png)
 
 # 4、核心功能(Core function)
 ## 4.1、任务派发支持(support task assignment)
@@ -44,7 +44,7 @@ This worfklow engine adopt the idea of state machine. we use W3C's SCXML standar
 ```
 the messageMode include {BROADCAST, TO_OFFSPRING,TO_CHILD,TO_SIBLING,TO_ANCESTOR,MULTICAST,TO_PARENT,UNICAST;}
 ## 4.4、丰富的查询服务支持(Rich query service support)
-### 4.4.1、IndentityService
+### 4.4.1、IdentityService
 > 
 ```java
 IdentityService.createUserQuery().userName("").userEmail("").singleResult();
@@ -74,6 +74,9 @@ FormService.createFormQuery().formId();
 ```
 # 一个例子（a example for crowdsourcing task object）
 filename: <code>crowdsourcingTest.xml</code>, you can find a crowdsourcing application here :!()[https://github.com/ThinerZQ/CrowdSourcing/tree/problem]
+## its state machine diagram
+![state machine diagram of crowdsourcing](https://raw.githubusercontent.com/ThinerZQ/Picture/master/crowdsourcing%20state%20machine%20diagram.jpg)
+## its scxml document
 ```xml
 <?xml version="1.0"?>
 <scxml xmlns="http://www.w3.org/2005/07/scxml"

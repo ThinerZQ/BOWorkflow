@@ -27,14 +27,13 @@ public class TableTest {
     @Test
     public void testCreateTable() {
 
-     /*   Configuration config = new Configuration().configure();
+        Configuration config = new Configuration().configure();
         SchemaExport schema = new SchemaExport(config);
-        schema.setFormat(true).create(true, true);*/
+        schema.setFormat(true).create(true, true);
     }
 
 
     public void testAddUser2() {
 
     }
-
 }

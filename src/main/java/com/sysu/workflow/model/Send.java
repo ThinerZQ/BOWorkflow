@@ -482,8 +482,6 @@ public class Send extends NamelistHolder implements ContentContainer {
                 exctx.getEventDispatcher().send(ioProcessors, id, targetValue, typeValue, eventValue,
                         payload, hintsValue, wait);
             }
-
-
         }else if (exctx.getEventDispatcher() instanceof SimpleDispatcher){
 
             exctx.getEventDispatcher().send(ioProcessors, id, targetValue, typeValue, eventValue,

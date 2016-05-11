@@ -23,9 +23,9 @@ import java.util.*;
  * Blog: <a>http://blog.csdn.net/c601097836</a>
  * Email: 601097836@qq.com
  * <p/>
- * 这是工作流里面多个状态机之间通信的 的消息派发器，
- * 事件派发器，能够调度一般事件和延时事件，事件类型只能是scxml类型，在实现中是用了 J2SE 的 Timer
- * 其他类型不能被处理，
+ * ?????????????????????????? ????????????
+ * ?????????????????????????????????????????????scxml?????????????????? J2SE ?? Timer
+ * ????????????????
  */
 public class MulitStateMachineDispatcher extends SimpleDispatcher implements Serializable {
 
@@ -100,7 +100,7 @@ public class MulitStateMachineDispatcher extends SimpleDispatcher implements Ser
     @Override
     public void send(String currentSessionId, SCXMLInstanceTree scxmlInstanceTree, String id, String target, MessageMode messageMode, String targetName, String targetState, String type, String event, Object data, Object hints, long delay) {
 
-        //记录日志
+        //??????
         if (log.isInfoEnabled()) {
             StringBuilder buf = new StringBuilder();
             buf.append("send ( id: ").append(id);
@@ -117,7 +117,7 @@ public class MulitStateMachineDispatcher extends SimpleDispatcher implements Ser
             log.info(buf.toString());
         }
 
-        //只处理 type ="scxml" 类型的事件
+        //????? type ="scxml" ????????
 
         if (type == null || type.equalsIgnoreCase(SCXMLIOProcessor.SCXML_EVENT_PROCESSOR) ||
                 type.equals(SCXMLIOProcessor.DEFAULT_EVENT_PROCESSOR)) {
@@ -152,14 +152,14 @@ public class MulitStateMachineDispatcher extends SimpleDispatcher implements Ser
             }
 
 
-            //根据发送模式选择
+            //????????????
 
             switch (messageMode) {
                 case BROADCAST:
                     sendBroadCast(scxmlInstanceTree, currentSessionId, targetName, targetState, event, data, hints, delay);
                     break;
                 case MULTICAST:
-                    //多播，和target有关
+                    //??????target????
 
                     // sendMulticast(scxmlInstanceTree,currentSessionId,target,targetName)
                     // TODO:
@@ -180,16 +180,16 @@ public class MulitStateMachineDispatcher extends SimpleDispatcher implements Ser
                     sendToParent(scxmlInstanceTree, currentSessionId, targetName, targetState, event, data, hints, delay);
                     break;
                 case TO_SIBLING:
-                    //单播，和target格式有关系
+                    //????????target????????
                     // TODO:
                     break;
                 default:
-                    //默认
-                    System.out.println("不支持的消息模式");
+                    //???
+                    System.out.println("???????????");
                     break;
             }
         } else {
-            //处理不支持的类型的 I/O 处理器
+            //????????????? I/O ??????
           /*  if (log.isWarnEnabled()) {
                 log.warn("<send>: Unsupported type - " + type);
             }
@@ -247,7 +247,7 @@ public class MulitStateMachineDispatcher extends SimpleDispatcher implements Ser
 
     private boolean sendToAncestor(SCXMLInstanceTree scxmlInstanceTree, String currentSessionId, String targetName, String targetState, String event, Object data, Object hints, long delay) {
 
-        //得到树中当前节点的所有祖先所有实例
+        //?????????????????????????????
         ArrayList<SCXMLInstanceTree.TreeNode> treeNodeArrayList;
         SCXMLInstanceTree.TreeNode currentTreeNode = scxmlInstanceTree.getNode(currentSessionId);
         if (targetName != null && !"".equals(targetName)) {
@@ -264,7 +264,7 @@ public class MulitStateMachineDispatcher extends SimpleDispatcher implements Ser
 
     private boolean sendBroadCast(SCXMLInstanceTree scxmlInstanceTree, String currentSessionId, String targetName, String targetState, String event, Object data, Object hints, long delay) {
 
-        //得到树中所有实例
+        //??????????????
         ArrayList<SCXMLInstanceTree.TreeNode> treeNodeArrayList;
         if (targetName != null && !"".equals(targetName)) {
             treeNodeArrayList = scxmlInstanceTree.getAllTreeNodeByTargetName(scxmlInstanceTree.getRoot(), targetName);
@@ -281,9 +281,9 @@ public class MulitStateMachineDispatcher extends SimpleDispatcher implements Ser
 
     private void sendToTarget(ArrayList<SCXMLInstanceTree.TreeNode> treeNodeArrayList, String targetState, String event, Object data) {
         if (targetState != null && !"".equals(targetState)) {
-            //遍历所有的实例
+            //?????????????
             for (SCXMLInstanceTree.TreeNode treeNode : treeNodeArrayList) {
-                //根据当前实例sessionId，求的实例的执行器
+                //?????????sessionId???????????????
                 SCXMLExecutor scxmlExecutor = SCXMLInstanceManager.getSCXMLInstanceExecutor(treeNode.getSessionId());
                 if (scxmlExecutor != null) {
                     if (scxmlExecutor.getStatus().isInState(targetState)) {

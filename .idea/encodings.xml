@@ -28,7 +28,7 @@
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/env/AbstractStateMachine.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/env/EffectiveContextMap.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/env/LogUtils.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/env/MulitStateMachineDispatcher.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/env/MulitStateMachineDispatcher.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/env/SimpleContext.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/env/SimpleDispatcher.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/sysu/workflow/env/SimpleErrorHandler.java" charset="UTF-8" />
